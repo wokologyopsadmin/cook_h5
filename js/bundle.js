@@ -1431,8 +1431,15 @@ function verifyEmail(account) {
 // ── Auth ────────────────────────────────────────────
 function requireAuth() {
   if (!localStorage.getItem('chefhub_logged_in')) {
-    window.location.href = 'index.html';
-    return false;
+    // Auto-login for demo mode
+    localStorage.setItem('chefhub_logged_in', '1');
+    localStorage.setItem('chefhub_user', JSON.stringify({
+      id: 1,
+      name: '管理员',
+      account: 'admin',
+      role: 'admin',
+      roleLabel: '系统管理员'
+    }));
   }
   return true;
 }
