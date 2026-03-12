@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>" />
+  <title>Wokology — 发布菜谱</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="bg-gray-50" data-page-title="publish.title">
+
+<div class="page-wrap fade-in pb-24">
+
+  <!-- Header -->
+  <div class="bg-white px-5 pt-12 pb-4 sticky top-0 z-10 shadow-sm">
+    <h1 class="text-xl font-bold text-gray-800 slide-up" data-i18n="publish.title">发布菜谱</h1>
+  </div>
+
+  <div class="px-5 pt-4 animate-items">
+    <!-- Cover Upload -->
+    <div class="mb-5">
+      <label class="block text-sm font-semibold text-gray-700 mb-2" data-i18n="publish.cover_label">封面图</label>
+      <div id="cover-upload" onclick="document.getElementById('cover-input').click()"
+        class="w-full h-40 bg-gray-100 rounded-2xl border-2 border-dashed border-gray-200 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 hover:border-orange-300 transition-all">
+        <span class="material-icons-round text-gray-300 text-4xl mb-2">add_photo_alternate</span>
+        <p class="text-gray-400 text-sm" data-i18n="publish.upload_btn">点击上传封面图片</p>
+        <p class="text-gray-300 text-xs mt-1" data-i18n="publish.upload_hint">建议尺寸 16:9</p>
+      </div>
+      <input id="cover-input" type="file" accept="image/*" class="hidden" aria-label="上传封面图片" onchange="previewCover(this)" />
+    </div>
+
+    <!-- Recipe Name -->
+    <div class="mb-4">
+      <label class="block text-sm font-semibold text-gray-700 mb-1.5" data-i18n="publish.name_label">菜谱名称 *</label>
+      <input id="recipe-name" type="text" class="auth-input" data-i18n-ph="publish.name_ph" placeholder="给您的菜谱起个好名字..." />
+    </div>
+
+    <!-- Category -->
+    <div class="mb-4">
+      <label class="block text-sm font-semibold text-gray-700 mb-1.5" data-i18n="publish.cat_label">食材分类 *</label>
+      <select id="recipe-cat" class="auth-input" aria-label="食材分类">
+        <option value="">-- 选择分类 --</option>
+        <option value="beef" data-i18n="recipes.cat_beef">🥩 牛肉</option>
+        <option value="lamb" data-i18n="recipes.cat_lamb">🍖 羊肉</option>
+        <option value="pork" data-i18n="recipes.cat_pork">🥓 猪肉</option>
+        <option value="chicken" data-i18n="recipes.cat_chicken">🍗 鸡肉</option>
+        <option value="seafood" data-i18n="recipes.cat_seafood">🦐 海鲜</option>
+        <option value="veg" data-i18n="recipes.cat_veg">🥦 素菜</option>
+      </select>
+    </div>
+
+    <!-- Description -->
+    <div class="mb-4">
+      <label class="block text-sm font-semibold text-gray-700 mb-1.5" data-i18n="publish.desc_label">菜谱描述</label>
+      <textarea id="recipe-desc" rows="3" class="auth-input resize-none" data-i18n-ph="publish.desc_ph" placeholder="描述这道菜的特点、口感、适合人群..."></textarea>
+    </div>
+
+    <!-- Time & Difficulty -->
+    <div class="grid grid-cols-2 gap-3 mb-4">
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-1.5" data-i18n="publish.time_label">烹饪时长</label>
+        <select id="recipe-time" class="auth-input" aria-label="烹饪时长">
+          <option value="15" data-i18n="publish.time_15">15分钟以内</option>
+          <option value="30" data-i18n="publish.time_30">15-30分钟</option>
+          <option value="60" data-i18n="publish.time_60">30-60分钟</option>
+          <option value="90" data-i18n="publish.time_90">60-90分钟</option>
+          <option value="120" data-i18n="publish.time_over90">90分钟以上</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-1.5" data-i18n="publish.diff_label">难度</label>
+        <select id="recipe-diff" class="auth-input" aria-label="难度">
+          <option value="easy" data-i18n="publish.diff_easy">简单</option>
+          <option value="medium" data-i18n="publish.diff_medium">中等</option>
+          <option value="hard" data-i18n="publish.diff_hard">较难</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Ingredients -->
+    <div class="mb-4">
+      <label class="block text-sm font-semibold text-gray-700 mb-2" data-i18n="publish.ing_label">食材清单</label>
+      <div id="ingredients-list" class="space-y-2">
+        <div class="flex gap-2">
+          <input type="text" class="auth-input flex-1" placeholder="食材名称" />
+          <input type="text" class="auth-input w-24" placeholder="用量" />
+        </div>
+      </div>
+      <button onclick="addIngredient()" class="mt-2 text-orange-500 text-sm font-medium flex items-center gap-1 hover:text-orange-600 transition-colors">
+        <span class="material-icons-round text-lg">add</span>
+        <span data-i18n="publish.add_ing">添加食材</span>
+      </button>
+    </div>
+
+    <!-- Steps -->
+    <div class="mb-4">
+      <label class="block text-sm font-semibold text-gray-700 mb-2" data-i18n="publish.steps_label">烹饪步骤</label>
+      <div id="steps-list" class="space-y-2">
+        <div class="flex gap-2 items-start">
+          <span class="w-6 h-6 bg-orange-500 text-white rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-3">1</span>
+          <textarea rows="2" class="auth-input flex-1 resize-none" placeholder="描述此步骤的操作..."></textarea>
+        </div>
+      </div>
+      <button onclick="addStep()" class="mt-2 text-orange-500 text-sm font-medium flex items-center gap-1 hover:text-orange-600 transition-colors">
+        <span class="material-icons-round text-lg">add</span>
+        <span data-i18n="publish.add_step">添加步骤</span>
+      </button>
+    </div>
+
+    <!-- Free Toggle -->
+    <div class="mb-6">
+      <label class="flex items-center gap-3 cursor-pointer">
+        <input id="recipe-free" type="checkbox" class="w-5 h-5 rounded border-gray-300 text-orange-500 focus:ring-orange-500" checked />
+        <span class="text-gray-700 text-sm" data-i18n="publish.free_label">设为免费菜谱（所有用户可使用）</span>
+      </label>
+    </div>
+
+    <!-- Submit -->
+    <button onclick="doPublish()" class="auth-btn mb-4 hover:opacity-90 active:scale-[0.98] transition-all" data-i18n="publish.submit_btn">立即发布</button>
+    <p class="text-center text-gray-400 text-xs mb-4" data-i18n="common.required">* 为必填项</p>
+  </div>
+
+</div>
+
+<!-- Bottom Nav -->
+<nav class="bottom-nav">
+  <div class="flex">
+    <a href="dashboard.html" id="nav-home" class="nav-btn flex-1 flex flex-col items-center py-3 gap-0.5">
+      <span class="material-icons-round text-2xl nav-icon">home</span>
+      <span class="text-xs nav-label" data-i18n="nav.home">首页</span>
+    </a>
+    <a href="recipes.html" id="nav-recipes" class="nav-btn flex-1 flex flex-col items-center py-3 gap-0.5">
+      <span class="material-icons-round text-2xl nav-icon">menu_book</span>
+      <span class="text-xs nav-label" data-i18n="nav.recipes">菜谱</span>
+    </a>
+    <a href="publish.html" class="flex-1 flex flex-col items-center py-3 gap-0.5 relative">
+      <div class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center -mt-6 shadow-lg shadow-orange-200">
+        <span class="material-icons-round text-white text-2xl">add</span>
+      </div>
+      <span class="text-xs text-gray-400 mt-0.5" data-i18n="nav.publish">发布</span>
+    </a>
+    <a href="machines.html" id="nav-machines" class="nav-btn flex-1 flex flex-col items-center py-3 gap-0.5">
+      <span class="material-icons-round text-2xl nav-icon">precision_manufacturing</span>
+      <span class="text-xs nav-label" data-i18n="nav.machines">机器</span>
+    </a>
+    <a href="profile.html" id="nav-profile" class="nav-btn flex-1 flex flex-col items-center py-3 gap-0.5">
+      <span class="material-icons-round text-2xl nav-icon">person_outline</span>
+      <span class="text-xs nav-label" data-i18n="nav.profile">我的</span>
+    </a>
+  </div>
+</nav>
+
+<div id="toast"></div>
+
+<script src="js/i18n.js"></script>
+<script src="js/app.js"></script>
+<script>
+  requireAuth();
+
+  let stepCount = 1;
+
+  function previewCover(input) {
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const upload = document.getElementById('cover-upload');
+        upload.innerHTML = `<img src="${e.target.result}" class="w-full h-full object-cover rounded-2xl" />`;
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  function addIngredient() {
+    const list = document.getElementById('ingredients-list');
+    const div = document.createElement('div');
+    div.className = 'flex gap-2';
+    div.innerHTML = `
+      <input type="text" class="auth-input flex-1" placeholder="食材名称" />
+      <input type="text" class="auth-input w-24" placeholder="用量" />
+      <button onclick="this.parentElement.remove()" class="text-gray-400 p-2">
+        <span class="material-icons-round text-lg">close</span>
+      </button>
+    `;
+    list.appendChild(div);
+  }
+
+  function addStep() {
+    stepCount++;
+    const list = document.getElementById('steps-list');
+    const div = document.createElement('div');
+    div.className = 'flex gap-2 items-start';
+    div.innerHTML = `
+      <span class="w-6 h-6 bg-orange-500 text-white rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-3">${stepCount}</span>
+      <textarea rows="2" class="auth-input flex-1 resize-none" placeholder="描述此步骤的操作..."></textarea>
+      <button onclick="this.parentElement.remove()" class="text-gray-400 p-2 mt-2">
+        <span class="material-icons-round text-lg">close</span>
+      </button>
+    `;
+    list.appendChild(div);
+  }
+
+  function doPublish() {
+    const name = document.getElementById('recipe-name').value.trim();
+    const cat = document.getElementById('recipe-cat').value;
+
+    if (!name || !cat) {
+      showToast(t('publish.required_tip'));
+      return;
+    }
+
+    showToast(t('publish.success'));
+
+    // Reset form
+    setTimeout(() => {
+      document.getElementById('recipe-name').value = '';
+      document.getElementById('recipe-cat').value = '';
+      document.getElementById('recipe-desc').value = '';
+      document.getElementById('cover-upload').innerHTML = `
+        <span class="material-icons-round text-gray-300 text-4xl mb-2">add_photo_alternate</span>
+        <p class="text-gray-400 text-sm" data-i18n="publish.upload_btn">点击上传封面图片</p>
+        <p class="text-gray-300 text-xs mt-1" data-i18n="publish.upload_hint">建议尺寸 16:9</p>
+      `;
+    }, 500);
+  }
+
+  function onLangChange() {
+    // Re-apply translations
+  }
+</script>
+</body>
+</html>

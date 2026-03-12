@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>" />
+  <title>Wokology — 菜谱详情</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="bg-gray-50">
+
+<div class="page-wrap fade-in">
+
+  <!-- Hero Image -->
+  <div class="relative">
+    <img id="recipe-img" src="" alt="" class="w-full h-64 object-cover" />
+    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+    <button onclick="goBack()" class="absolute top-10 left-4 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg">
+      <span class="material-icons-round text-gray-700">arrow_back</span>
+    </button>
+    <div id="recipe-tag" class="absolute top-10 right-4"></div>
+  </div>
+
+  <!-- Content -->
+  <div class="px-5 -mt-8 relative z-10">
+    <!-- Title Card -->
+    <div class="bg-white rounded-2xl shadow-sm p-4 mb-4">
+      <h1 id="recipe-name" class="text-xl font-bold text-gray-800 mb-2"></h1>
+      <div class="flex items-center gap-4 text-sm text-gray-500">
+        <div class="flex items-center gap-1">
+          <span class="material-icons-round text-orange-500 text-lg">schedule</span>
+          <span id="recipe-time"></span>
+        </div>
+        <div class="flex items-center gap-1">
+          <span class="material-icons-round text-orange-500 text-lg">local_fire_department</span>
+          <span id="recipe-diff"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ingredients -->
+    <div class="bg-white rounded-2xl shadow-sm p-4 mb-4">
+      <h2 class="text-base font-bold text-gray-800 mb-3 flex items-center gap-2">
+        <span class="material-icons-round text-green-500">restaurant</span>
+        <span data-i18n="recipe.ingredients">食材清单</span>
+      </h2>
+      <ul id="ingredients-list" class="space-y-2"></ul>
+    </div>
+
+    <!-- Cooking Steps -->
+    <div class="bg-white rounded-2xl shadow-sm p-4 mb-4">
+      <h2 class="text-base font-bold text-gray-800 mb-3 flex items-center gap-2">
+        <span class="material-icons-round text-blue-500">format_list_numbered</span>
+        <span data-i18n="recipe.steps">烹饪步骤</span>
+      </h2>
+      <ol id="steps-list" class="space-y-3"></ol>
+    </div>
+
+    <!-- Tips -->
+    <div class="bg-orange-50 rounded-2xl p-4 mb-4">
+      <h2 class="text-base font-bold text-orange-700 mb-2 flex items-center gap-2">
+        <span class="material-icons-round">tips_and_updates</span>
+        <span data-i18n="recipe.tips">小贴士</span>
+      </h2>
+      <p id="recipe-tips" class="text-sm text-orange-800/80"></p>
+    </div>
+
+    <!-- Action Button -->
+    <button onclick="openSendModal()" class="w-full btn-elevated py-4 text-base font-semibold flex items-center justify-center gap-2 mb-4">
+      <span class="material-icons-round">send</span>
+      <span data-i18n="recipe.send_to_machine">发送到机器</span>
+    </button>
+  </div>
+
+</div>
+
+<!-- Send Recipe Sheet -->
+<div id="send-modal" class="modal-overlay" onclick="closeSendModal(event)">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <h3 class="text-base font-bold text-gray-800 mb-1" data-i18n="recipes.choose_machine">选择要下发的机器</h3>
+    <p id="send-recipe-name" class="text-orange-500 text-sm mb-4"></p>
+    <div id="machine-list" class="space-y-2 mb-4"></div>
+    <button onclick="closeSendModal()" class="w-full py-3 rounded-2xl bg-gray-100 text-gray-600 font-medium" data-i18n="recipes.cancel">取消</button>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script src="js/i18n.js"></script>
+<script src="js/app.js"></script>
+<script>
+  requireAuth();
+
+  // Get recipe ID from URL
+  const params = new URLSearchParams(window.location.search);
+  const recipeId = parseInt(params.get('id')) || 1;
+  const recipe = DEMO_RECIPES.find(r => r.id === recipeId);
+
+  if (!recipe) {
+    window.location.href = 'recipes.html';
+  }
+
+  // Demo cooking steps
+  const DEMO_STEPS = {
+    1: [
+      '将牛排从冰箱取出，室温放置20分钟',
+      '用厨房纸吸干表面水分，两面均匀撒盐和黑胡椒',
+      '平底锅大火烧热，加入少许油',
+      '放入牛排，每面煎2-3分钟至金黄',
+      '加入黄油、蒜瓣和迷迭香，用勺子不断浇油',
+      '取出静置5分钟后切片享用'
+    ],
+    2: [
+      '牛肉切大块，用盐和胡椒腌制',
+      '铸铁锅高温煎至各面焦褐',
+      '加入切块蔬菜翻炒',
+      '倒入红酒和高汤',
+      '盖盖放入预热烤箱，160°C慢炖3小时',
+      '取出后静置10分钟即可享用'
+    ],
+    3: [
+      '牛肉切条，加淀粉和料酒腌制15分钟',
+      '热锅冷油，快速滑炒牛肉至变色盛出',
+      '锅中留底油，爆香蒜末',
+      '倒入牛肉和青椒丝快速翻炒',
+      '加生抽、老抽、蚝油调味',
+      '大火快炒30秒即可出锅'
+    ],
+    4: [
+      '羊排室温回温，用纸巾擦干',
+      '表面撒盐、胡椒和迷迭香碎',
+      '烤箱预热200°C',
+      '羊排放入烤盘，表面刷橄榄油',
+      '烤15-20分钟至表面金黄',
+      '静置5分钟后装盘享用'
+    ],
+    5: [
+      '羊肩肉切大块，表面撒盐和胡椒',
+      '铸铁锅煎至表面焦褐',
+      '加入切块洋葱和香料',
+      '倒入高汤没过肉块',
+      '盖盖放入150°C烤箱慢炖4小时',
+      '肉质酥烂后即可享用'
+    ],
+    6: [
+      '猪肋排切段，冷水浸泡30分钟去血水',
+      '调制酱汁：蜂蜜、生抽、老抽、料酒混合',
+      '肋排表面刷酱汁，腌制1小时',
+      '烤箱预热180°C，烤40分钟',
+      '中途每10分钟刷一次酱汁',
+      '表面焦糖化后取出享用'
+    ],
+    7: [
+      '猪肉切块，撒盐和匈牙利甜椒粉',
+      '热锅加油，煎至表面金黄',
+      '加入切块洋葱翻炒至软',
+      '倒入少量水，盖盖焖煮40分钟',
+      '出锅前拌入酸奶油',
+      '配面包或土豆享用'
+    ],
+    8: [
+      '整鸡洗净擦干，表面和内腔抹盐',
+      '软化黄油混合切碎的香草',
+      '将香草黄油涂抹在鸡皮下和表面',
+      '柠檬切半放入鸡腔内',
+      '烤箱预热200°C，烤1小时至金黄',
+      '静置10分钟后切块享用'
+    ],
+    9: [
+      '鸡腿切块，撒盐和红椒粉腌制',
+      '热锅加油，鸡皮朝下煎至金黄',
+      '翻面加入切块洋葱翻炒',
+      '盖盖小火焖煮20分钟',
+      '出锅前拌入酸奶油',
+      '配匈牙利面疙瘩享用'
+    ],
+    10: [
+      '大虾去壳去虾线，洗净沥干',
+      '大蒜切末，黄油小火融化',
+      '加入蒜末爆香，不要炒焦',
+      '放入大虾大火快炒2分钟',
+      '挤入柠檬汁，撒盐和胡椒',
+      '撒上欧芹碎即可享用'
+    ],
+    11: [
+      '三文鱼用纸巾擦干，两面撒盐',
+      '室温放置10分钟',
+      '平底锅加油烧热，鱼皮朝下放入',
+      '中火煎3分钟至鱼皮酥脆',
+      '翻面再煎2分钟',
+      '挤柠檬汁，撒香草碎享用'
+    ],
+    12: [
+      '意面按包装说明煮至弹牙',
+      '虾和扇贝用黄油快炒盛出',
+      '同一锅中加入番茄酱煮开',
+      '放入海鲜和意面翻拌',
+      '撒盐和胡椒调味',
+      '装盘撒上欧芹碎享用'
+    ],
+    13: [
+      '彩椒、西葫芦、茄子切块',
+      '蔬菜放入烤盘，淋橄榄油',
+      '撒盐、胡椒和干香草',
+      '烤箱200°C烤25分钟',
+      '中途翻动一次',
+      '烤至边缘焦香即可'
+    ],
+    14: [
+      '混合蘑菇洗净切片',
+      '大蒜切末，百里香取叶',
+      '黄油中火融化，加蒜末爆香',
+      '放入蘑菇大火翻炒',
+      '蘑菇出水后继续炒至收汁',
+      '撒百里香叶，调味即可'
+    ]
+  };
+
+  // Demo tips
+  const DEMO_TIPS = {
+    zh: {
+      1: '牛排静置是关键，让肉汁重新分布，口感更嫩滑。',
+      2: '慢炖时间越长肉质越软烂，建议使用铸铁锅保温效果好。',
+      3: '牛肉不要炒太久，保持嫩滑口感是关键。',
+      4: '羊排不要过度烹饪，保持粉红色内部最嫩。',
+      5: '可以提前一天准备，隔夜风味更佳。',
+      6: '刷酱汁的次数决定焦糖化的程度，多刷几次更香甜。',
+      7: '匈牙利甜椒粉是灵魂，不可省略。',
+      8: '烤鸡时用肉叉插入最厚处，流出清汁即熟。',
+      9: '酸奶油要在出锅前加入，不可煮沸。',
+      10: '虾不要炒太久，变色即可，保持弹牙口感。',
+      11: '三文鱼不要全熟，中间微粉口感最佳。',
+      12: '意面水要够咸，这是调味的关键。',
+      13: '蔬菜切均匀大小，确保同时烤熟。',
+      14: '蘑菇要大火快炒，出水后继续炒才能收汁。'
+    },
+    en: {
+      1: 'Resting the steak is crucial - it allows juices to redistribute for a more tender bite.',
+      2: 'The longer the slow cook, the more tender the meat. A Dutch oven works best.',
+      3: 'Don\'t overcook the beef - keeping it tender is key.',
+      4: 'Don\'t overcook the lamb chops - pink inside is most tender.',
+      5: 'Can be prepared a day ahead for better flavor.',
+      6: 'More glazing means more caramelization - brush frequently for best results.',
+      7: 'Hungarian paprika is the soul of this dish - don\'t skip it.',
+      8: 'Insert a meat thermometer in the thickest part - 165°F means it\'s done.',
+      9: 'Add sour cream at the end - never let it boil.',
+      10: 'Don\'t overcook the shrimp - cook until just pink for best texture.',
+      11: 'Salmon is best medium - slightly pink in the center.',
+      12: 'Salt the pasta water generously - it\'s key to seasoning.',
+      13: 'Cut vegetables uniformly for even cooking.',
+      14: 'Sauté mushrooms on high heat - cook until liquid evaporates.'
+    },
+    hu: {
+      1: 'A pihentetés kulcsfontosságú - a levek eloszlása miatt puhább lesz.',
+      2: 'Minél tovább párolja, annál puhább lesz a hús.',
+      3: 'Ne főzze túl a marhahúst - a puhán maradás a lényeg.',
+      4: 'Ne süssük túl a bárányt - a rózsaszín belseje a legpuhább.',
+      5: 'Előző nap is elkészíthető, az ízek így jobban összeérnek.',
+      6: 'Minél többször keni meg, annál karamellásabb lesz.',
+      7: 'A magyar pirospaprika a lélek - ne hagyja ki.',
+      8: 'Húshőmérővel ellenőrizze - 74°C-nál kész.',
+      9: 'A tejfölt a végén adja hozzá - soha ne forralja.',
+      10: 'Ne főzze túl a garnélát - épp csak rózsaszínre.',
+      11: 'A lazac a legjobb közepesen - enyhén rózsaszín belsejű.',
+      12: 'Sózza bőven a tészta vizet - ez a fűszerezés kulcsa.',
+      13: 'Egyenlő méretűre vágja a zöldségeket.',
+      14: 'Nagy lángon pirítsa a gombát, amíg a leve el nem párolog.'
+    }
+  };
+
+  function goBack() {
+    if (document.referrer && document.referrer.includes('recipes.html')) {
+      history.back();
+    } else {
+      window.location.href = 'recipes.html';
+    }
+  }
+
+  function renderRecipe() {
+    const name = getRecipeName(recipe);
+    const diff = getDiffLabel(recipe.diff);
+
+    // Set page title
+    document.title = `Wokology — ${name}`;
+
+    // Hero
+    document.getElementById('recipe-img').src = recipe.img;
+    document.getElementById('recipe-img').alt = name;
+
+    // Tag
+    const tagEl = document.getElementById('recipe-tag');
+    if (recipe.free) {
+      tagEl.innerHTML = `<span class="lbl-free">${t('recipes.free_tag')}</span>`;
+    } else {
+      tagEl.innerHTML = `<span class="lbl-premium">${t('recipes.premium_tag')}</span>`;
+    }
+
+    // Title Card
+    document.getElementById('recipe-name').textContent = name;
+    document.getElementById('recipe-time').textContent = `${recipe.time} ${t('recipes.min_unit')}`;
+    document.getElementById('recipe-diff').textContent = diff;
+
+    // Ingredients
+    const ingList = document.getElementById('ingredients-list');
+    ingList.innerHTML = recipe.ingredients.map(ing => `
+      <li class="flex items-center gap-2 text-sm text-gray-700">
+        <span class="w-2 h-2 rounded-full bg-orange-400 flex-shrink-0"></span>
+        <span>${ing}</span>
+      </li>
+    `).join('');
+
+    // Steps
+    const steps = DEMO_STEPS[recipe.id] || [];
+    const stepsList = document.getElementById('steps-list');
+    stepsList.innerHTML = steps.map((step, i) => `
+      <li class="flex gap-3">
+        <span class="flex-shrink-0 w-6 h-6 rounded-full bg-orange-500 text-white text-xs font-bold flex items-center justify-center">${i + 1}</span>
+        <p class="text-sm text-gray-700 flex-1">${step}</p>
+      </li>
+    `).join('');
+
+    // Tips
+    const lang = getLang();
+    const tips = (DEMO_TIPS[lang] || DEMO_TIPS.zh)[recipe.id] || '';
+    document.getElementById('recipe-tips').textContent = tips;
+  }
+
+  // Send Modal
+  function openSendModal() {
+    document.getElementById('send-recipe-name').textContent = getRecipeName(recipe);
+    const available = DEMO_MACHINES.filter(m => m.status !== 'offline');
+    const ml = document.getElementById('machine-list');
+    if (!available.length) {
+      ml.innerHTML = `<p class="text-gray-400 text-sm text-center py-4">${t('recipes.no_machine')}</p>`;
+    } else {
+      ml.innerHTML = available.map(m => {
+        const store = getStoreById(m.storeId);
+        const storeName = store ? getStoreName(store) : t('machines.not_bound');
+        return `<button onclick="doSend(${m.id})"
+          class="w-full flex items-center gap-3 bg-gray-50 rounded-2xl px-4 py-3 ripple text-left">
+          <span class="material-icons-round text-orange-500">precision_manufacturing</span>
+          <div class="flex-1">
+            <p class="font-semibold text-gray-800 text-sm">${m.serial}</p>
+            <p class="text-gray-400 text-xs">${storeName}</p>
+          </div>
+          <span class="tag ${getMachineStatusClass(m.status)} text-xs">${getMachineStatusLabel(m.status)}</span>
+        </button>`;
+      }).join('');
+    }
+    document.getElementById('send-modal').classList.add('open');
+  }
+
+  function doSend(machineId) {
+    closeSendModal();
+    setTimeout(() => showToast(t('recipes.send_success')), 300);
+  }
+
+  function closeSendModal(event) {
+    if (event && event.target !== document.getElementById('send-modal')) return;
+    document.getElementById('send-modal').classList.remove('open');
+  }
+
+  function onLangChange() {
+    renderRecipe();
+    applyI18n();
+  }
+
+  renderRecipe();
+</script>
+</body>
+</html>

@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>" />
+  <title>Wokology — 设置</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="bg-gray-50" data-page-title="settings.title">
+
+<div class="page-wrap fade-in">
+
+  <!-- Header -->
+  <div class="bg-white px-5 pt-12 pb-4 sticky top-0 z-10 shadow-sm flex items-center gap-3">
+    <a href="profile.html" class="btn-icon">
+      <span class="material-icons-round">arrow_back</span>
+    </a>
+    <h1 class="text-xl font-bold text-gray-800" data-i18n="settings.title">设置</h1>
+  </div>
+
+  <div class="px-5 pt-4 animate-items">
+
+    <!-- Account Settings Section -->
+    <h2 class="text-sm font-semibold text-gray-500 mb-2 px-1" data-i18n="settings.account_section">账户设置</h2>
+    <div class="bg-white rounded-2xl shadow-sm overflow-hidden mb-5">
+      <button onclick="openAvatarModal()" class="w-full flex items-center justify-between px-4 py-3.5 border-b border-gray-50">
+        <div class="flex items-center gap-3">
+          <span class="material-icons-round text-orange-500">account_circle</span>
+          <span class="text-gray-800 text-sm font-medium" data-i18n="settings.change_avatar">修改头像</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span id="avatar-preview-small" class="text-xl">🤖</span>
+          <span class="material-icons-round text-gray-300">chevron_right</span>
+        </div>
+      </button>
+      <button onclick="openNicknameModal()" class="w-full flex items-center justify-between px-4 py-3.5 border-b border-gray-50">
+        <div class="flex items-center gap-3">
+          <span class="material-icons-round text-blue-500">badge</span>
+          <span class="text-gray-800 text-sm font-medium" data-i18n="settings.change_nickname">修改昵称</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span id="nickname-preview" class="text-gray-400 text-sm">用户</span>
+          <span class="material-icons-round text-gray-300">chevron_right</span>
+        </div>
+      </button>
+      <button onclick="openPasswordModal()" class="w-full flex items-center justify-between px-4 py-3.5">
+        <div class="flex items-center gap-3">
+          <span class="material-icons-round text-red-500">lock</span>
+          <span class="text-gray-800 text-sm font-medium" data-i18n="settings.change_password">修改密码</span>
+        </div>
+        <span class="material-icons-round text-gray-300">chevron_right</span>
+      </button>
+    </div>
+
+    <!-- Language Settings Section -->
+    <h2 class="text-sm font-semibold text-gray-500 mb-2 px-1" data-i18n="settings.lang_section">语言设置</h2>
+    <div class="bg-white rounded-2xl shadow-sm overflow-hidden mb-5">
+      <button onclick="setLanguage('zh')" class="w-full flex items-center justify-between px-4 py-3.5 border-b border-gray-50">
+        <div class="flex items-center gap-3">
+          <span class="text-xl">🇨🇳</span>
+          <span class="text-gray-800 text-sm font-medium">中文</span>
+        </div>
+        <span id="lang-zh-check" class="material-icons-round text-orange-500 hidden">check_circle</span>
+      </button>
+      <button onclick="setLanguage('en')" class="w-full flex items-center justify-between px-4 py-3.5 border-b border-gray-50">
+        <div class="flex items-center gap-3">
+          <span class="text-xl">🇬🇧</span>
+          <span class="text-gray-800 text-sm font-medium">English</span>
+        </div>
+        <span id="lang-en-check" class="material-icons-round text-orange-500 hidden">check_circle</span>
+      </button>
+      <button onclick="setLanguage('hu')" class="w-full flex items-center justify-between px-4 py-3.5">
+        <div class="flex items-center gap-3">
+          <span class="text-xl">🇭🇺</span>
+          <span class="text-gray-800 text-sm font-medium">Magyar</span>
+        </div>
+        <span id="lang-hu-check" class="material-icons-round text-orange-500 hidden">check_circle</span>
+      </button>
+    </div>
+
+    <!-- Privacy & Data Section -->
+    <h2 class="text-sm font-semibold text-gray-500 mb-2 px-1" data-i18n="settings.privacy_section">隐私与数据</h2>
+    <div class="bg-white rounded-2xl shadow-sm overflow-hidden mb-5">
+      <button onclick="openPrivacyModal()" class="w-full flex items-center justify-between px-4 py-3.5 border-b border-gray-50">
+        <div class="flex items-center gap-3">
+          <span class="material-icons-round text-blue-600">shield</span>
+          <span class="text-gray-800 text-sm font-medium" data-i18n="settings.privacy_policy">隐私政策</span>
+        </div>
+        <span class="material-icons-round text-gray-300">chevron_right</span>
+      </button>
+      <button onclick="openTermsModal()" class="w-full flex items-center justify-between px-4 py-3.5 border-b border-gray-50">
+        <div class="flex items-center gap-3">
+          <span class="material-icons-round text-purple-600">gavel</span>
+          <span class="text-gray-800 text-sm font-medium" data-i18n="settings.terms">服务条款</span>
+        </div>
+        <span class="material-icons-round text-gray-300">chevron_right</span>
+      </button>
+      <button onclick="downloadMyData()" class="w-full flex items-center justify-between px-4 py-3.5 border-b border-gray-50">
+        <div class="flex items-center gap-3">
+          <span class="material-icons-round text-green-600">download</span>
+          <span class="text-gray-800 text-sm font-medium" data-i18n="settings.download_data">下载我的数据</span>
+        </div>
+        <span class="material-icons-round text-gray-300">chevron_right</span>
+      </button>
+      <button onclick="openDeleteDataModal()" class="w-full flex items-center justify-between px-4 py-3.5">
+        <div class="flex items-center gap-3">
+          <span class="material-icons-round text-red-600">delete_forever</span>
+          <span class="text-gray-800 text-sm font-medium" data-i18n="settings.delete_data">删除我的数据</span>
+        </div>
+        <span class="material-icons-round text-gray-300">chevron_right</span>
+      </button>
+    </div>
+    <p class="text-xs text-gray-400 mb-5 px-1" data-i18n="settings.gdpr_note">根据欧盟GDPR法规，您有权访问、下载和删除您的个人数据</p>
+
+    <!-- Version Info -->
+    <p class="text-center text-gray-400 text-xs mb-4" data-i18n="profile.version">当前版本 v1.0.0</p>
+  </div>
+
+</div>
+
+<div id="toast"></div>
+
+<!-- Avatar Modal -->
+<div id="avatar-modal" class="modal-overlay" onclick="closeAvatarModal(event)">
+  <div class="modal-sheet" onclick="event.stopPropagation()">
+    <div class="modal-handle"></div>
+    <h3 class="text-lg font-bold text-gray-800 mb-4" data-i18n="settings.avatar_title">选择头像</h3>
+    <div class="grid grid-cols-5 gap-3 mb-4">
+      <button onclick="selectAvatar('🤖')" class="avatar-option w-12 h-12 text-2xl rounded-full bg-gray-100 hover:bg-orange-100 hover:ring-2 hover:ring-orange-400 transition-all">🤖</button>
+      <button onclick="selectAvatar('👨‍🍳')" class="avatar-option w-12 h-12 text-2xl rounded-full bg-gray-100 hover:bg-orange-100 hover:ring-2 hover:ring-orange-400 transition-all">👨‍🍳</button>
+      <button onclick="selectAvatar('👩‍🍳')" class="avatar-option w-12 h-12 text-2xl rounded-full bg-gray-100 hover:bg-orange-100 hover:ring-2 hover:ring-orange-400 transition-all">👩‍🍳</button>
+      <button onclick="selectAvatar('🧑‍🍳')" class="avatar-option w-12 h-12 text-2xl rounded-full bg-gray-100 hover:bg-orange-100 hover:ring-2 hover:ring-orange-400 transition-all">🧑‍🍳</button>
+      <button onclick="selectAvatar('👨')" class="avatar-option w-12 h-12 text-2xl rounded-full bg-gray-100 hover:bg-orange-100 hover:ring-2 hover:ring-orange-400 transition-all">👨</button>
+      <button onclick="selectAvatar('👩')" class="avatar-option w-12 h-12 text-2xl rounded-full bg-gray-100 hover:bg-orange-100 hover:ring-2 hover:ring-orange-400 transition-all">👩</button>
+      <button onclick="selectAvatar('🧑')" class="avatar-option w-12 h-12 text-2xl rounded-full bg-gray-100 hover:bg-orange-100 hover:ring-2 hover:ring-orange-400 transition-all">🧑</button>
+      <button onclick="selectAvatar('🐱')" class="avatar-option w-12 h-12 text-2xl rounded-full bg-gray-100 hover:bg-orange-100 hover:ring-2 hover:ring-orange-400 transition-all">🐱</button>
+      <button onclick="selectAvatar('🐶')" class="avatar-option w-12 h-12 text-2xl rounded-full bg-gray-100 hover:bg-orange-100 hover:ring-2 hover:ring-orange-400 transition-all">🐶</button>
+      <button onclick="selectAvatar('🦊')" class="avatar-option w-12 h-12 text-2xl rounded-full bg-gray-100 hover:bg-orange-100 hover:ring-2 hover:ring-orange-400 transition-all">🦊</button>
+      <button onclick="selectAvatar('🐼')" class="avatar-option w-12 h-12 text-2xl rounded-full bg-gray-100 hover:bg-orange-100 hover:ring-2 hover:ring-orange-400 transition-all">🐼</button>
+      <button onclick="selectAvatar('🦁')" class="avatar-option w-12 h-12 text-2xl rounded-full bg-gray-100 hover:bg-orange-100 hover:ring-2 hover:ring-orange-400 transition-all">🦁</button>
+      <button onclick="selectAvatar('🐯')" class="avatar-option w-12 h-12 text-2xl rounded-full bg-gray-100 hover:bg-orange-100 hover:ring-2 hover:ring-orange-400 transition-all">🐯</button>
+      <button onclick="selectAvatar('🐸')" class="avatar-option w-12 h-12 text-2xl rounded-full bg-gray-100 hover:bg-orange-100 hover:ring-2 hover:ring-orange-400 transition-all">🐸</button>
+      <button onclick="selectAvatar('🐙')" class="avatar-option w-12 h-12 text-2xl rounded-full bg-gray-100 hover:bg-orange-100 hover:ring-2 hover:ring-orange-400 transition-all">🐙</button>
+    </div>
+    <div class="flex gap-3">
+      <button onclick="closeAvatarModal()" class="btn-outlined flex-1" data-i18n="common.cancel">取消</button>
+      <button onclick="saveAvatar()" class="btn-elevated flex-1" data-i18n="common.confirm">确认</button>
+    </div>
+  </div>
+</div>
+
+<!-- Nickname Modal -->
+<div id="nickname-modal" class="modal-overlay" onclick="closeNicknameModal(event)">
+  <div class="modal-sheet" onclick="event.stopPropagation()">
+    <div class="modal-handle"></div>
+    <h3 class="text-lg font-bold text-gray-800 mb-4" data-i18n="settings.nickname_title">修改昵称</h3>
+    <div class="flutter-input">
+      <input type="text" id="nickname-input" placeholder=" " maxlength="20" aria-label="昵称" />
+      <label data-i18n="settings.nickname_label">昵称</label>
+      <p class="input-helper" data-i18n="settings.nickname_hint">2-20个字符</p>
+    </div>
+    <div class="flex gap-3 mt-4">
+      <button onclick="closeNicknameModal()" class="btn-outlined flex-1" data-i18n="common.cancel">取消</button>
+      <button onclick="saveNickname()" class="btn-elevated flex-1" data-i18n="common.confirm">确认</button>
+    </div>
+  </div>
+</div>
+
+<!-- Password Modal -->
+<div id="password-modal" class="modal-overlay" onclick="closePasswordModal(event)">
+  <div class="modal-sheet" onclick="event.stopPropagation()">
+    <div class="modal-handle"></div>
+    <h3 class="text-lg font-bold text-gray-800 mb-4" data-i18n="settings.password_title">修改密码</h3>
+    <div class="flutter-input">
+      <input type="password" id="old-password" placeholder=" " aria-label="原密码" />
+      <label data-i18n="settings.old_password">原密码</label>
+    </div>
+    <div class="flutter-input">
+      <input type="password" id="new-password" placeholder=" " aria-label="新密码" />
+      <label data-i18n="settings.new_password">新密码</label>
+      <p class="input-helper" data-i18n="settings.password_hint">至少6个字符</p>
+    </div>
+    <div class="flutter-input">
+      <input type="password" id="confirm-password" placeholder=" " aria-label="确认密码" />
+      <label data-i18n="settings.confirm_password">确认密码</label>
+    </div>
+    <div class="flex gap-3 mt-4">
+      <button onclick="closePasswordModal()" class="btn-outlined flex-1" data-i18n="common.cancel">取消</button>
+      <button onclick="savePassword()" class="btn-elevated flex-1" data-i18n="common.confirm">确认</button>
+    </div>
+  </div>
+</div>
+
+<!-- Privacy Policy Modal -->
+<div id="privacy-modal" class="modal-overlay" onclick="closePrivacyModal(event)">
+  <div class="modal-sheet" onclick="event.stopPropagation()">
+    <div class="modal-handle"></div>
+    <h3 class="text-lg font-bold text-gray-800 mb-4" data-i18n="settings.privacy_policy">隐私政策</h3>
+    <div class="text-sm text-gray-600 space-y-3 max-h-60 overflow-y-auto pr-2">
+      <p data-i18n="gdpr.privacy_p1">ChefHub 尊重并保护您的隐私。本政策说明我们如何收集、使用和保护您的个人信息。</p>
+      <p class="font-semibold text-gray-800" data-i18n="gdpr.privacy_collect">我们收集的数据：</p>
+      <ul class="list-disc list-inside text-xs space-y-1">
+        <li data-i18n="gdpr.privacy_item1">账户信息（用户名、邮箱）</li>
+        <li data-i18n="gdpr.privacy_item2">门店和机器配置数据</li>
+        <li data-i18n="gdpr.privacy_item3">菜谱和使用记录</li>
+        <li data-i18n="gdpr.privacy_item4">设备日志和操作记录</li>
+      </ul>
+      <p class="font-semibold text-gray-800" data-i18n="gdpr.privacy_rights">您的权利（GDPR）：</p>
+      <ul class="list-disc list-inside text-xs space-y-1">
+        <li data-i18n="gdpr.right_access">访问权：获取您个人数据的副本</li>
+        <li data-i18n="gdpr.right_rectification">更正权：更正不准确的数据</li>
+        <li data-i18n="gdpr.right_erasure">删除权：要求删除您的数据</li>
+        <li data-i18n="gdpr.right_portability">可携带权：以机器可读格式接收数据</li>
+      </ul>
+      <p data-i18n="gdpr.privacy_contact">如需行使您的权利，请通过 privacy@chefhub.eu 联系我们。</p>
+    </div>
+    <button onclick="closePrivacyModal()" class="btn-elevated w-full mt-4" data-i18n="common.done">完成</button>
+  </div>
+</div>
+
+<!-- Terms Modal -->
+<div id="terms-modal" class="modal-overlay" onclick="closeTermsModal(event)">
+  <div class="modal-sheet" onclick="event.stopPropagation()">
+    <div class="modal-handle"></div>
+    <h3 class="text-lg font-bold text-gray-800 mb-4" data-i18n="settings.terms">服务条款</h3>
+    <div class="text-sm text-gray-600 space-y-3 max-h-60 overflow-y-auto pr-2">
+      <p data-i18n="gdpr.terms_intro">使用 ChefHub 服务即表示您同意以下条款。</p>
+      <p class="font-semibold text-gray-800" data-i18n="gdpr.terms_usage">使用条款：</p>
+      <ul class="list-disc list-inside text-xs space-y-1">
+        <li data-i18n="gdpr.terms_item1">您需对账户安全负责</li>
+        <li data-i18n="gdpr.terms_item2">禁止未经授权访问他人数据</li>
+        <li data-i18n="gdpr.terms_item3">菜谱内容需符合食品安全法规</li>
+        <li data-i18n="gdpr.terms_item4">机器操作需遵循安全指南</li>
+      </ul>
+      <p class="font-semibold text-gray-800" data-i18n="gdpr.terms_liability">责任限制：</p>
+      <p class="text-xs" data-i18n="gdpr.terms_liability_text">ChefHub 对因使用本服务导致的间接损失不承担责任。适用欧盟消费者保护法规。</p>
+      <p class="font-semibold text-gray-800" data-i18n="gdpr.terms_governing">适用法律：</p>
+      <p class="text-xs" data-i18n="gdpr.terms_governing_text">本协议受匈牙利法律管辖，并符合欧盟GDPR法规。</p>
+    </div>
+    <button onclick="closeTermsModal()" class="btn-elevated w-full mt-4" data-i18n="common.done">完成</button>
+  </div>
+</div>
+
+<!-- Delete Data Modal -->
+<div id="delete-data-modal" class="modal-overlay" onclick="closeDeleteDataModal(event)">
+  <div class="modal-sheet" onclick="event.stopPropagation()">
+    <div class="modal-handle"></div>
+    <h3 class="text-lg font-bold text-red-600 mb-2" data-i18n="gdpr.delete_title">删除所有数据</h3>
+    <p class="text-sm text-gray-600 mb-4" data-i18n="gdpr.delete_warning">此操作将永久删除您的所有数据，包括账户信息、门店、机器绑定和菜谱。此操作不可撤销。</p>
+    <div class="bg-red-50 rounded-xl p-3 mb-4">
+      <p class="text-xs text-red-600 font-medium" data-i18n="gdpr.delete_confirm_text">请输入 "DELETE" 确认删除：</p>
+      <input type="text" id="delete-confirm-input" class="auth-input mt-2" placeholder="DELETE" aria-label="确认删除" />
+    </div>
+    <div class="flex gap-3">
+      <button onclick="closeDeleteDataModal()" class="btn-outlined flex-1" data-i18n="common.cancel">取消</button>
+      <button onclick="confirmDeleteData()" class="btn-elevated flex-1 !bg-red-500" data-i18n="gdpr.delete_btn">确认删除</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/i18n.js"></script>
+<script src="js/app.js"></script>
+<script>
+  requireAuth();
+
+  // Avatar
+  let selectedAvatar = '🤖';
+
+  function openAvatarModal() {
+    const user = getUser();
+    selectedAvatar = user.avatar || '🤖';
+    document.getElementById('avatar-modal').classList.add('open');
+    highlightSelectedAvatar();
+  }
+
+  function closeAvatarModal(e) {
+    if (e && e.target !== e.currentTarget) return;
+    document.getElementById('avatar-modal').classList.remove('open');
+  }
+
+  function selectAvatar(emoji) {
+    selectedAvatar = emoji;
+    highlightSelectedAvatar();
+  }
+
+  function highlightSelectedAvatar() {
+    document.querySelectorAll('.avatar-option').forEach(btn => {
+      btn.classList.toggle('ring-2', btn.textContent === selectedAvatar);
+      btn.classList.toggle('ring-orange-400', btn.textContent === selectedAvatar);
+      btn.classList.toggle('bg-orange-100', btn.textContent === selectedAvatar);
+    });
+  }
+
+  function saveAvatar() {
+    const user = getUser();
+    user.avatar = selectedAvatar;
+    localStorage.setItem('chefhub_user', JSON.stringify(user));
+    document.getElementById('avatar-preview-small').textContent = selectedAvatar;
+    closeAvatarModal();
+    showToast(t('settings.avatar_saved'));
+  }
+
+  // Nickname
+  function openNicknameModal() {
+    const user = getUser();
+    document.getElementById('nickname-input').value = user.nickname || getUserName(user);
+    document.getElementById('nickname-modal').classList.add('open');
+  }
+
+  function closeNicknameModal(e) {
+    if (e && e.target !== e.currentTarget) return;
+    document.getElementById('nickname-modal').classList.remove('open');
+  }
+
+  function saveNickname() {
+    const nickname = document.getElementById('nickname-input').value.trim();
+    if (nickname.length < 2 || nickname.length > 20) {
+      showToast(t('settings.nickname_error'));
+      return;
+    }
+    const user = getUser();
+    user.nickname = nickname;
+    localStorage.setItem('chefhub_user', JSON.stringify(user));
+    document.getElementById('nickname-preview').textContent = nickname;
+    closeNicknameModal();
+    showToast(t('settings.nickname_saved'));
+  }
+
+  // Password
+  function openPasswordModal() {
+    document.getElementById('old-password').value = '';
+    document.getElementById('new-password').value = '';
+    document.getElementById('confirm-password').value = '';
+    document.getElementById('password-modal').classList.add('open');
+  }
+
+  function closePasswordModal(e) {
+    if (e && e.target !== e.currentTarget) return;
+    document.getElementById('password-modal').classList.remove('open');
+  }
+
+  function savePassword() {
+    const oldPwd = document.getElementById('old-password').value;
+    const newPwd = document.getElementById('new-password').value;
+    const confirmPwd = document.getElementById('confirm-password').value;
+
+    if (!oldPwd || !newPwd || !confirmPwd) {
+      showToast(t('settings.password_empty'));
+      return;
+    }
+    if (newPwd.length < 6) {
+      showToast(t('settings.password_short'));
+      return;
+    }
+    if (newPwd !== confirmPwd) {
+      showToast(t('settings.password_mismatch'));
+      return;
+    }
+
+    const demoUser = getCurrentDemoUser();
+    if (oldPwd !== demoUser.password) {
+      showToast(t('settings.password_wrong'));
+      return;
+    }
+
+    showToast(t('settings.password_saved'));
+    closePasswordModal();
+  }
+
+  // Privacy & Terms
+  function openPrivacyModal() {
+    document.getElementById('privacy-modal').classList.add('open');
+  }
+
+  function closePrivacyModal(e) {
+    if (e && e.target !== e.currentTarget) return;
+    document.getElementById('privacy-modal').classList.remove('open');
+  }
+
+  function openTermsModal() {
+    document.getElementById('terms-modal').classList.add('open');
+  }
+
+  function closeTermsModal(e) {
+    if (e && e.target !== e.currentTarget) return;
+    document.getElementById('terms-modal').classList.remove('open');
+  }
+
+  // Download Data
+  function downloadMyData() {
+    const user = getUser();
+    const stores = getVisibleStores();
+    const machines = getVisibleMachines();
+
+    const data = {
+      exportedAt: new Date().toISOString(),
+      user: {
+        account: user.account,
+        name: user.name,
+        nickname: user.nickname,
+        avatar: user.avatar,
+        role: user.role
+      },
+      stores: stores,
+      machines: machines,
+      recipes: DEMO_RECIPES
+    };
+
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `chefhub-data-${new Date().toISOString().split('T')[0]}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast(t('gdpr.download_success'));
+  }
+
+  // Delete Data
+  function openDeleteDataModal() {
+    document.getElementById('delete-confirm-input').value = '';
+    document.getElementById('delete-data-modal').classList.add('open');
+  }
+
+  function closeDeleteDataModal(e) {
+    if (e && e.target !== e.currentTarget) return;
+    document.getElementById('delete-data-modal').classList.remove('open');
+  }
+
+  function confirmDeleteData() {
+    const input = document.getElementById('delete-confirm-input').value;
+    if (input !== 'DELETE') {
+      showToast(t('gdpr.delete_type_error'));
+      return;
+    }
+
+    localStorage.removeItem('chefhub_user');
+    localStorage.removeItem('chefhub_logged_in');
+    localStorage.removeItem('chefhub_lang');
+    localStorage.removeItem('chefhub_cookies_accepted');
+
+    closeDeleteDataModal();
+    showToast(t('gdpr.delete_success'));
+
+    setTimeout(() => {
+      window.location.href = 'index.html';
+    }, 1500);
+  }
+
+  // Init
+  function initUI() {
+    const user = getUser();
+    const avatar = user.avatar || '🤖';
+    document.getElementById('avatar-preview-small').textContent = avatar;
+
+    const nickname = user.nickname || getUserName(user);
+    document.getElementById('nickname-preview').textContent = nickname;
+
+    const lang = getLang();
+    document.getElementById('lang-zh-check').classList.toggle('hidden', lang !== 'zh');
+    document.getElementById('lang-en-check').classList.toggle('hidden', lang !== 'en');
+    document.getElementById('lang-hu-check').classList.toggle('hidden', lang !== 'hu');
+  }
+
+  function onLangChange() {
+    initUI();
+  }
+
+  initUI();
+</script>
+</body>
+</html>

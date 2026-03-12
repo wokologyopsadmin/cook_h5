@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>" />
+  <title>Wokology — 注册</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="bg-gray-50" data-page-title="register.title">
+
+<!-- Hero -->
+<div class="auth-hero min-h-[180px] flex flex-col items-center justify-center relative overflow-hidden">
+  <div class="absolute top-0 right-0 w-48 h-48 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+  <div class="text-4xl mb-2 relative z-10">🤖</div>
+  <h1 class="text-2xl font-bold relative z-10" data-i18n="register.title">创建账号</h1>
+  <p class="text-white/80 text-sm mt-1 relative z-10" data-i18n="register.subtitle">注册即可管理您的炒菜机器人</p>
+</div>
+
+<!-- Card -->
+<div class="auth-card">
+  <!-- Name -->
+  <div class="mb-4">
+    <label class="block text-sm font-semibold text-gray-700 mb-1.5" data-i18n="register.name_label">您的姓名</label>
+    <input id="reg-name" type="text" class="auth-input" data-i18n-ph="register.name_ph" placeholder="请输入您的姓名" />
+  </div>
+
+  <!-- Email -->
+  <div class="mb-4">
+    <label class="block text-sm font-semibold text-gray-700 mb-1.5" data-i18n="register.email_label">邮箱地址</label>
+    <div class="flex gap-2">
+      <input id="reg-email" type="email" class="auth-input flex-1" data-i18n-ph="register.email_ph" placeholder="请输入邮箱地址" />
+      <button id="send-code-btn" onclick="sendCode()" class="flex-shrink-0 bg-orange-500 text-white rounded-xl px-4 text-sm font-semibold whitespace-nowrap">
+        <span data-i18n="register.send_code">获取验证码</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Code -->
+  <div class="mb-4">
+    <label class="block text-sm font-semibold text-gray-700 mb-1.5" data-i18n="register.code_label">邮箱验证码</label>
+    <input id="reg-code" type="number" maxlength="6" class="auth-input" data-i18n-ph="register.code_ph" placeholder="请输入6位验证码" />
+  </div>
+
+  <!-- Password -->
+  <div class="mb-6">
+    <label class="block text-sm font-semibold text-gray-700 mb-1.5" data-i18n="register.password_label">设置密码</label>
+    <div class="relative">
+      <input id="reg-pwd" type="password" class="auth-input pr-12" data-i18n-ph="register.password_ph" placeholder="请设置登录密码（6位以上）" />
+      <button onclick="togglePwd(this)" tabindex="-1" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 p-1">
+        <span class="material-icons-round text-xl">visibility_off</span>
+      </button>
+    </div>
+  </div>
+
+  <button onclick="doRegister()" class="auth-btn mb-4" data-i18n="register.btn">立即注册</button>
+
+  <!-- Terms -->
+  <p class="text-xs text-gray-400 text-center mb-5">
+    <span data-i18n="register.agree">注册即同意</span>
+    <a href="#" class="text-orange-500" data-i18n="register.terms">《服务条款》</a>
+    <span data-i18n="register.and">和</span>
+    <a href="#" class="text-orange-500" data-i18n="register.privacy">《隐私政策》</a>
+  </p>
+
+  <div class="text-center text-sm text-gray-500">
+    <span data-i18n="register.have_account">已有账号?</span>
+    <a href="index.html" class="text-orange-500 font-semibold ml-1" data-i18n="register.login_link">立即登录</a>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script src="js/i18n.js"></script>
+<script src="js/app.js"></script>
+<script>
+  if (localStorage.getItem('chefhub_logged_in')) window.location.href = 'dashboard.html';
+
+  let countdown = 0;
+  function sendCode() {
+    const email = document.getElementById('reg-email').value.trim();
+    if (!email || !email.includes('@')) {
+      showToast(getLang() === 'zh' ? '请先填写有效邮箱' : 'Please enter a valid email first');
+      return;
+    }
+    showToast(t('register.code_sent'));
+    // Countdown 60s
+    countdown = 60;
+    const btn = document.getElementById('send-code-btn');
+    btn.disabled = true;
+    btn.classList.add('opacity-60');
+    const tick = setInterval(() => {
+      countdown--;
+      btn.querySelector('[data-i18n]').textContent = countdown + 's';
+      if (countdown <= 0) {
+        clearInterval(tick);
+        btn.disabled = false;
+        btn.classList.remove('opacity-60');
+        btn.querySelector('[data-i18n]').textContent = t('register.send_code');
+      }
+    }, 1000);
+  }
+
+  function togglePwd(btn) {
+    const input = btn.previousElementSibling;
+    const icon  = btn.querySelector('.material-icons-round');
+    input.type = input.type === 'password' ? 'text' : 'password';
+    icon.textContent = input.type === 'password' ? 'visibility_off' : 'visibility';
+  }
+
+  function doRegister() {
+    const name  = document.getElementById('reg-name').value.trim();
+    const email = document.getElementById('reg-email').value.trim();
+    const code  = document.getElementById('reg-code').value.trim();
+    const pwd   = document.getElementById('reg-pwd').value;
+    if (!name || !email || !code || !pwd) {
+      showToast(getLang() === 'zh' ? '请填写所有必填项' : 'Please fill in all required fields');
+      return;
+    }
+    if (pwd.length < 6) {
+      showToast(getLang() === 'zh' ? '密码至少6位' : 'Password must be at least 6 characters');
+      return;
+    }
+    localStorage.setItem('chefhub_logged_in', '1');
+    localStorage.setItem('chefhub_user', JSON.stringify({ name, email }));
+    window.location.href = 'dashboard.html';
+  }
+
+  function onLangChange() {}
+</script>
+</body>
+</html>

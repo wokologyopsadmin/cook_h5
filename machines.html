@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>" />
+  <title>Wokology — 机器管理</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="bg-gray-50" data-page-title="machines.title">
+
+<div class="page-wrap fade-in">
+
+  <!-- Header -->
+  <div class="bg-white px-5 pt-12 pb-4 sticky top-0 z-10 shadow-sm">
+    <div class="flex justify-between items-center">
+      <h1 class="text-xl font-bold text-gray-800" data-i18n="machines.title">机器管理</h1>
+      <button id="bind-machine-btn" onclick="openAddModal()" class="bg-orange-500 text-white rounded-xl px-4 py-2 text-sm font-semibold flex items-center gap-1">
+        <span class="material-icons-round text-lg">add</span>
+        <span data-i18n="common.bind">绑定</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Machine List -->
+  <div id="machine-list" class="px-5 pt-4 space-y-3"></div>
+  <div id="empty-state" class="hidden text-center py-16 px-5">
+    <span class="material-icons-round text-5xl text-gray-200 block mb-3">precision_manufacturing</span>
+    <p class="text-gray-500" data-i18n="machines.no_machines">还没有绑定机器，点击右上角添加</p>
+  </div>
+
+</div>
+
+<!-- Add Machine Modal -->
+<div id="add-modal" class="modal-overlay" onclick="closeAddModal(event)">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <h3 class="text-base font-bold text-gray-800 mb-1" data-i18n="machines.add_title">绑定新机器</h3>
+    <p class="text-gray-400 text-xs mb-4" data-i18n="machines.add_hint">在机器底部贴纸上找到序列号</p>
+    <input id="new-serial" type="text" class="auth-input mb-4" data-i18n-ph="machines.serial_ph" placeholder="输入序列号（如 CRB-001）" />
+    <button onclick="doAddMachine()" class="auth-btn" data-i18n="machines.confirm_add_btn">确认绑定</button>
+    <button onclick="closeAddModal()" class="w-full py-3 rounded-2xl bg-gray-100 text-gray-600 font-medium mt-3" data-i18n="common.cancel">取消</button>
+  </div>
+</div>
+
+<!-- Bind Store Modal -->
+<div id="bind-modal" class="modal-overlay" onclick="closeBindModal(event)">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <h3 class="text-base font-bold text-gray-800 mb-4" data-i18n="machines.bind_store_title">选择门店</h3>
+    <div id="store-options" class="space-y-2 mb-4"></div>
+    <button onclick="closeBindModal()" class="w-full py-3 rounded-2xl bg-gray-100 text-gray-600 font-medium" data-i18n="common.cancel">取消</button>
+  </div>
+</div>
+
+<!-- Bottom Nav -->
+<nav class="bottom-nav">
+  <div class="flex">
+    <a href="dashboard.html" id="nav-home" class="nav-btn flex-1 flex flex-col items-center py-3 gap-0.5">
+      <span class="material-icons-round text-2xl nav-icon">home</span>
+      <span class="text-xs nav-label" data-i18n="nav.home">首页</span>
+    </a>
+    <a href="recipes.html" id="nav-recipes" class="nav-btn flex-1 flex flex-col items-center py-3 gap-0.5">
+      <span class="material-icons-round text-2xl nav-icon">menu_book</span>
+      <span class="text-xs nav-label" data-i18n="nav.recipes">菜谱</span>
+    </a>
+    <a href="publish.html" class="flex-1 flex flex-col items-center py-3 gap-0.5 relative">
+      <div class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center -mt-6 shadow-lg shadow-orange-200">
+        <span class="material-icons-round text-white text-2xl">add</span>
+      </div>
+      <span class="text-xs text-gray-400 mt-0.5" data-i18n="nav.publish">发布</span>
+    </a>
+    <a href="machines.html" id="nav-machines" class="nav-btn active flex-1 flex flex-col items-center py-3 gap-0.5">
+      <span class="material-icons-round text-2xl nav-icon">precision_manufacturing</span>
+      <span class="text-xs nav-label" data-i18n="nav.machines">机器</span>
+    </a>
+    <a href="profile.html" id="nav-profile" class="nav-btn flex-1 flex flex-col items-center py-3 gap-0.5">
+      <span class="material-icons-round text-2xl nav-icon">person_outline</span>
+      <span class="text-xs nav-label" data-i18n="nav.profile">我的</span>
+    </a>
+  </div>
+</nav>
+
+<div id="toast"></div>
+
+<script src="js/i18n.js"></script>
+<script src="js/app.js"></script>
+<script>
+  requireAuth();
+  initNavBar('nav-machines');
+
+  let pendingMachineId = null;
+
+  function renderMachines() {
+    const list = getVisibleMachines();
+    const el = document.getElementById('machine-list');
+    const empty = document.getElementById('empty-state');
+    const bindBtn = document.getElementById('bind-machine-btn');
+    const user = getCurrentDemoUser();
+    const canBind = canBindMachine();
+
+    // Show/hide bind button based on role
+    bindBtn.style.display = canBind ? 'flex' : 'none';
+
+    if (!list.length) {
+      el.innerHTML = '';
+      empty.classList.remove('hidden');
+      empty.querySelector('p').textContent = canBind ? t('machines.no_machines') : (user.role === 'store_manager' ? t('machines.no_machines_manager') : t('machines.no_machines'));
+      return;
+    }
+    empty.classList.add('hidden');
+
+    const visibleStores = getVisibleStores();
+
+    el.innerHTML = list.map(m => {
+      const store = getStoreById(m.storeId);
+      const storeName = store ? getStoreName(store) : t('machines.not_bound');
+      const statusClass = getMachineStatusClass(m.status);
+      const statusLabel = getMachineStatusLabel(m.status);
+
+      return `<div class="bg-white rounded-2xl p-4 shadow-sm">
+        <div class="flex justify-between items-start mb-3">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 bg-orange-50 rounded-xl flex items-center justify-center">
+              <span class="material-icons-round text-orange-500 text-2xl">precision_manufacturing</span>
+            </div>
+            <div>
+              <p class="font-bold text-gray-800">${m.serial}</p>
+              <p class="text-gray-400 text-xs">${storeName}</p>
+            </div>
+          </div>
+          <span class="tag ${statusClass} text-xs">${statusLabel}</span>
+        </div>
+        <div class="grid grid-cols-3 gap-2 text-center text-sm mb-3">
+          <div class="bg-gray-50 rounded-xl py-2">
+            <p class="text-orange-500 font-bold">${m.temp}${t('machines.celcius')}</p>
+            <p class="text-gray-400 text-xs" data-i18n="machines.temp">温度</p>
+          </div>
+          <div class="bg-gray-50 rounded-xl py-2">
+            <p class="text-blue-500 font-bold">${m.totalDishes}</p>
+            <p class="text-gray-400 text-xs" data-i18n="machines.total">累计</p>
+          </div>
+          <div class="bg-gray-50 rounded-xl py-2">
+            <p class="text-green-500 font-bold">${getMachineLastActive(m)}</p>
+            <p class="text-gray-400 text-xs" data-i18n="machines.last_active">在线</p>
+          </div>
+        </div>
+        <div class="flex gap-2">
+          ${store ? `<button onclick="doUnbind(${m.id})" class="flex-1 py-2 rounded-xl bg-gray-100 text-gray-600 text-sm font-medium" data-i18n="machines.unbind_btn">解绑</button>`
+                 : (canBind ? `<button onclick="openBindModal(${m.id})" class="flex-1 py-2 rounded-xl bg-orange-500 text-white text-sm font-medium" data-i18n="machines.bind_btn">绑定门店</button>` : '')}
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  function openAddModal() {
+    document.getElementById('new-serial').value = '';
+    document.getElementById('add-modal').classList.add('open');
+  }
+  function closeAddModal(event) {
+    if (event && event.target !== document.getElementById('add-modal')) return;
+    document.getElementById('add-modal').classList.remove('open');
+  }
+
+  function doAddMachine() {
+    const serial = document.getElementById('new-serial').value.trim().toUpperCase();
+    if (!serial) {
+      showToast(getLang() === 'zh' ? '请输入序列号' : 'Please enter serial number');
+      return;
+    }
+    closeAddModal();
+    showToast(t('machines.add_success'));
+    renderMachines();
+  }
+
+  function openBindModal(machineId) {
+    pendingMachineId = machineId;
+    const options = document.getElementById('store-options');
+    const visibleStores = getVisibleStores();
+    if (!visibleStores.length) {
+      options.innerHTML = `<p class="text-gray-400 text-sm text-center py-4">${getLang() === 'zh' ? '暂无门店，请先创建门店' : 'No stores, please create one first'}</p>`;
+    } else {
+      options.innerHTML = visibleStores.map(s => `
+        <button onclick="doBindStore(${s.id})" class="w-full flex items-center gap-3 bg-gray-50 rounded-2xl px-4 py-3 ripple text-left">
+          <span class="material-icons-round text-orange-500">store</span>
+          <div class="flex-1">
+            <p class="font-semibold text-gray-800 text-sm">${getStoreName(s)}</p>
+            <p class="text-gray-400 text-xs">${getStoreAddress(s)}</p>
+          </div>
+        </button>
+      `).join('');
+    }
+    document.getElementById('bind-modal').classList.add('open');
+  }
+
+  function closeBindModal(event) {
+    if (event && event.target !== document.getElementById('bind-modal')) return;
+    document.getElementById('bind-modal').classList.remove('open');
+    pendingMachineId = null;
+  }
+
+  function doBindStore(storeId) {
+    closeBindModal();
+    showToast(t('machines.bind_success'));
+    renderMachines();
+  }
+
+  function doUnbind(machineId) {
+    if (confirm(t('machines.unbind_confirm'))) {
+      showToast(t('machines.unbind_success'));
+      renderMachines();
+    }
+  }
+
+  function onLangChange() {
+    renderMachines();
+  }
+
+  renderMachines();
+</script>
+</body>
+</html>

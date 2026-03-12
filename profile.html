@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>" />
+  <title>Wokology — 我的</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="bg-gray-50" data-page-title="profile.title">
+
+<div class="page-wrap fade-in">
+
+  <!-- Header -->
+  <div class="hero-gradient px-5 pt-12 pb-8 text-white relative overflow-hidden">
+    <div class="absolute top-0 right-0 w-56 h-56 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+    <div class="flex items-center gap-4 relative z-10">
+      <div id="user-avatar" class="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-3xl border border-white/30 overflow-hidden">
+        <span id="avatar-emoji">🤖</span>
+      </div>
+      <div class="flex-1">
+        <p id="user-name" class="text-xl font-bold">用户</p>
+        <p id="user-role" class="text-white/60 text-xs mt-0.5">系统管理员</p>
+        <p id="user-account" class="text-white/80 text-sm mt-0.5">user@example.com</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="px-5 -mt-5 relative z-10">
+    <div class="bg-white rounded-2xl shadow-sm p-4 grid grid-cols-3 gap-0 divide-x divide-gray-100">
+      <div class="text-center px-2">
+        <p class="text-2xl font-bold text-orange-500" id="stat-stores">2</p>
+        <p class="text-xs text-gray-500 mt-0.5" data-i18n="profile.stores_stat">门店</p>
+      </div>
+      <div class="text-center px-2">
+        <p class="text-2xl font-bold text-blue-500" id="stat-machines">4</p>
+        <p class="text-xs text-gray-500 mt-0.5" data-i18n="profile.machines_stat">机器</p>
+      </div>
+      <div class="text-center px-2">
+        <p class="text-2xl font-bold text-green-500" id="stat-recipes">14</p>
+        <p class="text-xs text-gray-500 mt-0.5" data-i18n="profile.recipes_stat">菜谱</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Account Info -->
+  <div class="px-5 mt-5">
+    <div class="bg-white rounded-2xl shadow-sm p-4">
+      <div class="flex justify-between items-center py-2">
+        <span class="text-gray-500 text-sm" data-i18n="profile.account_type">账号类型</span>
+        <span id="user-role-label" class="text-gray-800 text-sm font-medium">管理员</span>
+      </div>
+      <div class="flex justify-between items-center py-2 border-t border-gray-50">
+        <span class="text-gray-500 text-sm" data-i18n="profile.member_since">注册时间</span>
+        <span class="text-gray-800 text-sm">2024-01-15</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Links -->
+  <div class="px-5 mt-5">
+    <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
+      <a href="stores.html" class="flex items-center justify-between px-4 py-3.5 border-b border-gray-50">
+        <div class="flex items-center gap-3">
+          <span class="material-icons-round text-orange-500">store</span>
+          <span class="text-gray-800 text-sm font-medium" data-i18n="profile.my_stores">我的门店</span>
+        </div>
+        <span class="material-icons-round text-gray-300">chevron_right</span>
+      </a>
+      <a href="machines.html" class="flex items-center justify-between px-4 py-3.5 border-b border-gray-50">
+        <div class="flex items-center gap-3">
+          <span class="material-icons-round text-blue-500">precision_manufacturing</span>
+          <span class="text-gray-800 text-sm font-medium" data-i18n="profile.my_machines">我的机器</span>
+        </div>
+        <span class="material-icons-round text-gray-300">chevron_right</span>
+      </a>
+      <a href="recipes.html" class="flex items-center justify-between px-4 py-3.5 border-b border-gray-50">
+        <div class="flex items-center gap-3">
+          <span class="material-icons-round text-green-500">menu_book</span>
+          <span class="text-gray-800 text-sm font-medium" data-i18n="profile.my_recipes">我的菜谱</span>
+        </div>
+        <span class="material-icons-round text-gray-300">chevron_right</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- More Links -->
+  <div class="px-5 mt-5">
+    <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
+      <a href="settings.html" class="flex items-center justify-between px-4 py-3.5 border-b border-gray-50">
+        <div class="flex items-center gap-3">
+          <span class="material-icons-round text-gray-500">settings</span>
+          <span class="text-gray-800 text-sm font-medium" data-i18n="profile.settings">设置</span>
+        </div>
+        <span class="material-icons-round text-gray-300">chevron_right</span>
+      </a>
+      <a href="#" class="flex items-center justify-between px-4 py-3.5 border-b border-gray-50">
+        <div class="flex items-center gap-3">
+          <span class="material-icons-round text-teal-500">help_outline</span>
+          <span class="text-gray-800 text-sm font-medium" data-i18n="profile.help">帮助与反馈</span>
+        </div>
+        <span class="material-icons-round text-gray-300">chevron_right</span>
+      </a>
+      <a href="#" class="flex items-center justify-between px-4 py-3.5">
+        <div class="flex items-center gap-3">
+          <span class="material-icons-round text-indigo-500">info</span>
+          <span class="text-gray-800 text-sm font-medium" data-i18n="profile.about">关于 ChefHub</span>
+        </div>
+        <span class="material-icons-round text-gray-300">chevron_right</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Logout -->
+  <div class="px-5 mt-5 mb-4">
+    <button onclick="doLogout()" class="w-full bg-white rounded-2xl shadow-sm py-3.5 text-red-500 font-medium text-sm" data-i18n="profile.logout">退出登录</button>
+    <p class="text-center text-gray-400 text-xs mt-3" data-i18n="profile.version">当前版本 v1.0.0</p>
+  </div>
+
+</div>
+
+<!-- Bottom Nav -->
+<nav class="bottom-nav">
+  <div class="flex">
+    <a href="dashboard.html" id="nav-home" class="nav-btn flex-1 flex flex-col items-center py-3 gap-0.5">
+      <span class="material-icons-round text-2xl nav-icon">home</span>
+      <span class="text-xs nav-label" data-i18n="nav.home">首页</span>
+    </a>
+    <a href="recipes.html" id="nav-recipes" class="nav-btn flex-1 flex flex-col items-center py-3 gap-0.5">
+      <span class="material-icons-round text-2xl nav-icon">menu_book</span>
+      <span class="text-xs nav-label" data-i18n="nav.recipes">菜谱</span>
+    </a>
+    <a href="publish.html" class="flex-1 flex flex-col items-center py-3 gap-0.5 relative">
+      <div class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center -mt-6 shadow-lg shadow-orange-200">
+        <span class="material-icons-round text-white text-2xl">add</span>
+      </div>
+      <span class="text-xs text-gray-400 mt-0.5" data-i18n="nav.publish">发布</span>
+    </a>
+    <a href="machines.html" id="nav-machines" class="nav-btn flex-1 flex flex-col items-center py-3 gap-0.5">
+      <span class="material-icons-round text-2xl nav-icon">precision_manufacturing</span>
+      <span class="text-xs nav-label" data-i18n="nav.machines">机器</span>
+    </a>
+    <a href="profile.html" id="nav-profile" class="nav-btn active flex-1 flex flex-col items-center py-3 gap-0.5">
+      <span class="material-icons-round text-2xl nav-icon">person_outline</span>
+      <span class="text-xs nav-label" data-i18n="nav.profile">我的</span>
+    </a>
+  </div>
+</nav>
+
+<div id="toast"></div>
+</div>
+
+<script src="js/i18n.js"></script>
+<script src="js/app.js"></script>
+<script>
+  requireAuth();
+  initNavBar('nav-profile');
+
+  function updateUI() {
+    const user = getUser();
+    document.getElementById('user-name').textContent = getUserName(user);
+    document.getElementById('user-account').textContent = user.account || 'user@example.com';
+
+    // Show role label in header and account info
+    const roleLabel = getUserRoleLabel(user);
+    const roleEl = document.getElementById('user-role');
+    if (roleEl) roleEl.textContent = roleLabel;
+    const roleLabelEl = document.getElementById('user-role-label');
+    if (roleLabelEl) roleLabelEl.textContent = roleLabel;
+
+    // Stats based on visible data
+    const stores = getVisibleStores();
+    const machines = getVisibleMachines();
+    document.getElementById('stat-stores').textContent = stores.length;
+    document.getElementById('stat-machines').textContent = machines.length;
+    document.getElementById('stat-recipes').textContent = DEMO_RECIPES.length;
+  }
+
+  // Init avatar from storage
+  function initAvatar() {
+    const user = getUser();
+    const avatar = user.avatar || '🤖';
+    document.getElementById('avatar-emoji').textContent = avatar;
+  }
+
+  updateUI();
+  initAvatar();
+</script>
+</body>
+</html>

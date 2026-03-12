@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>" />
+  <title>Wokology — 门店管理</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="bg-gray-50" data-page-title="stores.title">
+
+<div class="page-wrap fade-in">
+
+  <!-- Header -->
+  <div class="bg-white px-5 pt-12 pb-4 sticky top-0 z-10 shadow-sm">
+    <div class="flex justify-between items-center">
+      <h1 class="text-xl font-bold text-gray-800" data-i18n="stores.title">门店管理</h1>
+      <button id="create-store-btn" onclick="openCreateModal()" class="bg-orange-500 text-white rounded-xl px-4 py-2 text-sm font-semibold flex items-center gap-1">
+        <span class="material-icons-round text-lg">add</span>
+        <span data-i18n="common.create">创建</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Store List -->
+  <div id="store-list" class="px-5 pt-4 space-y-3"></div>
+  <div id="empty-state" class="hidden text-center py-16 px-5">
+    <span class="material-icons-round text-5xl text-gray-200 block mb-3">store_mall_directory</span>
+    <p class="text-gray-500" data-i18n="stores.no_stores">还没有创建门店</p>
+    <button onclick="openCreateModal()" class="mt-4 bg-orange-500 text-white rounded-xl px-6 py-2.5 text-sm font-semibold" data-i18n="stores.add_btn">+ 创建门店</button>
+  </div>
+
+</div>
+
+<!-- Create Store Modal -->
+<div id="create-modal" class="modal-overlay" onclick="closeCreateModal(event)">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <h3 class="text-base font-bold text-gray-800 mb-4" data-i18n="stores.create_title">创建新门店</h3>
+    <div class="mb-4">
+      <label class="block text-sm font-semibold text-gray-700 mb-1.5" data-i18n="stores.name_label">门店名称 *</label>
+      <input id="store-name" type="text" class="auth-input" data-i18n-ph="stores.name_ph" placeholder="例：市中心1号店" />
+    </div>
+    <div class="mb-4">
+      <label class="block text-sm font-semibold text-gray-700 mb-1.5" data-i18n="stores.addr_label">门店地址</label>
+      <input id="store-addr" type="text" class="auth-input" data-i18n-ph="stores.addr_ph" placeholder="输入门店详细地址" />
+    </div>
+    <button onclick="doCreateStore()" class="auth-btn" data-i18n="stores.create_btn">创建门店</button>
+    <button onclick="closeCreateModal()" class="w-full py-3 rounded-2xl bg-gray-100 text-gray-600 font-medium mt-3" data-i18n="common.cancel">取消</button>
+  </div>
+</div>
+
+<!-- Store Machines Modal -->
+<div id="machines-modal" class="modal-overlay" onclick="closeMachinesModal(event)">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <h3 class="text-base font-bold text-gray-800 mb-1" data-i18n="stores.manage_btn">管理机器</h3>
+    <p id="store-name-display" class="text-orange-500 text-sm mb-4"></p>
+    <div id="store-machines-list" class="space-y-2 mb-4"></div>
+    <button onclick="closeMachinesModal()" class="w-full py-3 rounded-2xl bg-gray-100 text-gray-600 font-medium" data-i18n="common.done">完成</button>
+  </div>
+</div>
+
+<!-- Bottom Nav -->
+<nav class="bottom-nav">
+  <div class="flex">
+    <a href="dashboard.html" id="nav-home" class="nav-btn flex-1 flex flex-col items-center py-3 gap-0.5">
+      <span class="material-icons-round text-2xl nav-icon">home</span>
+      <span class="text-xs nav-label" data-i18n="nav.home">首页</span>
+    </a>
+    <a href="recipes.html" id="nav-recipes" class="nav-btn flex-1 flex flex-col items-center py-3 gap-0.5">
+      <span class="material-icons-round text-2xl nav-icon">menu_book</span>
+      <span class="text-xs nav-label" data-i18n="nav.recipes">菜谱</span>
+    </a>
+    <a href="publish.html" class="flex-1 flex flex-col items-center py-3 gap-0.5 relative">
+      <div class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center -mt-6 shadow-lg shadow-orange-200">
+        <span class="material-icons-round text-white text-2xl">add</span>
+      </div>
+      <span class="text-xs text-gray-400 mt-0.5" data-i18n="nav.publish">发布</span>
+    </a>
+    <a href="machines.html" id="nav-machines" class="nav-btn flex-1 flex flex-col items-center py-3 gap-0.5">
+      <span class="material-icons-round text-2xl nav-icon">precision_manufacturing</span>
+      <span class="text-xs nav-label" data-i18n="nav.machines">机器</span>
+    </a>
+    <a href="profile.html" id="nav-profile" class="nav-btn flex-1 flex flex-col items-center py-3 gap-0.5">
+      <span class="material-icons-round text-2xl nav-icon">person_outline</span>
+      <span class="text-xs nav-label" data-i18n="nav.profile">我的</span>
+    </a>
+  </div>
+</nav>
+
+<div id="toast"></div>
+
+<script src="js/i18n.js"></script>
+<script src="js/app.js"></script>
+<script>
+  requireAuth();
+  initNavBar('nav-home');
+
+  let currentStoreId = null;
+
+  function renderStores() {
+    const list = getVisibleStores();
+    const el = document.getElementById('store-list');
+    const empty = document.getElementById('empty-state');
+    const createBtn = document.getElementById('create-store-btn');
+    const user = getCurrentDemoUser();
+    const canCreate = canCreateStore();
+
+    // Show/hide create button based on role
+    createBtn.style.display = canCreate ? 'flex' : 'none';
+
+    if (!list.length) {
+      el.innerHTML = '';
+      empty.classList.remove('hidden');
+      empty.querySelector('button').style.display = canCreate ? 'inline-block' : 'none';
+      return;
+    }
+    empty.classList.add('hidden');
+
+    el.innerHTML = list.map(s => {
+      const machines = s.machineIds.map(id => DEMO_MACHINES.find(m => m.id === id)).filter(Boolean);
+      const onlineCount = machines.filter(m => m.status !== 'offline').length;
+
+      return `<div class="bg-white rounded-2xl p-4 shadow-sm">
+        <div class="flex justify-between items-start mb-3">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center">
+              <span class="material-icons-round text-blue-500 text-2xl">store</span>
+            </div>
+            <div>
+              <p class="font-bold text-gray-800">${getStoreName(s)}</p>
+              <p class="text-gray-400 text-xs">${getStoreAddress(s)}</p>
+            </div>
+          </div>
+        </div>
+        <div class="grid grid-cols-3 gap-2 text-center text-sm mb-3">
+          <div class="bg-gray-50 rounded-xl py-2">
+            <p class="text-blue-500 font-bold">${s.machineIds.length}</p>
+            <p class="text-gray-400 text-xs" data-i18n="stores.machines_count">台机器</p>
+          </div>
+          <div class="bg-gray-50 rounded-xl py-2">
+            <p class="text-orange-500 font-bold">${s.todayDishes}</p>
+            <p class="text-gray-400 text-xs" data-i18n="stores.today_dishes">今日已炒</p>
+          </div>
+          <div class="bg-gray-50 rounded-xl py-2">
+            <p class="text-green-500 font-bold">${onlineCount}/${s.machineIds.length}</p>
+            <p class="text-gray-400 text-xs" data-i18n="common.online">在线</p>
+          </div>
+        </div>
+        <div class="flex gap-2">
+          <button onclick="openMachinesModal(${s.id})" class="flex-1 py-2 rounded-xl bg-orange-500 text-white text-sm font-medium" data-i18n="stores.manage_btn">管理机器</button>
+          ${canCreate ? `<button onclick="doDeleteStore(${s.id})" class="py-2 px-3 rounded-xl bg-gray-100 text-gray-500 text-sm"><span class="material-icons-round text-lg">delete_outline</span></button>` : ''}
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  function openCreateModal() {
+    document.getElementById('store-name').value = '';
+    document.getElementById('store-addr').value = '';
+    document.getElementById('create-modal').classList.add('open');
+  }
+  function closeCreateModal(event) {
+    if (event && event.target !== document.getElementById('create-modal')) return;
+    document.getElementById('create-modal').classList.remove('open');
+  }
+
+  function doCreateStore() {
+    const name = document.getElementById('store-name').value.trim();
+    if (!name) {
+      showToast(getLang() === 'zh' ? '请输入门店名称' : 'Please enter store name');
+      return;
+    }
+    closeCreateModal();
+    showToast(t('stores.create_success'));
+    renderStores();
+  }
+
+  function openMachinesModal(storeId) {
+    currentStoreId = storeId;
+    const store = getStoreById(storeId);
+    if (!store) return;
+
+    document.getElementById('store-name-display').textContent = getStoreName(store);
+    const machines = store.machineIds.map(id => DEMO_MACHINES.find(m => m.id === id)).filter(Boolean);
+    const listEl = document.getElementById('store-machines-list');
+
+    if (!machines.length) {
+      listEl.innerHTML = `<p class="text-gray-400 text-sm text-center py-4">${getLang() === 'zh' ? '该门店暂无机器' : 'No machines in this store'}</p>`;
+    } else {
+      listEl.innerHTML = machines.map(m => {
+        const statusClass = getMachineStatusClass(m.status);
+        const statusLabel = getMachineStatusLabel(m.status);
+        return `<div class="flex items-center gap-3 bg-gray-50 rounded-2xl px-4 py-3">
+          <span class="material-icons-round text-orange-500">precision_manufacturing</span>
+          <div class="flex-1">
+            <p class="font-semibold text-gray-800 text-sm">${m.serial}</p>
+            <p class="text-gray-400 text-xs">${m.totalDishes} ${t('machines.dishes_unit')}</p>
+          </div>
+          <span class="tag ${statusClass} text-xs">${statusLabel}</span>
+        </div>`;
+      }).join('');
+    }
+    document.getElementById('machines-modal').classList.add('open');
+  }
+
+  function closeMachinesModal(event) {
+    if (event && event.target !== document.getElementById('machines-modal')) return;
+    document.getElementById('machines-modal').classList.remove('open');
+    currentStoreId = null;
+  }
+
+  function doDeleteStore(storeId) {
+    if (confirm(t('stores.delete_confirm'))) {
+      showToast(t('stores.delete_success'));
+      renderStores();
+    }
+  }
+
+  function onLangChange() {
+    renderStores();
+  }
+
+  renderStores();
+</script>
+</body>
+</html>

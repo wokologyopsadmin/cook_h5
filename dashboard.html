@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>" />
+  <title>Wokology — 首页</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="bg-gray-50" data-page-title="dashboard.today_stats">
+
+<div class="page-wrap fade-in">
+
+  <!-- Hero Header -->
+  <div class="hero-gradient px-5 pt-12 pb-8 text-white relative overflow-hidden">
+    <div class="absolute top-0 right-0 w-56 h-56 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+    <div class="absolute bottom-0 left-0 w-32 h-32 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2"></div>
+    <div class="flex justify-between items-center relative z-10">
+      <div>
+        <p id="greeting" class="text-white/80 text-sm">早上好 👋</p>
+        <p id="user-role" class="text-white/60 text-xs mt-0.5">系统管理员</p>
+        <h1 class="text-2xl font-bold">Wokology</h1>
+      </div>
+      <div class="w-11 h-11 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-2xl border border-white/30 cursor-pointer"
+        onclick="window.location.href='profile.html'">🤖</div>
+    </div>
+  </div>
+
+  <!-- Stats Row -->
+  <div class="px-5 -mt-5 relative z-10">
+    <div class="bg-white rounded-2xl shadow-sm p-4 grid grid-cols-3 gap-0 divide-x divide-gray-100">
+      <div class="text-center px-2">
+        <p class="text-2xl font-bold text-orange-500" id="stat-dishes">41</p>
+        <p class="text-xs text-gray-500 mt-0.5" data-i18n="dashboard.dishes_cooked">今日烹饪</p>
+      </div>
+      <div class="text-center px-2">
+        <p class="text-2xl font-bold text-green-500" id="stat-machines">3</p>
+        <p class="text-xs text-gray-500 mt-0.5" data-i18n="dashboard.online_machines">在线机器</p>
+      </div>
+      <div class="text-center px-2">
+        <p class="text-2xl font-bold text-blue-500" id="stat-stores">2</p>
+        <p class="text-xs text-gray-500 mt-0.5" data-i18n="dashboard.total_stores">门店数量</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="px-5 mt-5">
+    <h2 class="text-base font-bold text-gray-800 mb-3" data-i18n="dashboard.quick_actions">快捷操作</h2>
+    <div class="grid grid-cols-4 gap-3">
+      <a href="recipes.html" class="flex flex-col items-center gap-1.5 bg-white rounded-2xl py-4 shadow-sm card-press">
+        <span class="text-2xl">📖</span>
+        <span class="text-xs text-gray-600 font-medium text-center" data-i18n="dashboard.go_recipes">浏览菜谱</span>
+      </a>
+      <a href="machines.html" class="flex flex-col items-center gap-1.5 bg-white rounded-2xl py-4 shadow-sm card-press">
+        <span class="text-2xl">🤖</span>
+        <span class="text-xs text-gray-600 font-medium text-center" data-i18n="dashboard.go_machines">管理机器</span>
+      </a>
+      <a href="stores.html" class="flex flex-col items-center gap-1.5 bg-white rounded-2xl py-4 shadow-sm card-press">
+        <span class="text-2xl">🏪</span>
+        <span class="text-xs text-gray-600 font-medium text-center" data-i18n="dashboard.go_stores">门店管理</span>
+      </a>
+      <a href="publish.html" class="flex flex-col items-center gap-1.5 bg-white rounded-2xl py-4 shadow-sm card-press">
+        <span class="text-2xl">📝</span>
+        <span class="text-xs text-gray-600 font-medium text-center" data-i18n="dashboard.go_publish">发布菜谱</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- My Stores -->
+  <div class="px-5 mt-5">
+    <div class="flex justify-between items-center mb-3">
+      <h2 class="text-base font-bold text-gray-800" data-i18n="dashboard.my_stores">我的门店</h2>
+      <a href="stores.html" class="text-orange-500 text-sm font-medium" data-i18n="common.view_all">查看全部</a>
+    </div>
+    <div id="stores-list" class="space-y-3"></div>
+  </div>
+
+  <!-- Recent Activity -->
+  <div class="px-5 mt-5 mb-4">
+    <h2 class="text-base font-bold text-gray-800 mb-3" data-i18n="dashboard.activity">最近动态</h2>
+    <div id="activity-list" class="space-y-2"></div>
+  </div>
+
+</div>
+
+<!-- Bottom Nav -->
+<nav class="bottom-nav">
+  <div class="flex">
+    <a href="dashboard.html" id="nav-home" class="nav-btn active flex-1 flex flex-col items-center py-3 gap-0.5">
+      <span class="material-icons-round text-2xl nav-icon">home</span>
+      <span class="text-xs nav-label" data-i18n="nav.home">首页</span>
+    </a>
+    <a href="recipes.html" id="nav-recipes" class="nav-btn flex-1 flex flex-col items-center py-3 gap-0.5">
+      <span class="material-icons-round text-2xl nav-icon">menu_book</span>
+      <span class="text-xs nav-label" data-i18n="nav.recipes">菜谱</span>
+    </a>
+    <a href="publish.html" class="flex-1 flex flex-col items-center py-3 gap-0.5 relative">
+      <div class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center -mt-6 shadow-lg shadow-orange-200">
+        <span class="material-icons-round text-white text-2xl">add</span>
+      </div>
+      <span class="text-xs text-gray-400 mt-0.5" data-i18n="nav.publish">发布</span>
+    </a>
+    <a href="machines.html" id="nav-machines" class="nav-btn flex-1 flex flex-col items-center py-3 gap-0.5">
+      <span class="material-icons-round text-2xl nav-icon">precision_manufacturing</span>
+      <span class="text-xs nav-label" data-i18n="nav.machines">机器</span>
+    </a>
+    <a href="profile.html" id="nav-profile" class="nav-btn flex-1 flex flex-col items-center py-3 gap-0.5">
+      <span class="material-icons-round text-2xl nav-icon">person_outline</span>
+      <span class="text-xs nav-label" data-i18n="nav.profile">我的</span>
+    </a>
+  </div>
+</nav>
+
+<div id="toast"></div>
+
+<script src="js/i18n.js"></script>
+<script src="js/app.js"></script>
+<script>
+  requireAuth();
+  initNavBar('nav-home');
+
+  function renderStores() {
+    const stores = getVisibleStores();
+    const el = document.getElementById('stores-list');
+    if (!stores.length) {
+      const user = getCurrentDemoUser();
+      const canCreate = canCreateStore();
+      el.innerHTML = `<div class="text-center py-8 text-gray-400">
+        <span class="material-icons-round text-4xl block mb-2 text-gray-200">store_mall_directory</span>
+        <p class="text-sm">${user.role === 'store_manager' ? t('dashboard.no_stores_manager') : t('dashboard.no_stores')}</p>
+        ${canCreate ? `<a href="stores.html" class="inline-block mt-3 bg-orange-500 text-white text-sm font-medium px-5 py-2 rounded-xl">${t('dashboard.create_store')}</a>` : ''}
+      </div>`;
+      return;
+    }
+    el.innerHTML = stores.map(s => {
+      const name = getStoreName(s);
+      const addr = getStoreAddress(s);
+      const online = s.machineIds.filter(id => {
+        const m = DEMO_MACHINES.find(m => m.id === id);
+        return m && m.status !== 'offline';
+      }).length;
+      return `<a href="stores.html" class="block bg-white rounded-2xl p-4 shadow-sm card-press">
+        <div class="flex justify-between items-start mb-2">
+          <div>
+            <p class="font-bold text-gray-800">${name}</p>
+            <p class="text-gray-400 text-xs mt-0.5">${addr}</p>
+          </div>
+          <span class="tag s-online text-xs">${online} ${t('dashboard.machines_unit')}</span>
+        </div>
+        <div class="flex gap-4 text-sm text-gray-500">
+          <span class="flex items-center gap-1">
+            <span class="material-icons-round text-orange-400" style="font-size:15px">soup_kitchen</span>
+            ${s.todayDishes} ${t('dashboard.dishes_label')}
+          </span>
+          <span class="flex items-center gap-1">
+            <span class="material-icons-round text-blue-400" style="font-size:15px">precision_manufacturing</span>
+            ${s.machineIds.length} ${t('dashboard.machines_unit')}
+          </span>
+        </div>
+      </a>`;
+    }).join('');
+  }
+
+  function renderActivity() {
+    const lang = getLang();
+    const items = lang === 'zh' ? [
+      { icon: 'soup_kitchen', color: 'text-orange-400', text: '市中心店 CRB-001 完成烹饪「匈牙利牛肉炖」', time: '5分钟前' },
+      { icon: 'precision_manufacturing', color: 'text-green-400', text: '新机器 CRB-004 已上线', time: '22分钟前' },
+      { icon: 'menu_book', color: 'text-blue-400', text: '菜谱「香草烤羊排」已下发到 CRB-002', time: '1小时前' },
+      { icon: 'store_mall_directory', color: 'text-purple-400', text: '西区门店今日累计烹饪 17 道菜', time: '今天 08:00' },
+    ] : [
+      { icon: 'soup_kitchen', color: 'text-orange-400', text: 'Market Central CRB-001 finished cooking "Hungarian Beef Goulash"', time: '5 min ago' },
+      { icon: 'precision_manufacturing', color: 'text-green-400', text: 'New machine CRB-004 is online', time: '22 min ago' },
+      { icon: 'menu_book', color: 'text-blue-400', text: 'Recipe "Herb Lamb Chops" sent to CRB-002', time: '1 hour ago' },
+      { icon: 'store_mall_directory', color: 'text-purple-400', text: 'West Budapest Branch: 17 dishes cooked today', time: 'Today 08:00' },
+    ];
+    document.getElementById('activity-list').innerHTML = items.map(a => `
+      <div class="bg-white rounded-xl px-4 py-3 flex items-center gap-3 shadow-sm">
+        <span class="material-icons-round ${a.color}" style="font-size:20px">${a.icon}</span>
+        <div class="flex-1 min-w-0">
+          <p class="text-gray-700 text-sm truncate">${a.text}</p>
+          <p class="text-gray-400 text-xs mt-0.5">${a.time}</p>
+        </div>
+      </div>`).join('');
+  }
+
+  function updateStats() {
+    const stores = getVisibleStores();
+    const machines = getVisibleMachines();
+    const onlineMachines = machines.filter(m => m.status !== 'offline');
+    const totalDishes = stores.reduce((sum, s) => sum + s.todayDishes, 0);
+
+    document.getElementById('stat-dishes').textContent = totalDishes;
+    document.getElementById('stat-machines').textContent = onlineMachines.length;
+    document.getElementById('stat-stores').textContent = stores.length;
+  }
+
+  function onLangChange() {
+    const user = getUser();
+    document.getElementById('greeting').textContent = getGreeting(getUserName(user));
+    document.getElementById('user-role').textContent = getUserRoleLabel(user);
+    renderStores();
+    renderActivity();
+  }
+
+  // Init
+  const user = getUser();
+  document.getElementById('greeting').textContent = getGreeting(getUserName(user));
+  document.getElementById('user-role').textContent = getUserRoleLabel(user);
+  updateStats();
+  renderStores();
+  renderActivity();
+</script>
+</body>
+</html>
