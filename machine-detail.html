@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>" />
+  <title>Wokology — 机器详情</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="js/app.js"></script>
+  <script src="js/i18n.js"></script>
+</head>
+<body class="bg-gray-50" data-page-title="machine_detail.title">
+
+<div class="page-wrap fade-in">
+
+  <!-- Header -->
+  <div class="bg-white px-5 pt-12 pb-4 sticky top-0 z-10 shadow-sm">
+    <div class="flex items-center gap-3">
+      <button onclick="goBack()" class="btn-icon">
+        <span class="material-icons-round text-gray-600">arrow_back</span>
+      </button>
+      <div class="flex-1">
+        <h1 class="text-lg font-bold text-gray-800" id="machine-title">CRB-001</h1>
+        <p class="text-xs text-gray-400" id="machine-store">市中心店</p>
+      </div>
+      <span id="machine-status-badge" class="tag s-cooking">烹饪中</span>
+    </div>
+  </div>
+
+  <!-- Status Card -->
+  <div class="px-5 pt-4">
+    <div class="bg-white rounded-2xl p-5 shadow-sm">
+      <h3 class="text-sm font-semibold text-gray-500 mb-4" data-i18n="machine_detail.current_status">当前状态</h3>
+
+      <div class="grid grid-cols-3 gap-4 mb-4">
+        <div class="text-center">
+          <div class="text-2xl font-bold text-orange-500" id="current-temp">185°C</div>
+          <div class="text-xs text-gray-400 mt-1" data-i18n="machine_detail.temperature">温度</div>
+        </div>
+        <div class="text-center border-l border-r border-gray-100">
+          <div class="text-2xl font-bold text-blue-500" id="current-power">85%</div>
+          <div class="text-xs text-gray-400 mt-1" data-i18n="machine_detail.power">功率</div>
+        </div>
+        <div class="text-center">
+          <div class="text-2xl font-bold text-green-500" id="current-time">12:30</div>
+          <div class="text-xs text-gray-400 mt-1" data-i18n="machine_detail.runtime">运行时长</div>
+        </div>
+      </div>
+
+      <!-- Current Cooking -->
+      <div id="cooking-info" class="bg-orange-50 rounded-xl p-4 mt-3">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
+            <span class="material-icons-round text-orange-500">soup_kitchen</span>
+          </div>
+          <div class="flex-1">
+            <div class="text-sm font-semibold text-gray-800" id="cooking-recipe">匈牙利牛肉炖</div>
+            <div class="text-xs text-gray-500 mt-0.5" id="cooking-progress">进度 65% · 预计还需 15分钟</div>
+          </div>
+        </div>
+        <div class="mt-3 bg-orange-200 rounded-full h-2 overflow-hidden">
+          <div id="progress-bar" class="bg-orange-500 h-full rounded-full transition-all duration-500"></div>
+        </div>
+      </div>
+
+      <!-- Idle State -->
+      <div id="idle-info" class="hidden bg-blue-50 rounded-xl p-4 mt-3">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
+            <span class="material-icons-round text-blue-500">pause_circle</span>
+          </div>
+          <div class="flex-1">
+            <div class="text-sm font-semibold text-gray-800" data-i18n="machine_detail.idle_hint">机器空闲中</div>
+            <div class="text-xs text-gray-500 mt-0.5" data-i18n="machine_detail.idle_desc">可以发送新菜谱开始烹饪</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Offline State -->
+      <div id="offline-info" class="hidden bg-gray-100 rounded-xl p-4 mt-3">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 bg-gray-200 rounded-xl flex items-center justify-center">
+            <span class="material-icons-round text-gray-400">power_off</span>
+          </div>
+          <div class="flex-1">
+            <div class="text-sm font-semibold text-gray-600" data-i18n="machine_detail.offline_hint">机器已离线</div>
+            <div class="text-xs text-gray-400 mt-0.5" data-i18n="machine_detail.offline_desc">请检查电源和网络连接</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Material Status -->
+  <div class="px-5 pt-4">
+    <div class="bg-white rounded-2xl p-5 shadow-sm">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-sm font-semibold text-gray-500" data-i18n="machine_detail.materials">物料状态</h3>
+        <button onclick="openMaterialModal()" class="text-xs text-orange-500 font-medium" data-i18n="machine_detail.refill">补充物料</button>
+      </div>
+
+      <div class="space-y-3" id="material-list">
+        <!-- Dynamically rendered by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Statistics -->
+  <div class="px-5 pt-4">
+    <div class="bg-white rounded-2xl p-5 shadow-sm">
+      <h3 class="text-sm font-semibold text-gray-500 mb-4" data-i18n="machine_detail.statistics">统计数据</h3>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-4">
+          <div class="text-2xl font-bold text-orange-600" id="stat-today">24</div>
+          <div class="text-xs text-orange-500 mt-1" data-i18n="machine_detail.today_dishes">今日烹饪</div>
+        </div>
+        <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-4">
+          <div class="text-2xl font-bold text-blue-600" id="stat-total">1,247</div>
+          <div class="text-xs text-blue-500 mt-1" data-i18n="machine_detail.total_dishes">累计烹饪</div>
+        </div>
+        <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-4">
+          <div class="text-2xl font-bold text-green-600" id="stat-hours">156</div>
+          <div class="text-xs text-green-500 mt-1" data-i18n="machine_detail.total_hours">累计工时(h)</div>
+        </div>
+        <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-4">
+          <div class="text-2xl font-bold text-purple-600" id="stat-avg">4.2</div>
+          <div class="text-xs text-purple-500 mt-1" data-i18n="machine_detail.avg_time">平均时长(min)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent History -->
+  <div class="px-5 pt-4 pb-4">
+    <div class="bg-white rounded-2xl p-5 shadow-sm">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-sm font-semibold text-gray-500" data-i18n="machine_detail.history">历史记录</h3>
+        <button onclick="toggleHistoryView()" class="text-xs text-orange-500 font-medium" data-i18n="machine_detail.view_more">查看更多</button>
+      </div>
+
+      <div class="space-y-3" id="history-list">
+        <!-- History items will be rendered by JS -->
+      </div>
+
+      <div id="expanded-history" class="space-y-3 hidden">
+        <!-- More history items -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="px-5 pb-6">
+    <div class="flex gap-3">
+      <button onclick="sendRecipe()" class="flex-1 bg-orange-500 text-white rounded-xl py-3 font-semibold text-sm flex items-center justify-center gap-2">
+        <span class="material-icons-round text-lg">send</span>
+        <span data-i18n="machine_detail.send_recipe">发送菜谱</span>
+      </button>
+      <button onclick="openSettings()" class="w-14 bg-white rounded-xl shadow-sm flex items-center justify-center">
+        <span class="material-icons-round text-gray-500">settings</span>
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<!-- Material Refill Modal -->
+<div id="material-modal" class="modal-overlay" onclick="closeMaterialModal(event)">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <h3 class="text-base font-bold text-gray-800 mb-4" data-i18n="machine_detail.refill_title">补充物料</h3>
+    <div id="refill-options" class="space-y-3">
+      <!-- Will be populated by JS -->
+    </div>
+    <button onclick="closeMaterialModal()" class="w-full py-3 rounded-2xl bg-gray-100 text-gray-600 font-medium mt-4" data-i18n="common.cancel">取消</button>
+  </div>
+</div>
+
+<!-- Recipe Select Modal -->
+<div id="recipe-modal" class="modal-overlay" onclick="closeRecipeModal(event)">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <h3 class="text-base font-bold text-gray-800 mb-4" data-i18n="machine_detail.select_recipe">选择菜谱</h3>
+    <div id="recipe-options" class="space-y-2 max-h-64 overflow-y-auto">
+      <!-- Will be populated by JS -->
+    </div>
+    <button onclick="closeRecipeModal()" class="w-full py-3 rounded-2xl bg-gray-100 text-gray-600 font-medium mt-4" data-i18n="common.cancel">取消</button>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// Get machine ID from URL
+const urlParams = new URLSearchParams(window.location.search);
+const machineId = parseInt(urlParams.get('id')) || 1;
+
+// Machine detail data (extended from DEMO_MACHINES)
+const MACHINE_DETAILS = {
+  1: {
+    power: 85,
+    runtime: '12:30',
+    currentRecipe: { id: 1, progress: 65, remaining: 15 },
+    materials: { oil: 75, water: 90, seasoning: 15, cleaner: 60 },
+    stats: { todayDishes: 24, totalDishes: 1247, totalHours: 156, avgTime: 4.2 },
+    history: [
+      { recipe: '匈牙利牛肉炖', time: '10:30', status: 'completed' },
+      { recipe: '红椒鸡肉炖', time: '09:15', status: 'completed' },
+      { recipe: '黄油蒜香虾', time: '08:45', status: 'completed' },
+      { recipe: '烤时令蔬菜', time: '昨天 18:20', status: 'completed' },
+      { recipe: '香草烤全鸡', time: '昨天 16:00', status: 'completed' },
+    ]
+  },
+  2: {
+    power: 0,
+    runtime: '-',
+    currentRecipe: null,
+    materials: { oil: 50, water: 80, seasoning: 45, cleaner: 70 },
+    stats: { todayDishes: 12, totalDishes: 893, totalHours: 98, avgTime: 5.1 },
+    history: [
+      { recipe: '匈牙利猪肉炖', time: '14:20', status: 'completed' },
+      { recipe: '蘑菇素炒', time: '12:00', status: 'completed' },
+      { recipe: '煎三文鱼', time: '昨天 19:30', status: 'completed' },
+    ]
+  },
+  3: {
+    power: 60,
+    runtime: '05:15',
+    currentRecipe: null,
+    materials: { oil: 85, water: 95, seasoning: 60, cleaner: 40 },
+    stats: { todayDishes: 17, totalDishes: 562, totalHours: 72, avgTime: 3.8 },
+    history: [
+      { recipe: '海鲜意面', time: '11:00', status: 'completed' },
+      { recipe: '匈牙利渔夫汤', time: '09:30', status: 'completed' },
+    ]
+  },
+  4: {
+    power: 0,
+    runtime: '-',
+    currentRecipe: null,
+    materials: { oil: 0, water: 0, seasoning: 0, cleaner: 0 },
+    stats: { todayDishes: 0, totalDishes: 78, totalHours: 12, avgTime: 6.5 },
+    history: [
+      { recipe: '烤时令蔬菜', time: '2天前', status: 'completed' },
+    ]
+  }
+};
+
+let historyExpanded = false;
+
+// Initialize page
+function init() {
+  const machine = DEMO_MACHINES.find(m => m.id === machineId);
+  if (!machine) {
+    showToast('机器不存在');
+    setTimeout(() => window.location.href = 'machines.html', 1500);
+    return;
+  }
+
+  const detail = MACHINE_DETAILS[machineId] || MACHINE_DETAILS[1];
+
+  // Set header
+  document.getElementById('machine-title').textContent = machine.serial;
+  const store = machine.storeId ? getStoreById(machine.storeId) : null;
+  document.getElementById('machine-store').textContent = store ? getStoreName(store) : t('machines.not_bound');
+
+  // Set status badge
+  const badge = document.getElementById('machine-status-badge');
+  badge.textContent = getMachineStatusLabel(machine.status);
+  badge.className = 'tag ' + getMachineStatusClass(machine.status);
+
+  // Set status info
+  document.getElementById('current-temp').textContent = machine.temp + '°C';
+  document.getElementById('current-power').textContent = detail.power + '%';
+  document.getElementById('current-runtime').textContent = detail.runtime;
+
+  // Show appropriate state
+  const cookingInfo = document.getElementById('cooking-info');
+  const idleInfo = document.getElementById('idle-info');
+  const offlineInfo = document.getElementById('offline-info');
+
+  cookingInfo.classList.add('hidden');
+  idleInfo.classList.add('hidden');
+  offlineInfo.classList.add('hidden');
+
+  if (machine.status === 'cooking' && detail.currentRecipe) {
+    cookingInfo.classList.remove('hidden');
+    const recipe = DEMO_RECIPES.find(r => r.id === detail.currentRecipe.id);
+    if (recipe) {
+      document.getElementById('cooking-recipe').textContent = getRecipeName(recipe);
+      document.getElementById('cooking-progress').textContent =
+        `${t('machine_detail.progress')} ${detail.currentRecipe.progress}% · ${t('machine_detail.remaining')} ${detail.currentRecipe.remaining}${t('common.min')}`;
+      document.getElementById('progress-bar').style.width = detail.currentRecipe.progress + '%';
+    }
+  } else if (machine.status === 'offline') {
+    offlineInfo.classList.remove('hidden');
+  } else {
+    idleInfo.classList.remove('hidden');
+  }
+
+  // Set materials
+  updateMaterials(detail.materials);
+
+  // Set statistics
+  document.getElementById('stat-today').textContent = detail.stats.todayDishes;
+  document.getElementById('stat-total').textContent = detail.stats.totalDishes.toLocaleString();
+  document.getElementById('stat-hours').textContent = detail.stats.totalHours;
+  document.getElementById('stat-avg').textContent = detail.stats.avgTime;
+
+  // Render history
+  renderHistory(detail.history);
+}
+
+function updateMaterials(materials) {
+  const list = document.getElementById('material-list');
+  const items = [
+    { key: 'oil', icon: 'water_drop', color: 'yellow', label: t('machine_detail.oil'), value: materials.oil },
+    { key: 'water', icon: 'opacity', color: 'blue', label: t('machine_detail.water'), value: materials.water },
+    { key: 'seasoning', icon: 'grain', color: 'orange', label: t('machine_detail.seasoning'), value: materials.seasoning },
+    { key: 'cleaner', icon: 'cleaning_services', color: 'green', label: t('machine_detail.cleaner'), value: materials.cleaner },
+  ];
+
+  list.innerHTML = items.map(item => {
+    const isLow = item.value < 20;
+    const barColor = isLow ? 'bg-red-500' : `bg-${item.color}-500`;
+    const statusText = isLow ? `<span class="text-xs text-red-500 font-medium">${t('machine_detail.low')}</span>` : `<span class="text-xs text-gray-500">${item.value}%</span>`;
+
+    return `
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-${item.color}-100 rounded-xl flex items-center justify-center">
+          <span class="material-icons-round text-${item.color}-600 text-lg">${item.icon}</span>
+        </div>
+        <div class="flex-1">
+          <div class="flex justify-between items-center">
+            <span class="text-sm font-medium text-gray-700">${item.label}</span>
+            ${statusText}
+          </div>
+          <div class="mt-1.5 bg-gray-200 rounded-full h-1.5 overflow-hidden">
+            <div class="${barColor} h-full rounded-full" style="width: ${item.value}%"></div>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderHistory(history) {
+  const list = document.getElementById('history-list');
+  list.innerHTML = history.slice(0, 3).map(item => `
+    <div class="flex items-center gap-3 py-2">
+      <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+        <span class="material-icons-round text-green-500 text-sm">check_circle</span>
+      </div>
+      <div class="flex-1">
+        <div class="text-sm font-medium text-gray-700">${item.recipe}</div>
+        <div class="text-xs text-gray-400">${item.time}</div>
+      </div>
+      <span class="text-xs text-green-500 font-medium">${t('machine_detail.completed')}</span>
+    </div>
+  `).join('');
+}
+
+function toggleHistoryView() {
+  historyExpanded = !historyExpanded;
+  const detail = MACHINE_DETAILS[machineId] || MACHINE_DETAILS[1];
+  const expandedDiv = document.getElementById('expanded-history');
+
+  if (historyExpanded) {
+    expandedDiv.classList.remove('hidden');
+    expandedDiv.innerHTML = detail.history.slice(3).map(item => `
+      <div class="flex items-center gap-3 py-2">
+        <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+          <span class="material-icons-round text-green-500 text-sm">check_circle</span>
+        </div>
+        <div class="flex-1">
+          <div class="text-sm font-medium text-gray-700">${item.recipe}</div>
+          <div class="text-xs text-gray-400">${item.time}</div>
+        </div>
+        <span class="text-xs text-green-500 font-medium">${t('machine_detail.completed')}</span>
+      </div>
+    `).join('');
+  } else {
+    expandedDiv.classList.add('hidden');
+  }
+}
+
+function goBack() {
+  window.location.href = 'machines.html';
+}
+
+function openMaterialModal() {
+  const detail = MACHINE_DETAILS[machineId] || MACHINE_DETAILS[1];
+  const options = document.getElementById('refill-options');
+  const items = ['oil', 'water', 'seasoning', 'cleaner'];
+  const labels = {
+    oil: t('machine_detail.oil'),
+    water: t('machine_detail.water'),
+    seasoning: t('machine_detail.seasoning'),
+    cleaner: t('machine_detail.cleaner')
+  };
+
+  options.innerHTML = items.map(key => `
+    <label class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl cursor-pointer hover:bg-gray-100 transition-colors">
+      <input type="checkbox" class="w-5 h-5 accent-orange-500" value="${key}" ${detail.materials[key] < 30 ? 'checked' : ''}>
+      <span class="text-sm font-medium text-gray-700">${labels[key]}</span>
+      <span class="text-xs text-gray-400 ml-auto">${detail.materials[key]}%</span>
+    </label>
+  `).join('');
+
+  document.getElementById('material-modal').classList.add('open');
+}
+
+function closeMaterialModal(event) {
+  if (event && event.target !== event.currentTarget) return;
+  document.getElementById('material-modal').classList.remove('open');
+}
+
+function sendRecipe() {
+  const options = document.getElementById('recipe-options');
+  options.innerHTML = DEMO_RECIPES.slice(0, 10).map(r => `
+    <div class="flutter-list-tile" onclick="selectRecipe(${r.id})">
+      <div class="list-leading bg-orange-100">
+        <span class="material-icons-round text-orange-500">restaurant</span>
+      </div>
+      <div class="list-content">
+        <div class="list-title">${getRecipeName(r)}</div>
+        <div class="list-subtitle">${r.time}${t('recipes.min_unit')} · ${getDiffLabel(r.diff)}</div>
+      </div>
+    </div>
+  `).join('');
+
+  document.getElementById('recipe-modal').classList.add('open');
+}
+
+function closeRecipeModal(event) {
+  if (event && event.target !== event.currentTarget) return;
+  document.getElementById('recipe-modal').classList.remove('open');
+}
+
+function selectRecipe(recipeId) {
+  const recipe = DEMO_RECIPES.find(r => r.id === recipeId);
+  if (recipe) {
+    closeRecipeModal();
+    showToast(t('recipes.send_success') + ': ' + getRecipeName(recipe));
+    // In real app, would send to machine via API
+  }
+}
+
+function openSettings() {
+  showToast(t('common.loading'));
+}
+
+// Initialize on load
+document.addEventListener('DOMContentLoaded', init);
+</script>
+
+</body>
+</html>

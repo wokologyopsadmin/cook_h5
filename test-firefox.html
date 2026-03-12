@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Firefox 测试页面</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; max-width: 800px; margin: 0 auto; }
+    .success { color: green; font-weight: bold; }
+    .error { color: red; font-weight: bold; }
+    .test { margin: 10px 0; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
+  </style>
+</head>
+<body>
+  <h1>Firefox 兼容性测试</h1>
+  <div id="results"></div>
+  
+  <script>
+    const results = document.getElementById('results');
+    
+    function addTest(name, passed, message) {
+      const div = document.createElement('div');
+      div.className = 'test';
+      div.innerHTML = `
+        <strong>${name}:</strong> 
+        <span class="${passed ? 'success' : 'error'}">${passed ? '✓ 通过' : '✗ 失败'}</span>
+        ${message ? `<br><small>${message}</small>` : ''}
+      `;
+      results.appendChild(div);
+    }
+    
+    // Test 1: Basic JavaScript
+    addTest('基本 JavaScript', true, 'JavaScript 正常运行');
+    
+    // Test 2: LocalStorage
+    try {
+      localStorage.setItem('test', '1');
+      const val = localStorage.getItem('test');
+      localStorage.removeItem('test');
+      addTest('LocalStorage', val === '1', 'LocalStorage 可用');
+    } catch (e) {
+      addTest('LocalStorage', false, `错误: ${e.message}`);
+    }
+    
+    // Test 3: Const/Let
+    try {
+      const testConst = 'test';
+      let testLet = 'test';
+      addTest('ES6 语法 (const/let)', true, 'ES6 语法支持正常');
+    } catch (e) {
+      addTest('ES6 语法', false, `错误: ${e.message}`);
+    }
+    
+    // Test 4: Arrow functions
+    try {
+      const testArrow = () => 'test';
+      addTest('箭头函数', testArrow() === 'test', '箭头函数支持正常');
+    } catch (e) {
+      addTest('箭头函数', false, `错误: ${e.message}`);
+    }
+    
+    // Test 5: Template literals
+    try {
+      const name = 'World';
+      const test = `Hello ${name}`;
+      addTest('模板字符串', test === 'Hello World', '模板字符串支持正常');
+    } catch (e) {
+      addTest('模板字符串', false, `错误: ${e.message}`);
+    }
+    
+    // Test 6: DOM manipulation
+    try {
+      const testDiv = document.createElement('div');
+      testDiv.textContent = 'test';
+      addTest('DOM 操作', testDiv.textContent === 'test', 'DOM 操作正常');
+    } catch (e) {
+      addTest('DOM 操作', false, `错误: ${e.message}`);
+    }
+    
+    // Test 7: Check if we can define objects like I18N
+    try {
+      const I18N = {
+        zh: { 'test.key': '测试' },
+        en: { 'test.key': 'Test' }
+      };
+      addTest('对象定义', I18N.zh['test.key'] === '测试', '复杂对象定义正常');
+    } catch (e) {
+      addTest('对象定义', false, `错误: ${e.message}`);
+    }
+    
+    // Test 8: Array methods
+    try {
+      const arr = [1, 2, 3];
+      const filtered = arr.filter(x => x > 1);
+      const mapped = arr.map(x => x * 2);
+      addTest('数组方法', filtered.length === 2 && mapped[0] === 2, 'Array.filter/map 正常');
+    } catch (e) {
+      addTest('数组方法', false, `错误: ${e.message}`);
+    }
+    
+    // Summary
+    setTimeout(() => {
+      const summary = document.createElement('div');
+      summary.style.marginTop = '20px';
+      summary.style.padding = '15px';
+      summary.style.background = '#f0f0f0';
+      summary.style.borderRadius = '5px';
+      summary.innerHTML = '<h2>测试完成</h2><p>如果所有测试都通过，说明 Firefox 可以正常运行内联的 JavaScript 代码。</p>';
+      results.appendChild(summary);
+    }, 100);
+  </script>
+</body>
+</html>

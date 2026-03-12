@@ -183,8 +183,1816 @@
 <div id="toast"></div>
 </div>
 
-<script src="js/i18n.js"></script>
-<script src="js/app.js"></script>
+<script>
+// ── ChefHub i18n Module ─────────────────────────────
+// Default language: zh (Chinese)
+// Supported: zh, en
+// Usage: data-i18n="key"  →  textContent
+//        data-i18n-ph="key"  →  placeholder
+
+const I18N = {
+  zh: {
+    /* ── App ── */
+    'app.name': 'Wokology',
+
+    /* ── Common ── */
+    'common.back': '返回',
+    'common.save': '保存',
+    'common.cancel': '取消',
+    'common.edit': '编辑',
+    'common.delete': '删除',
+    'common.confirm': '确认',
+    'common.done': '完成',
+    'common.loading': '加载中...',
+    'common.send': '发送',
+    'common.create': '创建',
+    'common.bind': '绑定',
+    'common.unbind': '解绑',
+    'common.view_all': '查看全部',
+    'common.no_data': '暂无数据',
+    'common.logout': '退出登录',
+    'common.online': '在线',
+    'common.offline': '离线',
+    'common.idle': '空闲',
+    'common.cooking': '烹饪中',
+    'common.error': '故障',
+    'common.free': '免费',
+    'common.premium': '付费',
+    'common.all': '全部',
+    'common.min': '分钟',
+    'common.dishes': '道菜',
+    'common.required': '* 为必填项',
+
+    /* ── Bottom Nav ── */
+    'nav.home': '首页',
+    'nav.recipes': '菜谱',
+    'nav.publish': '发布',
+    'nav.machines': '机器',
+    'nav.profile': '我的',
+
+    /* ── Login ── */
+    'login.title': '欢迎使用',
+    'login.subtitle': '登录您的 Wokology 炒菜机器人管理账号',
+    'login.account_label': '账号',
+    'login.account_ph': '请输入邮箱或用户名',
+    'login.password_label': '密码',
+    'login.password_ph': '请输入密码',
+    'login.forgot': '忘记密码?',
+    'login.btn': '登 录',
+    'login.no_account': '还没有账号?',
+    'login.register_link': '立即注册',
+    'login.demo_hint': '演示模式：选择测试账号或输入任意账号密码登录',
+    'login.demo_accounts': '测试账号',
+    'login.role_admin': '系统管理员',
+    'login.role_newuser': '新用户',
+    'login.role_manager': '店长',
+
+    /* ── Register ── */
+    'register.title': '创建账号',
+    'register.subtitle': '注册即可管理您的炒菜机器人',
+    'register.name_label': '您的姓名',
+    'register.name_ph': '请输入您的姓名',
+    'register.email_label': '邮箱地址',
+    'register.email_ph': '请输入邮箱地址',
+    'register.send_code': '获取验证码',
+    'register.code_label': '邮箱验证码',
+    'register.code_ph': '请输入6位验证码',
+    'register.password_label': '设置密码',
+    'register.password_ph': '请设置登录密码（6位以上）',
+    'register.btn': '立即注册',
+    'register.have_account': '已有账号?',
+    'register.login_link': '立即登录',
+    'register.code_sent': '验证码已发送，请查收邮件',
+    'register.agree': '注册即同意',
+    'register.terms': '《服务条款》',
+    'register.and': '和',
+    'register.privacy': '《隐私政策》',
+
+    /* ── Dashboard ── */
+    'dashboard.today_stats': '今日数据',
+    'dashboard.dishes_cooked': '今日烹饪',
+    'dashboard.online_machines': '在线机器',
+    'dashboard.total_stores': '门店数量',
+    'dashboard.my_stores': '我的门店',
+    'dashboard.view_all': '查看全部',
+    'dashboard.no_stores': '还没有门店，快去创建吧',
+    'dashboard.no_stores_manager': '您还没有被分配门店',
+    'dashboard.create_store': '+ 创建门店',
+    'dashboard.machines_unit': '台机器',
+    'dashboard.dishes_unit': '今日已炒',
+    'dashboard.quick_actions': '快捷操作',
+    'dashboard.go_recipes': '浏览菜谱',
+    'dashboard.go_machines': '管理机器',
+    'dashboard.go_stores': '门店管理',
+    'dashboard.go_publish': '发布菜谱',
+    'dashboard.activity': '最近动态',
+    'dashboard.dishes_label': '道菜',
+
+    /* ── Recipes ── */
+    'recipes.title': '菜谱库',
+    'recipes.search_ph': '搜索菜谱名称...',
+    'recipes.cat_all': '全部',
+    'recipes.cat_beef': '🥩 牛肉',
+    'recipes.cat_lamb': '🍖 羊肉',
+    'recipes.cat_pork': '🥓 猪肉',
+    'recipes.cat_chicken': '🍗 鸡肉',
+    'recipes.cat_seafood': '🦐 海鲜',
+    'recipes.cat_veg': '🥦 素菜',
+    'recipes.ingredients': '所需食材',
+    'recipes.time': '烹饪时长',
+    'recipes.difficulty': '难度',
+    'recipes.send_btn': '发送到机器',
+    'recipes.choose_machine': '选择要下发的机器',
+    'recipes.send_confirm': '发送菜谱',
+    'recipes.send_success': '菜谱已发送',
+    'recipes.no_machine': '暂无可用机器，请先绑定机器',
+    'recipes.diff_easy': '简单',
+    'recipes.diff_medium': '中等',
+    'recipes.diff_hard': '较难',
+    'recipes.free_tag': '免费',
+    'recipes.premium_tag': '付费',
+    'recipes.no_results': '没有找到相关菜谱',
+    'recipes.min_unit': '分钟',
+    'recipes.detail_title': '食材明细',
+    'recipes.cancel': '取消',
+    'recipe.ingredients': '食材清单',
+    'recipe.steps': '烹饪步骤',
+    'recipe.tips': '小贴士',
+    'recipe.send_to_machine': '发送到机器',
+
+    /* ── Publish ── */
+    'publish.title': '发布菜谱',
+    'publish.cover_label': '封面图',
+    'publish.upload_btn': '点击上传封面图片',
+    'publish.upload_hint': '建议尺寸 16:9',
+    'publish.name_label': '菜谱名称 *',
+    'publish.name_ph': '给您的菜谱起个好名字...',
+    'publish.cat_label': '食材分类 *',
+    'publish.desc_label': '菜谱描述',
+    'publish.desc_ph': '描述这道菜的特点、口感、适合人群...',
+    'publish.time_label': '烹饪时长',
+    'publish.diff_label': '难度',
+    'publish.ing_label': '食材清单',
+    'publish.add_ing': '+ 添加食材',
+    'publish.ing_name_ph': '食材名称',
+    'publish.ing_amount_ph': '用量',
+    'publish.steps_label': '烹饪步骤',
+    'publish.add_step': '+ 添加步骤',
+    'publish.step_ph': '描述此步骤的操作...',
+    'publish.free_label': '设为免费菜谱（所有用户可使用）',
+    'publish.submit_btn': '立即发布',
+    'publish.success': '菜谱已发布成功！🎉',
+    'publish.required_tip': '请填写菜谱名称和分类',
+    'publish.time_15': '15分钟以内',
+    'publish.time_30': '15-30分钟',
+    'publish.time_60': '30-60分钟',
+    'publish.time_90': '60-90分钟',
+    'publish.time_over90': '90分钟以上',
+    'publish.diff_easy': '简单',
+    'publish.diff_medium': '中等',
+    'publish.diff_hard': '较难',
+
+    /* ── Machines ── */
+    'machines.title': '机器管理',
+    'machines.add_btn': '+ 添加机器',
+    'machines.serial': '序列号',
+    'machines.status': '状态',
+    'machines.store': '所属门店',
+    'machines.not_bound': '未绑定门店',
+    'machines.bind_btn': '绑定门店',
+    'machines.unbind_btn': '解绑',
+    'machines.temp': '当前温度',
+    'machines.total': '累计烹饪',
+    'machines.last_active': '最后在线',
+    'machines.no_machines': '还没有绑定机器，点击右上角添加',
+    'machines.no_machines_manager': '您管理的门店暂无机器',
+    'machines.add_title': '绑定新机器',
+    'machines.add_hint': '在机器底部贴纸上找到序列号',
+    'machines.serial_ph': '输入序列号（如 CRB-001）',
+    'machines.confirm_add_btn': '确认绑定',
+    'machines.add_success': '机器绑定成功！',
+    'machines.unbind_success': '机器已解绑',
+    'machines.unbind_confirm': '确认解绑此机器？',
+    'machines.bind_store_title': '选择门店',
+    'machines.bind_success': '门店绑定成功！',
+    'machines.dishes_unit': '道',
+    'machines.celcius': '°C',
+
+    /* ── Managers ── */
+    'managers.title': '管理人员',
+    'managers.add_btn': '添加',
+    'managers.no_managers': '暂无管理人员',
+    'managers.create_title': '创建管理人员',
+    'managers.edit_title': '编辑管理人员',
+    'managers.account_label': '账号 *',
+    'managers.account_ph': '登录账号（英文）',
+    'managers.name_label': '姓名 *',
+    'managers.name_ph': '管理人员姓名',
+    'managers.password_label': '初始密码 *',
+    'managers.password_ph': '设置初始密码',
+    'managers.email_label': '邮箱',
+    'managers.email_ph': '邮箱地址',
+    'managers.store_label': '管理门店',
+    'managers.store_select': '选择门店',
+    'managers.save_btn': '保存',
+    'managers.reset_title': '重置密码',
+    'managers.new_password_label': '新密码 *',
+    'managers.new_password_ph': '输入新密码',
+    'managers.reset_btn': '重置密码',
+    'managers.status_active': '正常',
+    'managers.status_inactive': '已停用',
+    'managers.email_verified': '已验证',
+    'managers.email_pending': '待验证',
+    'managers.no_store': '未分配门店',
+    'managers.edit_btn': '编辑',
+    'managers.reset_pwd_btn': '重置密码',
+    'managers.all_stores': '所有门店',
+    'managers.email_not_set': '未设置',
+    'managers.fill_required': '请填写必填项',
+    'managers.set_password': '请设置初始密码',
+    'managers.account_exists': '账号已存在',
+    'managers.updated': '已更新',
+    'managers.created': '创建成功',
+    'managers.enter_password': '请输入新密码',
+    'managers.password_reset': '密码已重置',
+    'managers.disable_confirm': '确定要停用该账号吗？停用后该用户将无法登录。',
+    'managers.enable_confirm': '确定要启用该账号吗？',
+    'managers.account_enabled': '账号已启用',
+    'managers.account_disabled': '账号已停用',
+
+    /* ── Email Verify ── */
+    'verify.title': '完善邮箱信息',
+    'verify.subtitle': '请填写并验证您的邮箱地址',
+    'verify.email_label': '邮箱地址 *',
+    'verify.email_ph': '请输入邮箱地址',
+    'verify.send_btn': '发送验证码',
+    'verify.code_sent': '验证码已发送，请查收邮件',
+    'verify.code_label': '验证码 *',
+    'verify.code_ph': '6位验证码',
+    'verify.verify_btn': '验证',
+    'verify.change_email': '更换邮箱',
+    'verify.success_title': '验证成功',
+    'verify.success_msg': '您的邮箱已验证通过',
+    'verify.continue_btn': '进入系统',
+    'verify.required_hint': '* 邮箱验证为必填项',
+
+    /* ── Stores ── */
+    'stores.title': '门店管理',
+    'stores.add_btn': '+ 创建门店',
+    'stores.machines_count': '台机器',
+    'stores.today_dishes': '今日已炒',
+    'stores.manage_btn': '管理机器',
+    'stores.no_stores': '还没有创建门店',
+    'stores.create_title': '创建新门店',
+    'stores.name_label': '门店名称 *',
+    'stores.name_ph': '例：市中心1号店',
+    'stores.addr_label': '门店地址',
+    'stores.addr_ph': '输入门店详细地址',
+    'stores.create_btn': '创建门店',
+    'stores.create_success': '门店创建成功！',
+    'stores.dishes_unit': '道菜',
+    'stores.machines_unit': '台机器',
+    'stores.delete_confirm': '确认删除此门店？',
+    'stores.delete_success': '门店已删除',
+
+    /* ── Profile ── */
+    'profile.title': '我的',
+    'profile.edit_btn': '编辑资料',
+    'profile.my_stores': '我的门店',
+    'profile.my_machines': '我的机器',
+    'profile.manage_staff': '人员管理',
+    'profile.my_recipes': '我的菜谱',
+    'profile.lang_section': '语言设置',
+    'profile.lang_zh': '中文',
+    'profile.lang_en': 'English',
+    'profile.notifications': '消息通知',
+    'profile.account': '账号设置',
+    'profile.help': '帮助与反馈',
+    'profile.about': '关于 Wokology',
+    'profile.version': '当前版本',
+    'profile.logout': '退出登录',
+    'profile.logout_confirm': '确认退出登录？',
+    'profile.account_type': '账号类型',
+    'profile.admin': '管理员',
+    'profile.member_since': '注册时间',
+    'profile.stores_stat': '门店',
+    'profile.machines_stat': '机器',
+    'profile.recipes_stat': '菜谱',
+    'profile.account_section': '账号设置',
+    'profile.more_section': '更多功能',
+    'profile.change_avatar': '修改头像',
+    'profile.change_nickname': '修改昵称',
+    'profile.change_password': '修改密码',
+    'profile.avatar_title': '选择头像',
+    'profile.avatar_saved': '头像已更新',
+    'profile.nickname_title': '修改昵称',
+    'profile.nickname_label': '昵称',
+    'profile.nickname_hint': '2-20个字符',
+    'profile.nickname_error': '昵称长度需在2-20个字符之间',
+    'profile.nickname_saved': '昵称已更新',
+    'profile.password_title': '修改密码',
+    'profile.old_password': '原密码',
+    'profile.new_password': '新密码',
+    'profile.confirm_password': '确认密码',
+    'profile.password_hint': '至少6个字符',
+    'profile.password_empty': '请填写所有密码字段',
+    'profile.password_short': '新密码至少需要6个字符',
+    'profile.password_mismatch': '两次输入的密码不一致',
+    'profile.password_wrong': '原密码不正确',
+    'profile.password_saved': '密码修改成功',
+    'profile.settings': '设置',
+
+    /* ── Settings Page ── */
+    'settings.title': '设置',
+    'settings.account_section': '账户设置',
+    'settings.change_avatar': '修改头像',
+    'settings.change_nickname': '修改昵称',
+    'settings.change_password': '修改密码',
+    'settings.lang_section': '语言设置',
+    'settings.privacy_section': '隐私与数据',
+    'settings.privacy_policy': '隐私政策',
+    'settings.terms': '服务条款',
+    'settings.download_data': '下载我的数据',
+    'settings.delete_data': '删除我的数据',
+    'settings.gdpr_note': '根据欧盟GDPR法规，您有权访问、下载和删除您的个人数据',
+    'settings.avatar_title': '选择头像',
+    'settings.avatar_saved': '头像已更新',
+    'settings.nickname_title': '修改昵称',
+    'settings.nickname_label': '昵称',
+    'settings.nickname_hint': '2-20个字符',
+    'settings.nickname_error': '昵称长度需在2-20个字符之间',
+    'settings.nickname_saved': '昵称已更新',
+    'settings.password_title': '修改密码',
+    'settings.old_password': '原密码',
+    'settings.new_password': '新密码',
+    'settings.confirm_password': '确认密码',
+    'settings.password_hint': '至少6个字符',
+    'settings.password_empty': '请填写所有密码字段',
+    'settings.password_short': '新密码至少需要6个字符',
+    'settings.password_mismatch': '两次输入的密码不一致',
+    'settings.password_wrong': '原密码不正确',
+    'settings.password_saved': '密码修改成功',
+
+    /* ── GDPR & Privacy ── */
+    'gdpr.section_title': '隐私与数据',
+    'gdpr.privacy_policy': '隐私政策',
+    'gdpr.terms': '服务条款',
+    'gdpr.download_data': '下载我的数据',
+    'gdpr.delete_data': '删除我的数据',
+    'gdpr.gdpr_note': '根据欧盟GDPR法规，您有权访问、下载和删除您的个人数据',
+    'gdpr.cookie_title': 'Cookie 使用说明',
+    'gdpr.cookie_desc': '我们使用 Cookie 来改善您的体验。继续使用即表示您同意我们的 Cookie 政策。',
+    'gdpr.cookie_accept': '接受',
+    'gdpr.cookie_decline': '拒绝',
+    'gdpr.cookie_declined': '您已拒绝 Cookie',
+    'gdpr.privacy_p1': 'ChefHub 尊重并保护您的隐私。本政策说明我们如何收集、使用和保护您的个人信息。',
+    'gdpr.privacy_collect': '我们收集的数据：',
+    'gdpr.privacy_item1': '账户信息（用户名、邮箱）',
+    'gdpr.privacy_item2': '门店和机器配置数据',
+    'gdpr.privacy_item3': '菜谱和使用记录',
+    'gdpr.privacy_item4': '设备日志和操作记录',
+    'gdpr.privacy_rights': '您的权利（GDPR）：',
+    'gdpr.right_access': '访问权：获取您个人数据的副本',
+    'gdpr.right_rectification': '更正权：更正不准确的数据',
+    'gdpr.right_erasure': '删除权：要求删除您的数据',
+    'gdpr.right_portability': '可携带权：以机器可读格式接收数据',
+    'gdpr.privacy_contact': '如需行使您的权利，请通过 privacy@chefhub.eu 联系我们。',
+    'gdpr.terms_intro': '使用 ChefHub 服务即表示您同意以下条款。',
+    'gdpr.terms_usage': '使用条款：',
+    'gdpr.terms_item1': '您需对账户安全负责',
+    'gdpr.terms_item2': '禁止未经授权访问他人数据',
+    'gdpr.terms_item3': '菜谱内容需符合食品安全法规',
+    'gdpr.terms_item4': '机器操作需遵循安全指南',
+    'gdpr.terms_liability': '责任限制：',
+    'gdpr.terms_liability_text': 'ChefHub 对因使用本服务导致的间接损失不承担责任。适用欧盟消费者保护法规。',
+    'gdpr.terms_governing': '适用法律：',
+    'gdpr.terms_governing_text': '本协议受匈牙利法律管辖，并符合欧盟GDPR法规。',
+    'gdpr.delete_title': '删除所有数据',
+    'gdpr.delete_warning': '此操作将永久删除您的所有数据，包括账户信息、门店、机器绑定和菜谱。此操作不可撤销。',
+    'gdpr.delete_confirm_text': '请输入 "DELETE" 确认删除：',
+    'gdpr.delete_btn': '确认删除',
+    'gdpr.delete_type_error': '请输入 DELETE 确认删除',
+    'gdpr.delete_success': '您的数据已删除',
+    'gdpr.download_success': '数据已下载',
+
+    /* ── Help Page ── */
+    'help.title': '帮助与反馈',
+    'help.faq_section': '常见问题',
+    'help.q1': '如何绑定炒菜机器人？',
+    'help.a1': '在机器管理页面点击右上角"+ 添加机器"按钮，输入机器底部的序列号即可完成绑定。绑定后您可以为机器分配所属门店。',
+    'help.q2': '如何发送菜谱到机器？',
+    'help.a2': '在菜谱库中选择想要的菜谱，点击"发送到机器"按钮，选择目标机器后确认发送。机器收到菜谱后会自动开始烹饪准备。',
+    'help.q3': '如何创建门店？',
+    'help.a3': '在首页点击"创建门店"按钮，填写门店名称和地址信息，点击确认即可创建。创建门店后可以将机器分配到该门店。',
+    'help.q4': '机器显示离线怎么办？',
+    'help.a4': '请检查机器是否正常通电，网络连接是否正常。如果问题持续，请联系技术支持。',
+    'help.q5': '如何修改密码？',
+    'help.a5': '进入"我的"页面，点击"设置"，选择"修改密码"，输入原密码和新密码后确认即可。',
+    'help.contact_section': '联系我们',
+    'help.email_support': '邮件支持',
+    'help.phone_support': '电话支持',
+    'help.working_hours': '工作时间',
+    'help.working_hours_value': '周一至周五 9:00-18:00 (CET)',
+    'help.feedback_section': '提交反馈',
+    'help.feedback_type': '反馈类型',
+    'help.type_bug': '问题报告',
+    'help.type_feature': '功能建议',
+    'help.type_other': '其他',
+    'help.feedback_desc': '详细描述',
+    'help.feedback_ph': '请详细描述您的问题或建议...',
+    'help.submit_btn': '提交反馈',
+
+    /* ── About Page ── */
+    'about.title': '关于 Wokology',
+    'about.tagline': '智能炒菜机器人管理系统',
+    'about.intro_title': '关于我们',
+    'about.intro_p1': 'Wokology 是一家专注于智能烹饪设备的科技公司。我们致力于将传统烹饪技艺与现代科技相结合，为餐饮行业提供高效、稳定、智能的炒菜机器人解决方案。',
+    'about.intro_p2': 'ChefHub 是我们的智能设备管理平台，让您可以轻松管理多台炒菜机器人、浏览海量菜谱、监控烹饪状态，实现餐厅后厨的智能化升级。',
+    'about.features_title': '核心功能',
+    'about.feature1_title': '智能机器管理',
+    'about.feature1_desc': '实时监控烹饪状态',
+    'about.feature2_title': '海量菜谱库',
+    'about.feature2_desc': '专业厨师精心调配',
+    'about.feature3_title': '多门店管理',
+    'about.feature3_desc': '轻松管理连锁店铺',
+    'about.feature4_title': '云端同步',
+    'about.feature4_desc': '数据安全可靠',
+    'about.version': '版本号',
+    'about.release_date': '发布日期',
+    'about.company': '开发团队',
+    'about.terms': '服务条款',
+    'about.privacy': '隐私政策',
+    'about.website': '官方网站',
+  },
+
+  en: {
+    /* ── App ── */
+    'app.name': 'Wokology',
+
+    /* ── Common ── */
+    'common.back': 'Back',
+    'common.save': 'Save',
+    'common.cancel': 'Cancel',
+    'common.edit': 'Edit',
+    'common.delete': 'Delete',
+    'common.confirm': 'Confirm',
+    'common.done': 'Done',
+    'common.loading': 'Loading...',
+    'common.send': 'Send',
+    'common.create': 'Create',
+    'common.bind': 'Bind',
+    'common.unbind': 'Unbind',
+    'common.view_all': 'View All',
+    'common.no_data': 'No data',
+    'common.logout': 'Sign Out',
+    'common.online': 'Online',
+    'common.offline': 'Offline',
+    'common.idle': 'Idle',
+    'common.cooking': 'Cooking',
+    'common.error': 'Error',
+    'common.free': 'Free',
+    'common.premium': 'Premium',
+    'common.all': 'All',
+    'common.min': 'min',
+    'common.dishes': 'dishes',
+    'common.required': '* Required fields',
+
+    /* ── Bottom Nav ── */
+    'nav.home': 'Home',
+    'nav.recipes': 'Recipes',
+    'nav.publish': 'Publish',
+    'nav.machines': 'Machines',
+    'nav.profile': 'My',
+
+    /* ── Login ── */
+    'login.title': 'Welcome Back',
+    'login.subtitle': 'Sign in to manage your Wokology cooking robots',
+    'login.account_label': 'Account',
+    'login.account_ph': 'Enter email or username',
+    'login.password_label': 'Password',
+    'login.password_ph': 'Enter your password',
+    'login.forgot': 'Forgot Password?',
+    'login.btn': 'Sign In',
+    'login.no_account': "Don't have an account?",
+    'login.register_link': 'Sign Up',
+    'login.demo_hint': 'Demo mode: select a test account or enter any credentials',
+    'login.demo_accounts': 'Test Accounts',
+    'login.role_admin': 'System Admin',
+    'login.role_newuser': 'New User',
+    'login.role_manager': 'Store Manager',
+
+    /* ── Register ── */
+    'register.title': 'Create Account',
+    'register.subtitle': 'Register to manage your cooking robots',
+    'register.name_label': 'Your Name',
+    'register.name_ph': 'Enter your full name',
+    'register.email_label': 'Email Address',
+    'register.email_ph': 'Enter your email address',
+    'register.send_code': 'Send Code',
+    'register.code_label': 'Verification Code',
+    'register.code_ph': 'Enter 6-digit code',
+    'register.password_label': 'Set Password',
+    'register.password_ph': 'Set login password (min. 6 chars)',
+    'register.btn': 'Sign Up',
+    'register.have_account': 'Already have an account?',
+    'register.login_link': 'Sign In',
+    'register.code_sent': 'Code sent to your email, please check inbox',
+    'register.agree': 'By signing up you agree to our',
+    'register.terms': 'Terms of Service',
+    'register.and': 'and',
+    'register.privacy': 'Privacy Policy',
+
+    /* ── Dashboard ── */
+    'dashboard.today_stats': "Today's Stats",
+    'dashboard.dishes_cooked': 'Dishes Cooked',
+    'dashboard.online_machines': 'Online Machines',
+    'dashboard.total_stores': 'Stores',
+    'dashboard.my_stores': 'My Stores',
+    'dashboard.view_all': 'View All',
+    'dashboard.no_stores': 'No stores yet — create one now',
+    'dashboard.no_stores_manager': 'You have not been assigned a store yet',
+    'dashboard.create_store': '+ Create Store',
+    'dashboard.machines_unit': 'machines',
+    'dashboard.dishes_unit': 'Today',
+    'dashboard.quick_actions': 'Quick Actions',
+    'dashboard.go_recipes': 'Browse Recipes',
+    'dashboard.go_machines': 'Manage Machines',
+    'dashboard.go_stores': 'Store Management',
+    'dashboard.go_publish': 'Publish Recipe',
+    'dashboard.activity': 'Recent Activity',
+    'dashboard.dishes_label': 'dishes',
+
+    /* ── Recipes ── */
+    'recipes.title': 'Recipe Library',
+    'recipes.search_ph': 'Search recipes...',
+    'recipes.cat_all': 'All',
+    'recipes.cat_beef': '🥩 Beef',
+    'recipes.cat_lamb': '🍖 Lamb',
+    'recipes.cat_pork': '🥓 Pork',
+    'recipes.cat_chicken': '🍗 Chicken',
+    'recipes.cat_seafood': '🦐 Seafood',
+    'recipes.cat_veg': '🥦 Vegetarian',
+    'recipes.ingredients': 'Ingredients',
+    'recipes.time': 'Cooking Time',
+    'recipes.difficulty': 'Difficulty',
+    'recipes.send_btn': 'Send to Machine',
+    'recipes.choose_machine': 'Choose a machine to send to',
+    'recipes.send_confirm': 'Send Recipe',
+    'recipes.send_success': 'Recipe sent',
+    'recipes.no_machine': 'No machines available, please bind one first',
+    'recipes.diff_easy': 'Easy',
+    'recipes.diff_medium': 'Medium',
+    'recipes.diff_hard': 'Hard',
+    'recipes.free_tag': 'Free',
+    'recipes.premium_tag': 'Premium',
+    'recipes.no_results': 'No recipes found',
+    'recipes.min_unit': 'min',
+    'recipes.detail_title': 'Ingredient Details',
+    'recipes.cancel': 'Cancel',
+    'recipe.ingredients': 'Ingredients',
+    'recipe.steps': 'Cooking Steps',
+    'recipe.tips': 'Tips',
+    'recipe.send_to_machine': 'Send to Machine',
+
+    /* ── Publish ── */
+    'publish.title': 'Publish Recipe',
+    'publish.cover_label': 'Cover Image',
+    'publish.upload_btn': 'Click to upload cover image',
+    'publish.upload_hint': 'Recommended 16:9 ratio',
+    'publish.name_label': 'Recipe Name *',
+    'publish.name_ph': 'Give your recipe a great name...',
+    'publish.cat_label': 'Ingredient Category *',
+    'publish.desc_label': 'Description',
+    'publish.desc_ph': 'Describe the dish characteristics, taste, and suitable serving...',
+    'publish.time_label': 'Cooking Time',
+    'publish.diff_label': 'Difficulty',
+    'publish.ing_label': 'Ingredients',
+    'publish.add_ing': '+ Add Ingredient',
+    'publish.ing_name_ph': 'Ingredient name',
+    'publish.ing_amount_ph': 'Amount',
+    'publish.steps_label': 'Cooking Steps',
+    'publish.add_step': '+ Add Step',
+    'publish.step_ph': 'Describe this step...',
+    'publish.free_label': 'Make this recipe free (available to all users)',
+    'publish.submit_btn': 'Publish Now',
+    'publish.success': 'Recipe published successfully! 🎉',
+    'publish.required_tip': 'Please fill in recipe name and category',
+    'publish.time_15': 'Under 15 min',
+    'publish.time_30': '15 – 30 min',
+    'publish.time_60': '30 – 60 min',
+    'publish.time_90': '60 – 90 min',
+    'publish.time_over90': 'Over 90 min',
+    'publish.diff_easy': 'Easy',
+    'publish.diff_medium': 'Medium',
+    'publish.diff_hard': 'Hard',
+
+    /* ── Machines ── */
+    'machines.title': 'Machine Management',
+    'machines.add_btn': '+ Add Machine',
+    'machines.serial': 'Serial No.',
+    'machines.status': 'Status',
+    'machines.store': 'Store',
+    'machines.not_bound': 'No Store Bound',
+    'machines.bind_btn': 'Bind Store',
+    'machines.unbind_btn': 'Unbind',
+    'machines.temp': 'Temperature',
+    'machines.total': 'Total Cooked',
+    'machines.last_active': 'Last Active',
+    'machines.no_machines': 'No machines bound yet, tap to add',
+    'machines.no_machines_manager': 'Your store has no machines yet',
+    'machines.add_title': 'Bind New Machine',
+    'machines.add_hint': 'Find the serial number on the label under the machine',
+    'machines.serial_ph': 'Enter serial no. (e.g. CRB-001)',
+    'machines.confirm_add_btn': 'Confirm Binding',
+    'machines.add_success': 'Machine bound successfully!',
+    'machines.unbind_success': 'Machine unbound',
+    'machines.unbind_confirm': 'Confirm unbind this machine?',
+    'machines.bind_store_title': 'Select Store',
+    'machines.bind_success': 'Store bound successfully!',
+    'machines.dishes_unit': '',
+    'machines.celcius': '°C',
+
+    /* ── Managers ── */
+    'managers.title': 'Staff Management',
+    'managers.add_btn': 'Add',
+    'managers.no_managers': 'No managers yet',
+    'managers.create_title': 'Create Manager',
+    'managers.edit_title': 'Edit Manager',
+    'managers.account_label': 'Account *',
+    'managers.account_ph': 'Login account',
+    'managers.name_label': 'Name *',
+    'managers.name_ph': 'Manager name',
+    'managers.password_label': 'Initial Password *',
+    'managers.password_ph': 'Set initial password',
+    'managers.email_label': 'Email',
+    'managers.email_ph': 'Email address',
+    'managers.store_label': 'Store',
+    'managers.store_select': 'Select store',
+    'managers.save_btn': 'Save',
+    'managers.reset_title': 'Reset Password',
+    'managers.new_password_label': 'New Password *',
+    'managers.new_password_ph': 'Enter new password',
+    'managers.reset_btn': 'Reset Password',
+    'managers.status_active': 'Active',
+    'managers.status_inactive': 'Inactive',
+    'managers.email_verified': 'Verified',
+    'managers.email_pending': 'Pending',
+    'managers.no_store': 'No store assigned',
+    'managers.edit_btn': 'Edit',
+    'managers.reset_pwd_btn': 'Reset Password',
+    'managers.all_stores': 'All Stores',
+    'managers.email_not_set': 'Not set',
+    'managers.fill_required': 'Please fill required fields',
+    'managers.set_password': 'Please set initial password',
+    'managers.account_exists': 'Account already exists',
+    'managers.updated': 'Updated',
+    'managers.created': 'Created successfully',
+    'managers.enter_password': 'Please enter new password',
+    'managers.password_reset': 'Password reset',
+    'managers.disable_confirm': 'Disable this account? The user will not be able to login.',
+    'managers.enable_confirm': 'Enable this account?',
+    'managers.account_enabled': 'Account enabled',
+    'managers.account_disabled': 'Account disabled',
+
+    /* ── Email Verify ── */
+    'verify.title': 'Verify Your Email',
+    'verify.subtitle': 'Please enter and verify your email address',
+    'verify.email_label': 'Email Address *',
+    'verify.email_ph': 'Enter your email',
+    'verify.send_btn': 'Send Code',
+    'verify.code_sent': 'Code sent to',
+    'verify.code_label': 'Verification Code *',
+    'verify.code_ph': '6-digit code',
+    'verify.verify_btn': 'Verify',
+    'verify.change_email': 'Change Email',
+    'verify.success_title': 'Verified',
+    'verify.success_msg': 'Your email has been verified',
+    'verify.continue_btn': 'Continue',
+    'verify.required_hint': '* Email verification is required',
+
+    /* ── Stores ── */
+    'stores.title': 'Store Management',
+    'stores.add_btn': '+ Create Store',
+    'stores.machines_count': 'machines',
+    'stores.today_dishes': "Today's Dishes",
+    'stores.manage_btn': 'Manage Machines',
+    'stores.no_stores': 'No stores yet',
+    'stores.create_title': 'Create New Store',
+    'stores.name_label': 'Store Name *',
+    'stores.name_ph': 'e.g. Downtown Branch #1',
+    'stores.addr_label': 'Address',
+    'stores.addr_ph': 'Enter store address',
+    'stores.create_btn': 'Create Store',
+    'stores.create_success': 'Store created successfully!',
+    'stores.dishes_unit': 'dishes',
+    'stores.machines_unit': 'machines',
+    'stores.delete_confirm': 'Confirm delete this store?',
+    'stores.delete_success': 'Store deleted',
+
+    /* ── Profile ── */
+    'profile.title': 'My Profile',
+    'profile.edit_btn': 'Edit Profile',
+    'profile.my_stores': 'My Stores',
+    'profile.my_machines': 'My Machines',
+    'profile.manage_staff': 'Manage Staff',
+    'profile.my_recipes': 'My Recipes',
+    'profile.lang_section': 'Language',
+    'profile.lang_zh': '中文',
+    'profile.lang_en': 'English',
+    'profile.notifications': 'Notifications',
+    'profile.account': 'Account Settings',
+    'profile.help': 'Help & Feedback',
+    'profile.about': 'About Wokology',
+    'profile.version': 'Version',
+    'profile.logout': 'Sign Out',
+    'profile.logout_confirm': 'Confirm sign out?',
+    'profile.account_type': 'Account Type',
+    'profile.admin': 'Admin',
+    'profile.member_since': 'Member Since',
+    'profile.stores_stat': 'Stores',
+    'profile.machines_stat': 'Machines',
+    'profile.recipes_stat': 'Recipes',
+    'profile.account_section': 'Account Settings',
+    'profile.more_section': 'More',
+    'profile.change_avatar': 'Change Avatar',
+    'profile.change_nickname': 'Change Nickname',
+    'profile.change_password': 'Change Password',
+    'profile.avatar_title': 'Select Avatar',
+    'profile.avatar_saved': 'Avatar updated',
+    'profile.nickname_title': 'Change Nickname',
+    'profile.nickname_label': 'Nickname',
+    'profile.nickname_hint': '2-20 characters',
+    'profile.nickname_error': 'Nickname must be 2-20 characters',
+    'profile.nickname_saved': 'Nickname updated',
+    'profile.password_title': 'Change Password',
+    'profile.old_password': 'Current Password',
+    'profile.new_password': 'New Password',
+    'profile.confirm_password': 'Confirm Password',
+    'profile.password_hint': 'At least 6 characters',
+    'profile.password_empty': 'Please fill all password fields',
+    'profile.password_short': 'New password must be at least 6 characters',
+    'profile.password_mismatch': 'Passwords do not match',
+    'profile.password_wrong': 'Current password is incorrect',
+    'profile.password_saved': 'Password changed successfully',
+    'profile.settings': 'Settings',
+
+    /* ── Settings Page ── */
+    'settings.title': 'Settings',
+    'settings.account_section': 'Account Settings',
+    'settings.change_avatar': 'Change Avatar',
+    'settings.change_nickname': 'Change Nickname',
+    'settings.change_password': 'Change Password',
+    'settings.lang_section': 'Language',
+    'settings.privacy_section': 'Privacy & Data',
+    'settings.privacy_policy': 'Privacy Policy',
+    'settings.terms': 'Terms of Service',
+    'settings.download_data': 'Download My Data',
+    'settings.delete_data': 'Delete My Data',
+    'settings.gdpr_note': 'Under EU GDPR, you have the right to access, download, and delete your personal data',
+    'settings.avatar_title': 'Select Avatar',
+    'settings.avatar_saved': 'Avatar updated',
+    'settings.nickname_title': 'Change Nickname',
+    'settings.nickname_label': 'Nickname',
+    'settings.nickname_hint': '2-20 characters',
+    'settings.nickname_error': 'Nickname must be 2-20 characters',
+    'settings.nickname_saved': 'Nickname updated',
+    'settings.password_title': 'Change Password',
+    'settings.old_password': 'Current Password',
+    'settings.new_password': 'New Password',
+    'settings.confirm_password': 'Confirm Password',
+    'settings.password_hint': 'At least 6 characters',
+    'settings.password_empty': 'Please fill all password fields',
+    'settings.password_short': 'New password must be at least 6 characters',
+    'settings.password_mismatch': 'Passwords do not match',
+    'settings.password_wrong': 'Current password is incorrect',
+    'settings.password_saved': 'Password changed successfully',
+
+    /* ── GDPR & Privacy ── */
+    'gdpr.section_title': 'Privacy & Data',
+    'gdpr.privacy_policy': 'Privacy Policy',
+    'gdpr.terms': 'Terms of Service',
+    'gdpr.download_data': 'Download My Data',
+    'gdpr.delete_data': 'Delete My Data',
+    'gdpr.gdpr_note': 'Under EU GDPR, you have the right to access, download, and delete your personal data',
+    'gdpr.cookie_title': 'Cookie Notice',
+    'gdpr.cookie_desc': 'We use cookies to improve your experience. By continuing, you agree to our cookie policy.',
+    'gdpr.cookie_accept': 'Accept',
+    'gdpr.cookie_decline': 'Decline',
+    'gdpr.cookie_declined': 'You have declined cookies',
+    'gdpr.privacy_p1': 'ChefHub respects and protects your privacy. This policy explains how we collect, use, and protect your personal information.',
+    'gdpr.privacy_collect': 'Data we collect:',
+    'gdpr.privacy_item1': 'Account information (username, email)',
+    'gdpr.privacy_item2': 'Store and machine configuration data',
+    'gdpr.privacy_item3': 'Recipes and usage records',
+    'gdpr.privacy_item4': 'Device logs and operation records',
+    'gdpr.privacy_rights': 'Your Rights (GDPR):',
+    'gdpr.right_access': 'Right of access: obtain a copy of your personal data',
+    'gdpr.right_rectification': 'Right to rectification: correct inaccurate data',
+    'gdpr.right_erasure': 'Right to erasure: request deletion of your data',
+    'gdpr.right_portability': 'Right to portability: receive data in machine-readable format',
+    'gdpr.privacy_contact': 'To exercise your rights, contact us at privacy@chefhub.eu',
+    'gdpr.terms_intro': 'By using ChefHub services, you agree to the following terms.',
+    'gdpr.terms_usage': 'Terms of Use:',
+    'gdpr.terms_item1': 'You are responsible for account security',
+    'gdpr.terms_item2': 'Unauthorized access to others\' data is prohibited',
+    'gdpr.terms_item3': 'Recipe content must comply with food safety regulations',
+    'gdpr.terms_item4': 'Machine operation must follow safety guidelines',
+    'gdpr.terms_liability': 'Limitation of Liability:',
+    'gdpr.terms_liability_text': 'ChefHub is not liable for indirect damages from using this service. EU consumer protection laws apply.',
+    'gdpr.terms_governing': 'Governing Law:',
+    'gdpr.terms_governing_text': 'This agreement is governed by Hungarian law and complies with EU GDPR regulations.',
+    'gdpr.delete_title': 'Delete All Data',
+    'gdpr.delete_warning': 'This action will permanently delete all your data, including account info, stores, machine bindings, and recipes. This cannot be undone.',
+    'gdpr.delete_confirm_text': 'Type "DELETE" to confirm:',
+    'gdpr.delete_btn': 'Confirm Delete',
+    'gdpr.delete_type_error': 'Please type DELETE to confirm',
+    'gdpr.delete_success': 'Your data has been deleted',
+    'gdpr.download_success': 'Data downloaded',
+
+    /* ── Help Page ── */
+    'help.title': 'Help & Feedback',
+    'help.faq_section': 'FAQ',
+    'help.q1': 'How to bind a cooking robot?',
+    'help.a1': 'Go to Machine Management, tap "+ Add Machine" button, enter the serial number found on the bottom of the machine. After binding, you can assign the machine to a store.',
+    'help.q2': 'How to send a recipe to a machine?',
+    'help.a2': 'Select a recipe from the Recipe Library, tap "Send to Machine" button, choose the target machine and confirm. The machine will automatically start preparation after receiving the recipe.',
+    'help.q3': 'How to create a store?',
+    'help.a3': 'On the home page, tap "Create Store" button, fill in the store name and address, then confirm. After creating a store, you can assign machines to it.',
+    'help.q4': 'What to do if machine shows offline?',
+    'help.a4': 'Please check if the machine is properly powered and the network connection is normal. If the problem persists, please contact technical support.',
+    'help.q5': 'How to change password?',
+    'help.a5': 'Go to "My Profile" page, tap "Settings", select "Change Password", enter your current and new password, then confirm.',
+    'help.contact_section': 'Contact Us',
+    'help.email_support': 'Email Support',
+    'help.phone_support': 'Phone Support',
+    'help.working_hours': 'Working Hours',
+    'help.working_hours_value': 'Mon-Fri 9:00-18:00 (CET)',
+    'help.feedback_section': 'Submit Feedback',
+    'help.feedback_type': 'Feedback Type',
+    'help.type_bug': 'Bug Report',
+    'help.type_feature': 'Feature Request',
+    'help.type_other': 'Other',
+    'help.feedback_desc': 'Description',
+    'help.feedback_ph': 'Please describe your issue or suggestion in detail...',
+    'help.submit_btn': 'Submit Feedback',
+
+    /* ── About Page ── */
+    'about.title': 'About Wokology',
+    'about.tagline': 'Smart Cooking Robot Management System',
+    'about.intro_title': 'About Us',
+    'about.intro_p1': 'Wokology is a technology company focused on intelligent cooking equipment. We are dedicated to combining traditional cooking skills with modern technology, providing efficient, stable, and intelligent cooking robot solutions for the catering industry.',
+    'about.intro_p2': 'ChefHub is our smart device management platform that allows you to easily manage multiple cooking robots, browse a vast recipe library, monitor cooking status, and achieve intelligent upgrade of restaurant kitchens.',
+    'about.features_title': 'Core Features',
+    'about.feature1_title': 'Smart Machine Management',
+    'about.feature1_desc': 'Real-time cooking status monitoring',
+    'about.feature2_title': 'Vast Recipe Library',
+    'about.feature2_desc': 'Curated by professional chefs',
+    'about.feature3_title': 'Multi-Store Management',
+    'about.feature3_desc': 'Easily manage chain stores',
+    'about.feature4_title': 'Cloud Sync',
+    'about.feature4_desc': 'Secure and reliable data',
+    'about.version': 'Version',
+    'about.release_date': 'Release Date',
+    'about.company': 'Development Team',
+    'about.terms': 'Terms of Service',
+    'about.privacy': 'Privacy Policy',
+    'about.website': 'Official Website',
+  },
+
+  /* ── Hungarian (Magyar) ── */
+  hu: {
+    /* ── App ── */
+    'app.name': 'Wokology',
+
+    /* ── Common ── */
+    'common.back': 'Vissza',
+    'common.save': 'Mentés',
+    'common.cancel': 'Mégse',
+    'common.edit': 'Szerkesztés',
+    'common.delete': 'Törlés',
+    'common.confirm': 'Megerősítés',
+    'common.done': 'Kész',
+    'common.loading': 'Betöltés...',
+    'common.send': 'Küldés',
+    'common.create': 'Létrehozás',
+    'common.bind': 'Kötés',
+    'common.unbind': 'Feloldás',
+    'common.view_all': 'Összes',
+    'common.no_data': 'Nincs adat',
+    'common.logout': 'Kijelentkezés',
+    'common.online': 'Online',
+    'common.offline': 'Offline',
+    'common.idle': 'Üresjárat',
+    'common.free': 'Ingyenes',
+    'common.premium': 'Prémium',
+    'common.all': 'Összes',
+    'common.min': 'perc',
+    'common.dishes': 'étel',
+    'common.required': '* Kötelező mezők',
+
+    /* ── Bottom Nav ── */
+    'nav.home': 'Főoldal',
+    'nav.recipes': 'Receptek',
+    'nav.publish': 'Közzététel',
+    'nav.machines': 'Gépek',
+    'nav.profile': 'Profil',
+
+    /* ── Login ── */
+    'login.title': 'Üdvözöljük',
+    'login.subtitle': 'Jelentkezzen be Wokology főzőrobot kezeléséhez',
+    'login.account_label': 'Fiók',
+    'login.account_ph': 'Adja meg email vagy felhasználónevét',
+    'login.password_label': 'Jelszó',
+    'login.password_ph': 'Adja meg jelszavát',
+    'login.forgot': 'Elfelejtett jelszó?',
+    'login.btn': 'Bejelentkezés',
+    'login.no_account': 'Nincs még fiókja?',
+    'login.register_link': 'Regisztráció',
+    'login.demo_hint': 'Demo mód: válasszon teszt fiókot vagy adjon meg tetszőleges adatokat',
+    'login.demo_accounts': 'Teszt Fiókok',
+    'login.role_admin': 'Rendszergazda',
+    'login.role_newuser': 'Új Felhasználó',
+    'login.role_manager': 'Üzletvezető',
+
+    /* ── Register ── */
+    'register.title': 'Fiók Létrehozása',
+    'register.subtitle': 'Regisztráljon főzőrobotjai kezeléséhez',
+    'register.name_label': 'Név',
+    'register.name_ph': 'Adja meg teljes nevét',
+    'register.email_label': 'Email Cím',
+    'register.email_ph': 'Adja meg email címét',
+    'register.send_code': 'Kód Küldése',
+    'register.code_label': 'Ellenőrző Kód',
+    'register.code_ph': 'Adja meg a 6 számjegyű kódot',
+    'register.password_label': 'Jelszó Beállítása',
+    'register.password_ph': 'Állítson be jelszót (min. 6 karakter)',
+    'register.btn': 'Regisztráció',
+    'register.have_account': 'Van már fiókja?',
+    'register.login_link': 'Bejelentkezés',
+    'register.code_sent': 'Kód elküldve emailben, ellenőrizze postafiókját',
+    'register.agree': 'A regisztrációval elfogadja',
+    'register.terms': 'Szolgáltatási Feltételek',
+    'register.and': 'és',
+    'register.privacy': 'Adatvédelmi Irányelvek',
+
+    /* ── Dashboard ── */
+    'dashboard.today_stats': 'Mai Statisztika',
+    'dashboard.dishes_cooked': 'Elkészült Ételek',
+    'dashboard.online_machines': 'Online Gépek',
+    'dashboard.total_stores': 'Üzletek',
+    'dashboard.my_stores': 'Üzleteim',
+    'dashboard.view_all': 'Összes',
+    'dashboard.no_stores': 'Még nincs üzlet — hozzon létre egyet',
+    'dashboard.no_stores_manager': 'Még nincs Önhöz rendelt üzlet',
+    'dashboard.create_store': '+ Üzlet Létrehozása',
+    'dashboard.machines_unit': 'gép',
+    'dashboard.dishes_unit': 'Ma',
+    'dashboard.quick_actions': 'Gyors Műveletek',
+    'dashboard.go_recipes': 'Receptek Böngészése',
+    'dashboard.go_machines': 'Gépek Kezelése',
+    'dashboard.go_stores': 'Üzlet Kezelés',
+    'dashboard.go_publish': 'Recept Közzététele',
+    'dashboard.activity': 'Legutóbbi Tevékenység',
+    'dashboard.dishes_label': 'étel',
+
+    /* ── Recipes ── */
+    'recipes.title': 'Receptkönyvtár',
+    'recipes.search_ph': 'Receptek keresése...',
+    'recipes.cat_all': 'Összes',
+    'recipes.cat_beef': '🥩 Marhahús',
+    'recipes.cat_lamb': '🍖 Bárány',
+    'recipes.cat_pork': '🥓 Sertéshús',
+    'recipes.cat_chicken': '🍗 Csirke',
+    'recipes.cat_seafood': '🦐 Tengeri Hal',
+    'recipes.cat_veg': '🥦 Vegetáriánus',
+    'recipes.ingredients': 'Hozzávalók',
+    'recipes.time': 'Főzési Idő',
+    'recipes.difficulty': 'Nehézség',
+    'recipes.send_btn': 'Küldés Gépnek',
+    'recipes.choose_machine': 'Válassza ki a gépet',
+    'recipes.send_confirm': 'Recept Küldése',
+    'recipes.send_success': 'Recept elküldve',
+    'recipes.no_machine': 'Nincs elérhető gép, kössön először egyet',
+    'recipes.diff_easy': 'Könnyű',
+    'recipes.diff_medium': 'Közepes',
+    'recipes.diff_hard': 'Nehéz',
+    'recipes.free_tag': 'Ingyenes',
+    'recipes.premium_tag': 'Fizetős',
+    'recipes.no_results': 'Nem található recept',
+    'recipes.min_unit': 'perc',
+    'recipes.cancel': 'Mégse',
+    'recipe.ingredients': 'Hozzávalók',
+    'recipe.steps': 'Elkészítés',
+    'recipe.tips': 'Tippek',
+    'recipe.send_to_machine': 'Küldés Gépre',
+
+    /* ── Publish ── */
+    'publish.title': 'Recept Közzététele',
+    'publish.cover_label': 'Borítókép',
+    'publish.upload_btn': 'Kattintson a borítókép feltöltéséhez',
+    'publish.upload_hint': 'Ajánlott méret 16:9',
+    'publish.name_label': 'Recept Neve',
+    'publish.name_ph': 'Adjon nevet a receptnek...',
+    'publish.cat_label': 'Alapanyag Kategória',
+    'publish.desc_label': 'Leírás',
+    'publish.desc_ph': 'Írja le a receptet...',
+    'publish.time_label': 'Főzési Idő (perc)',
+    'publish.diff_label': 'Nehézség',
+    'publish.diff_easy': 'Könnyű',
+    'publish.diff_medium': 'Közepes',
+    'publish.diff_hard': 'Nehéz',
+    'publish.ingredients_label': 'Hozzávalók',
+    'publish.ingredient_ph': 'Hozzávaló neve és mennyisége',
+    'publish.add_ingredient': '+ Hozzávaló Hozzáadása',
+    'publish.steps_label': 'Elkészítési Lépések',
+    'publish.step_ph': 'Írja le a lépést...',
+    'publish.add_step': '+ Lépés Hozzáadása',
+    'publish.free_label': 'Ingyenes Recept',
+    'publish.submit_btn': 'Recept Közzététele',
+    'publish.success': 'Recept sikeresen közzétéve!',
+
+    /* ── Machines ── */
+    'machines.title': 'Gép Kezelés',
+    'machines.add_btn': '+ Gép Hozzáadása',
+    'machines.serial': 'Sorozatszám',
+    'machines.status': 'Állapot',
+    'machines.store': 'Üzlet',
+    'machines.not_bound': 'Nincs Üzlethez Kötve',
+    'machines.bind_btn': 'Üzlet Kötése',
+    'machines.unbind_btn': 'Feloldás',
+    'machines.temp': 'Hőmérséklet',
+    'machines.total': 'Összes Főzve',
+    'machines.last_active': 'Utoljára Aktív',
+    'machines.no_machines': 'Még nincs gép kötve, kattintson a hozzáadáshoz',
+    'machines.no_machines_manager': 'Az üzletében még nincs gép',
+    'machines.add_title': 'Új Gép Kötése',
+    'machines.add_hint': 'Találja meg a sorozatszámot a gép alján lévő címkén',
+    'machines.serial_ph': 'Adja meg a sorozatszámot (pl. CRB-001)',
+    'machines.confirm_add_btn': 'Kötés Megerősítése',
+    'machines.add_success': 'Gép sikeresen kötve!',
+    'machines.unbind_success': 'Gép feloldva',
+    'machines.unbind_confirm': 'Biztosan feloldja ezt a gépet?',
+    'machines.bind_store_title': 'Üzlet Választása',
+    'machines.bind_success': 'Üzlet sikeresen kötve!',
+    'machines.dishes_unit': 'db',
+    'machines.celcius': '°C',
+
+    /* ── Stores ── */
+    'stores.title': 'Üzlet Kezelés',
+    'stores.no_stores': 'Még nincs üzlet létrehozva',
+    'stores.add_btn': '+ Üzlet Létrehozása',
+    'stores.name_label': 'Üzlet Neve',
+    'stores.name_ph': 'Pl. Belvárosi Üzlet',
+    'stores.addr_label': 'Üzlet Címe',
+    'stores.addr_ph': 'Adja meg az üzlet címét',
+    'stores.create_btn': 'Üzlet Létrehozása',
+    'stores.create_title': 'Új Üzlet Létrehozása',
+    'stores.manage_btn': 'Gépek Kezelése',
+    'stores.machines_count': 'gép',
+    'stores.today_dishes': 'Ma főzve',
+    'stores.create_success': 'Üzlet sikeresen létrehozva!',
+    'stores.dishes_unit': 'étel',
+    'stores.machines_unit': 'gép',
+    'stores.delete_confirm': 'Biztosan törli ezt az üzletet?',
+    'stores.delete_success': 'Üzlet törölve',
+
+    /* ── Profile ── */
+    'profile.title': 'Profilom',
+    'profile.edit_btn': 'Profil Szerkesztése',
+    'profile.my_stores': 'Üzleteim',
+    'profile.my_machines': 'Gépeim',
+    'profile.manage_staff': 'Személyzet Kezelése',
+    'profile.my_recipes': 'Receptjeim',
+    'profile.lang_section': 'Nyelv',
+    'profile.lang_zh': '中文',
+    'profile.lang_en': 'English',
+    'profile.lang_hu': 'Magyar',
+    'profile.notifications': 'Értesítések',
+    'profile.account': 'Fiók Beállítások',
+    'profile.help': 'Segítség és Visszajelzés',
+    'profile.about': 'A Wokology-ról',
+    'profile.version': 'Verzió',
+    'profile.logout': 'Kijelentkezés',
+    'profile.logout_confirm': 'Biztosan kijelentkezik?',
+    'profile.account_type': 'Fiók Típus',
+    'profile.admin': 'Admin',
+    'profile.member_since': 'Tag since',
+    'profile.stores_stat': 'Üzletek',
+    'profile.machines_stat': 'Gépek',
+    'profile.recipes_stat': 'Receptek',
+    'profile.account_section': 'Fiók Beállítások',
+    'profile.more_section': 'Több',
+    'profile.change_avatar': 'Avatar Váltás',
+    'profile.change_nickname': 'Becenév Váltás',
+    'profile.change_password': 'Jelszó Váltás',
+    'profile.avatar_title': 'Válasszon Avatart',
+    'profile.avatar_saved': 'Avatar frissítve',
+    'profile.nickname_title': 'Becenév Váltás',
+    'profile.nickname_label': 'Becenév',
+    'profile.nickname_hint': '2-20 karakter',
+    'profile.nickname_error': 'A becenév 2-20 karakter kell legyen',
+    'profile.nickname_saved': 'Becenév frissítve',
+    'profile.password_title': 'Jelszó Váltás',
+    'profile.old_password': 'Jelenlegi Jelszó',
+    'profile.new_password': 'Új Jelszó',
+    'profile.confirm_password': 'Jelszó Megerősítése',
+    'profile.password_hint': 'Legalább 6 karakter',
+    'profile.password_empty': 'Kérjük töltse ki az összes mezőt',
+    'profile.password_short': 'Az új jelszó legalább 6 karakter kell legyen',
+    'profile.password_mismatch': 'A jelszavak nem egyeznek',
+    'profile.password_wrong': 'A jelenlegi jelszó helytelen',
+    'profile.password_saved': 'Jelszó sikeresen megváltoztatva',
+    'profile.settings': 'Beállítások',
+
+    /* ── Settings Page ── */
+    'settings.title': 'Beállítások',
+    'settings.account_section': 'Fiók Beállítások',
+    'settings.change_avatar': 'Avatar Váltás',
+    'settings.change_nickname': 'Becenév Váltás',
+    'settings.change_password': 'Jelszó Váltás',
+    'settings.lang_section': 'Nyelv',
+    'settings.privacy_section': 'Adatvédelem',
+    'settings.privacy_policy': 'Adatvédelmi Irányelvek',
+    'settings.terms': 'Felhasználási Feltételek',
+    'settings.download_data': 'Adataim Letöltése',
+    'settings.delete_data': 'Adataim Törlése',
+    'settings.gdpr_note': 'Az EU GDPR szerint joga van hozzáférni, letölteni és törölni személyes adatait',
+    'settings.avatar_title': 'Válasszon Avatart',
+    'settings.avatar_saved': 'Avatar frissítve',
+    'settings.nickname_title': 'Becenév Váltás',
+    'settings.nickname_label': 'Becenév',
+    'settings.nickname_hint': '2-20 karakter',
+    'settings.nickname_error': 'A becenév 2-20 karakter kell legyen',
+    'settings.nickname_saved': 'Becenév frissítve',
+    'settings.password_title': 'Jelszó Váltás',
+    'settings.old_password': 'Jelenlegi Jelszó',
+    'settings.new_password': 'Új Jelszó',
+    'settings.confirm_password': 'Jelszó Megerősítése',
+    'settings.password_hint': 'Legalább 6 karakter',
+    'settings.password_empty': 'Kérjük töltse ki az összes mezőt',
+    'settings.password_short': 'Az új jelszó legalább 6 karakter kell legyen',
+    'settings.password_mismatch': 'A jelszavak nem egyeznek',
+    'settings.password_wrong': 'A jelenlegi jelszó helytelen',
+    'settings.password_saved': 'Jelszó sikeresen megváltoztatva',
+
+    /* ── GDPR & Privacy ── */
+    'gdpr.section_title': 'Adatvédelem',
+    'gdpr.privacy_policy': 'Adatvédelmi Irányelvek',
+    'gdpr.terms': 'Felhasználási Feltételek',
+    'gdpr.download_data': 'Adataim Letöltése',
+    'gdpr.delete_data': 'Adataim Törlése',
+    'gdpr.gdpr_note': 'Az EU GDPR szerint joga van hozzáférni, letölteni és törölni személyes adatait',
+    'gdpr.cookie_title': 'Cookie Tájékoztató',
+    'gdpr.cookie_desc': 'Cookie-kat használunk a felhasználói élmény javítására. A tovább használattal elfogadja cookie irányelveinket.',
+    'gdpr.cookie_accept': 'Elfogad',
+    'gdpr.cookie_decline': 'Elutasít',
+    'gdpr.cookie_declined': 'Elutasította a cookie-kat',
+    'gdpr.privacy_p1': 'A ChefHub tiszteletben tartja és védi adatait. Ez az irányelv elmagyarázza, hogyan gyűjtjük, használjuk és védjük személyes adatait.',
+    'gdpr.privacy_collect': 'Gyűjtött adatok:',
+    'gdpr.privacy_item1': 'Fiók információk (felhasználónév, email)',
+    'gdpr.privacy_item2': 'Üzlet és gép konfigurációs adatok',
+    'gdpr.privacy_item3': 'Receptek és használati rekordok',
+    'gdpr.privacy_item4': 'Eszköz naplók és műveleti rekordok',
+    'gdpr.privacy_rights': 'Jogai (GDPR):',
+    'gdpr.right_access': 'Hozzáférési jog: másolatot kaphat személyes adatairól',
+    'gdpr.right_rectification': 'Helyesbítési jog: pontatlan adatok javítása',
+    'gdpr.right_erasure': 'Törlési jog: adatai törlésének kérése',
+    'gdpr.right_portability': 'Hordozhatósági jog: adatok fogadása gépileg olvasható formátumban',
+    'gdpr.privacy_contact': 'Jogai gyakorlásához lépjen kapcsolatba: privacy@chefhub.eu',
+    'gdpr.terms_intro': 'A ChefHub szolgáltatás használatával elfogadja az alábbi feltételeket.',
+    'gdpr.terms_usage': 'Használati Feltételek:',
+    'gdpr.terms_item1': 'Ön felelős a fiók biztonságáért',
+    'gdpr.terms_item2': 'Mások adataihoz való jogosulatlan hozzáférés tilos',
+    'gdpr.terms_item3': 'A recepteknek meg kell felelniük az élelmiszer-biztonsági előírásoknak',
+    'gdpr.terms_item4': 'A gép működtetésének követnie kell a biztonsági irányelveket',
+    'gdpr.terms_liability': 'Felelősségkorlát:',
+    'gdpr.terms_liability_text': 'A ChefHub nem felelős a szolgáltatás használatából eredő közvetett károkért. Az EU fogyasztóvédelmi törvényei érvényesek.',
+    'gdpr.terms_governing': 'Alkalmazandó Jogh:',
+    'gdpr.terms_governing_text': 'Ez a megállapodás a magyar jog hatálya alá tartozik, és megfelel az EU GDPR előírásoknak.',
+    'gdpr.delete_title': 'Összes Adat Törlése',
+    'gdpr.delete_warning': 'Ez a művelet véglegesen törli az összes adatát, beleértve fiókinformációkat, üzleteket, gép kötéseket és recepteket. Ez nem vonható vissza.',
+    'gdpr.delete_confirm_text': 'Írja be a "DELETE" szót a megerősítéshez:',
+    'gdpr.delete_btn': 'Törlés Megerősítése',
+    'gdpr.delete_type_error': 'Kérjük írja be a DELETE szót a megerősítéshez',
+    'gdpr.delete_success': 'Adatait töröltük',
+    'gdpr.download_success': 'Adatok letöltve',
+  }
+};
+
+// ── Core helpers ──────────────────────────────────────
+
+function getLang() {
+  return localStorage.getItem('chefhub_lang') || 'zh';
+}
+
+function t(key) {
+  const lang = getLang();
+  return (I18N[lang] && I18N[lang][key] !== undefined)
+    ? I18N[lang][key]
+    : (I18N.zh[key] !== undefined ? I18N.zh[key] : key);
+}
+
+function applyI18n() {
+  const lang = getLang();
+  document.documentElement.lang = lang === 'zh' ? 'zh-CN' : lang;
+
+  // textContent replacements
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+      el.placeholder = t(key);
+    } else {
+      el.textContent = t(key);
+    }
+  });
+
+  // placeholder-only replacements
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+    el.placeholder = t(el.getAttribute('data-i18n-ph'));
+  });
+
+  // title attribute replacements
+  document.querySelectorAll('[data-i18n-title]').forEach(el => {
+    el.title = t(el.getAttribute('data-i18n-title'));
+  });
+
+  // Update language button active states
+  document.querySelectorAll('[data-lang-btn]').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-lang-btn') === lang);
+  });
+
+  // Update document <title>
+  const titleKey = document.body.getAttribute('data-page-title');
+  if (titleKey) {
+    document.title = 'Wokology — ' + t(titleKey);
+  }
+}
+
+function setLanguage(lang) {
+  localStorage.setItem('chefhub_lang', lang);
+  applyI18n();
+  // Re-render any dynamic content that uses t()
+  if (typeof onLangChange === 'function') onLangChange(lang);
+}
+
+document.addEventListener('DOMContentLoaded', applyI18n);
+// ── ChefHub Shared App Logic ────────────────────────
+
+// ── Demo Users ────────────────────────────────────────
+const DEMO_USERS = [
+  {
+    id: 1,
+    account: 'admin',
+    password: 'admin123',
+    name: '管理员',
+    nameEn: 'Admin',
+    role: 'admin',
+    roleLabel: '系统管理员',
+    roleLabelEn: 'System Admin',
+    storeIds: [], // admin sees all stores
+    email: 'admin@chefhub.com',
+    emailVerified: true,
+    status: 'active' // active, inactive
+  },
+  {
+    id: 2,
+    account: 'newuser',
+    password: '123456',
+    name: '新用户',
+    nameEn: 'New User',
+    role: 'new_user',
+    roleLabel: '新用户',
+    roleLabelEn: 'New User',
+    storeIds: [], // no stores yet
+    email: '',
+    emailVerified: false,
+    status: 'active'
+  },
+  {
+    id: 3,
+    account: 'manager1',
+    password: '123456',
+    name: '张店长',
+    nameEn: 'Manager Zhang',
+    role: 'store_manager',
+    roleLabel: '店长',
+    roleLabelEn: 'Store Manager',
+    storeIds: [1], // manages 市中心店
+    email: 'zhang@chefhub.com',
+    emailVerified: true,
+    status: 'active'
+  },
+  {
+    id: 4,
+    account: 'manager2',
+    password: '123456',
+    name: '李店长',
+    nameEn: 'Manager Li',
+    role: 'store_manager',
+    roleLabel: '店长',
+    roleLabelEn: 'Store Manager',
+    storeIds: [2], // manages 西区门店
+    email: 'li@chefhub.com',
+    emailVerified: true,
+    status: 'active'
+  },
+  {
+    id: 5,
+    account: 'manager3',
+    password: '123456',
+    name: '王店长',
+    nameEn: 'Manager Wang',
+    role: 'store_manager',
+    roleLabel: '店长',
+    roleLabelEn: 'Store Manager',
+    storeIds: [], // 待分配门店
+    email: '',
+    emailVerified: false,
+    status: 'inactive' // 示例：停用账号
+  }
+];
+
+// 存储管理人员账号（localStorage 持久化）
+function getManagers() {
+  try {
+    return JSON.parse(localStorage.getItem('chefhub_managers') || '[]');
+  } catch (e) {
+    return [];
+  }
+}
+
+function saveManagers(list) {
+  localStorage.setItem('chefhub_managers', JSON.stringify(list));
+}
+
+// 获取所有用户（包括动态创建的管理人员）
+function getAllUsers() {
+  const managers = getManagers();
+  return [...DEMO_USERS, ...managers];
+}
+
+// 根据账号获取用户
+function getUserByAccount(account) {
+  return getAllUsers().find(u => u.account === account);
+}
+
+// 创建管理人员账号
+function createManager(data) {
+  const managers = getManagers();
+  const newId = Math.max(...getAllUsers().map(u => u.id), 0) + 1;
+  const newManager = {
+    id: newId,
+    account: data.account,
+    password: data.password,
+    name: data.name,
+    nameEn: data.nameEn || data.name,
+    role: 'store_manager',
+    roleLabel: '店长',
+    roleLabelEn: 'Store Manager',
+    storeIds: data.storeIds || [],
+    email: data.email || '',
+    emailVerified: false,
+    status: 'active',
+    createdAt: new Date().toISOString()
+  };
+  managers.push(newManager);
+  saveManagers(managers);
+  return newManager;
+}
+
+// 更新管理人员账号
+function updateManager(id, data) {
+  const managers = getManagers();
+  const idx = managers.findIndex(m => m.id === id);
+  if (idx !== -1) {
+    managers[idx] = { ...managers[idx], ...data };
+    saveManagers(managers);
+    return managers[idx];
+  }
+  return null;
+}
+
+// 删除管理人员账号
+function deleteManager(id) {
+  const managers = getManagers();
+  const filtered = managers.filter(m => m.id !== id);
+  saveManagers(filtered);
+  return true;
+}
+
+// 重置密码
+function resetManagerPassword(id, newPassword) {
+  return updateManager(id, { password: newPassword });
+}
+
+// 停用/启用账号
+function toggleManagerStatus(id) {
+  const managers = getManagers();
+  const idx = managers.findIndex(m => m.id === id);
+  if (idx !== -1) {
+    managers[idx].status = managers[idx].status === 'active' ? 'inactive' : 'active';
+    saveManagers(managers);
+    return managers[idx];
+  }
+  return null;
+}
+
+// 验证邮箱
+function verifyEmail(account) {
+  const managers = getManagers();
+  const idx = managers.findIndex(m => m.account === account);
+  if (idx !== -1) {
+    managers[idx].emailVerified = true;
+    saveManagers(managers);
+    return true;
+  }
+  // 检查 DEMO_USERS
+  const user = DEMO_USERS.find(u => u.account === account);
+  if (user) {
+    user.emailVerified = true;
+  }
+  return false;
+}
+
+// ── Auth ────────────────────────────────────────────
+function requireAuth() {
+  try {
+    if (!localStorage.getItem('chefhub_logged_in')) {
+      // For Firefox file:// protocol demo, auto-login as admin
+      localStorage.setItem('chefhub_logged_in', '1');
+      localStorage.setItem('chefhub_user', JSON.stringify({
+        id: 1,
+        name: '管理员',
+        account: 'admin',
+        role: 'admin',
+        roleLabel: '系统管理员'
+      }));
+    }
+  } catch (e) {
+    // localStorage blocked in Firefox file:// - use in-memory fallback
+    console.warn('localStorage not available, using demo mode');
+  }
+  return true;
+}
+
+function getUser() {
+  try { return JSON.parse(localStorage.getItem('chefhub_user') || '{}'); }
+  catch (e) { return {}; }
+}
+
+function getCurrentDemoUser() {
+  const user = getUser();
+  return DEMO_USERS.find(u => u.account === user.account) || DEMO_USERS[0];
+}
+
+function switchDemoUser(account) {
+  const demoUser = DEMO_USERS.find(u => u.account === account);
+  if (demoUser) {
+    const userData = {
+      id: demoUser.id,
+      name: getLang() === 'en' ? demoUser.nameEn : demoUser.name,
+      account: demoUser.account,
+      role: demoUser.role,
+      roleLabel: getLang() === 'en' ? demoUser.roleLabelEn : demoUser.roleLabel
+    };
+    localStorage.setItem('chefhub_user', JSON.stringify(userData));
+    window.location.reload();
+  }
+}
+
+function doLogout() {
+  if (confirm(t('profile.logout_confirm'))) {
+    localStorage.removeItem('chefhub_logged_in');
+    window.location.href = 'index.html';
+  }
+}
+
+// ── Toast ────────────────────────────────────────────
+let _toastTimer;
+function showToast(msg) {
+  let el = document.getElementById('toast');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'toast';
+    document.body.appendChild(el);
+  }
+  el.textContent = msg;
+  el.style.opacity = '1';
+  clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(() => { el.style.opacity = '0'; }, 2600);
+}
+
+// ── Bottom Nav active state ──────────────────────────
+function initNavBar(activeId) {
+  document.querySelectorAll('a.nav-btn').forEach(a => a.classList.remove('active'));
+  const el = document.getElementById(activeId);
+  if (el) el.classList.add('active');
+}
+
+// ── Greeting ─────────────────────────────────────────
+function getGreeting(name) {
+  const h = new Date().getHours();
+  const lang = getLang();
+  let time;
+  if (lang === 'zh') {
+    time = h < 12 ? '早上好' : h < 18 ? '下午好' : '晚上好';
+    return time + (name ? '，' + name : '') + ' 👋';
+  } else {
+    time = h < 12 ? 'Good Morning' : h < 18 ? 'Good Afternoon' : 'Good Evening';
+    return time + (name ? ', ' + name : '') + ' 👋';
+  }
+}
+
+// ── Demo Data ─────────────────────────────────────────
+const DEMO_STORES = [
+  {
+    id: 1,
+    name: '市中心店', nameEn: 'Market Central',
+    address: '布达佩斯市中心广场1号', addressEn: '1 Central Plaza, Budapest',
+    machineIds: [1, 2], todayDishes: 24
+  },
+  {
+    id: 2,
+    name: '西区门店', nameEn: 'West Budapest Branch',
+    address: '布达佩斯西区大街88号', addressEn: '88 West Ave, Budapest',
+    machineIds: [3], todayDishes: 17
+  }
+];
+
+const DEMO_MACHINES = [
+  { id: 1, serial: 'CRB-001', status: 'cooking', storeId: 1, temp: 185, totalDishes: 1247, lastActiveZh: '刚刚', lastActiveEn: 'Just now' },
+  { id: 2, serial: 'CRB-002', status: 'idle',    storeId: 1, temp: 45,  totalDishes: 893,  lastActiveZh: '3分钟前', lastActiveEn: '3 min ago' },
+  { id: 3, serial: 'CRB-003', status: 'online',  storeId: 2, temp: 120, totalDishes: 562,  lastActiveZh: '10分钟前', lastActiveEn: '10 min ago' },
+  { id: 4, serial: 'CRB-004', status: 'offline', storeId: null, temp: 0, totalDishes: 78,  lastActiveZh: '2天前', lastActiveEn: '2 days ago' }
+];
+
+const DEMO_RECIPES = [
+  // Beef
+  {
+    id: 1, cat: 'beef',
+    nameZh: '匈牙利牛肉炖', nameEn: 'Hungarian Beef Goulash',
+    time: 45, diff: 'medium', free: true,
+    img: 'img/recipe-1-beef.jpg',
+    ingredients: ['牛肉 / Beef 500g', '土豆 / Potato 300g', '番茄 / Tomato 200g', '洋葱 / Onion 150g', '甜椒粉 / Paprika 2 tsp']
+  },
+  {
+    id: 2, cat: 'beef',
+    nameZh: '黑椒牛柳', nameEn: 'Black Pepper Beef Tenderloin',
+    time: 20, diff: 'easy', free: true,
+    img: 'img/recipe-2-beef.jpg',
+    ingredients: ['牛里脊 / Beef tenderloin 300g', '黑胡椒 / Black pepper 1 tbsp', '黄油 / Butter 30g', '大蒜 / Garlic 3 cloves']
+  },
+  {
+    id: 3, cat: 'beef',
+    nameZh: '红酒炖牛腩', nameEn: 'Red Wine Braised Beef',
+    time: 90, diff: 'hard', free: false,
+    img: 'img/recipe-3-beef.jpg',
+    ingredients: ['牛腩 / Beef brisket 600g', '红酒 / Red wine 200ml', '胡萝卜 / Carrot 100g', '芹菜 / Celery 50g']
+  },
+  // Lamb
+  {
+    id: 4, cat: 'lamb',
+    nameZh: '香草烤羊排', nameEn: 'Herb-Crusted Lamb Chops',
+    time: 30, diff: 'medium', free: true,
+    img: 'img/recipe-4-lamb.jpg',
+    ingredients: ['羊排 / Lamb chops 500g', '迷迭香 / Rosemary 3 sprigs', '大蒜 / Garlic 4 cloves', '橄榄油 / Olive oil 3 tbsp']
+  },
+  {
+    id: 5, cat: 'lamb',
+    nameZh: '慢炖羊肩肉', nameEn: 'Slow-Cooked Lamb Shoulder',
+    time: 120, diff: 'hard', free: false,
+    img: 'img/recipe-5-lamb.jpg',
+    ingredients: ['羊肩肉 / Lamb shoulder 800g', '洋葱 / Onion 2 pcs', '香料 / Spice mix 2 tbsp', '高汤 / Stock 300ml']
+  },
+  // Pork
+  {
+    id: 6, cat: 'pork',
+    nameZh: '焦糖猪肋排', nameEn: 'Caramelized Pork Ribs',
+    time: 60, diff: 'medium', free: true,
+    img: 'img/recipe-6-pork.jpg',
+    ingredients: ['猪肋排 / Pork ribs 700g', '蜂蜜 / Honey 3 tbsp', '酱油 / Soy sauce 2 tbsp', '大蒜 / Garlic 3 cloves']
+  },
+  {
+    id: 7, cat: 'pork',
+    nameZh: '匈牙利猪肉炖', nameEn: 'Hungarian Pork Stew',
+    time: 50, diff: 'easy', free: true,
+    img: 'img/recipe-7-pork.jpg',
+    ingredients: ['猪肉 / Pork 500g', '甜椒粉 / Paprika 3 tsp', '洋葱 / Onion 2 pcs', '酸奶油 / Sour cream 100ml']
+  },
+  // Chicken
+  {
+    id: 8, cat: 'chicken',
+    nameZh: '香草烤全鸡', nameEn: 'Herb Roasted Whole Chicken',
+    time: 75, diff: 'medium', free: true,
+    img: 'img/recipe-8-chicken.jpg',
+    ingredients: ['整鸡 / Whole chicken 1.5kg', '柠檬 / Lemon 1 pc', '黄油 / Butter 50g', '混合香草 / Herb mix 3 tbsp']
+  },
+  {
+    id: 9, cat: 'chicken',
+    nameZh: '红椒鸡肉炖', nameEn: 'Chicken Paprikash',
+    time: 35, diff: 'easy', free: true,
+    img: 'img/recipe-9-chicken.jpg',
+    ingredients: ['鸡腿 / Chicken thighs 600g', '红椒粉 / Sweet paprika 3 tsp', '洋葱 / Onion 1 pc', '酸奶油 / Sour cream 150ml']
+  },
+  // Seafood
+  {
+    id: 10, cat: 'seafood',
+    nameZh: '黄油蒜香虾', nameEn: 'Garlic Butter Shrimp',
+    time: 15, diff: 'easy', free: true,
+    img: 'img/recipe-10-seafood.jpg',
+    ingredients: ['大虾 / Shrimp 500g', '黄油 / Butter 40g', '大蒜 / Garlic 5 cloves', '柠檬 / Lemon 1 pc']
+  },
+  {
+    id: 11, cat: 'seafood',
+    nameZh: '煎三文鱼', nameEn: 'Pan-Seared Salmon',
+    time: 20, diff: 'easy', free: false,
+    img: 'img/recipe-11-seafood.jpg',
+    ingredients: ['三文鱼 / Salmon fillet 400g', '柠檬 / Lemon 1 pc', '新鲜香草 / Fresh herbs 2 tbsp', '橄榄油 / Olive oil 2 tbsp']
+  },
+  {
+    id: 12, cat: 'seafood',
+    nameZh: '海鲜意面', nameEn: 'Seafood Pasta',
+    time: 25, diff: 'medium', free: false,
+    img: 'img/recipe-12-seafood.jpg',
+    ingredients: ['意面 / Pasta 200g', '虾 / Shrimp 200g', '扇贝 / Scallops 100g', '番茄酱 / Tomato sauce 200ml']
+  },
+  // Vegetarian
+  {
+    id: 13, cat: 'veg',
+    nameZh: '烤时令蔬菜', nameEn: 'Roasted Seasonal Vegetables',
+    time: 30, diff: 'easy', free: true,
+    img: 'img/recipe-13-veg.jpg',
+    ingredients: ['彩椒 / Bell peppers 2 pcs', '西葫芦 / Zucchini 1 pc', '茄子 / Eggplant 1 pc', '橄榄油 / Olive oil 3 tbsp']
+  },
+  {
+    id: 14, cat: 'veg',
+    nameZh: '蘑菇素炒', nameEn: 'Sautéed Mixed Mushrooms',
+    time: 15, diff: 'easy', free: true,
+    img: 'img/recipe-14-veg.jpg',
+    ingredients: ['混合蘑菇 / Mixed mushrooms 400g', '大蒜 / Garlic 3 cloves', '黄油 / Butter 30g', '百里香 / Thyme 2 sprigs']
+  },
+  // Hungarian Traditional
+  {
+    id: 15, cat: 'seafood',
+    nameZh: '匈牙利渔夫汤', nameEn: 'Hungarian Fisherman\'s Soup (Halászlé)',
+    time: 40, diff: 'medium', free: true,
+    img: 'img/recipe-15-seafood.jpg',
+    ingredients: ['鲤鱼 / Carp 600g', '红椒粉 / Paprika 4 tsp', '洋葱 / Onion 3 pcs', '番茄 / Tomato 200g', '大蒜 / Garlic 2 cloves']
+  },
+  {
+    id: 16, cat: 'veg',
+    nameZh: '匈牙利白菜卷', nameEn: 'Hungarian Stuffed Cabbage (Töltött Káposzta)',
+    time: 60, diff: 'medium', free: true,
+    img: 'img/recipe-16-veg.jpg',
+    ingredients: ['白菜叶 / Cabbage leaves 12 pcs', '猪肉馅 / Ground pork 400g', '米饭 / Rice 150g', '红椒粉 / Paprika 2 tsp', '酸奶油 / Sour cream 100ml']
+  },
+  {
+    id: 17, cat: 'veg',
+    nameZh: '匈牙利蔬菜浓汤', nameEn: 'Hungarian Vegetable Stew (Főzelék)',
+    time: 25, diff: 'easy', free: true,
+    img: 'img/recipe-17-veg.jpg',
+    ingredients: ['豌豆 / Peas 300g', '土豆 / Potato 200g', '胡萝卜 / Carrot 100g', '面粉 / Flour 2 tbsp', '酸奶油 / Sour cream 50ml']
+  },
+  {
+    id: 18, cat: 'pork',
+    nameZh: '匈牙利炖豆汤', nameEn: 'Hungarian Bean Goulash (Bableves)',
+    time: 50, diff: 'medium', free: true,
+    img: 'img/recipe-18-pork.jpg',
+    ingredients: ['白豆 / White beans 300g', '烟熏猪肘 / Smoked pork knuckle 400g', '红椒粉 / Paprika 2 tsp', '胡萝卜 / Carrot 1 pc', '月桂叶 / Bay leaf 2 pcs']
+  },
+  {
+    id: 19, cat: 'chicken',
+    nameZh: '匈牙利炖鸡配面疙瘩', nameEn: 'Chicken Paprikash with Nokedli',
+    time: 45, diff: 'medium', free: true,
+    img: 'img/recipe-19-chicken.jpg',
+    ingredients: ['鸡腿 / Chicken thighs 700g', '红椒粉 / Sweet paprika 4 tsp', '酸奶油 / Sour cream 200ml', '面粉 / Flour 200g', '鸡蛋 / Egg 2 pcs']
+  },
+  {
+    id: 20, cat: 'beef',
+    nameZh: '匈牙利炖牛肉汤', nameEn: 'Hungarian Beef Soup (Húsleves)',
+    time: 90, diff: 'medium', free: true,
+    img: 'img/recipe-20-beef.jpg',
+    ingredients: ['牛肉 / Beef 500g', '胡萝卜 / Carrot 2 pcs', '欧芹根 / Parsley root 1 pc', '洋葱 / Onion 1 pc', '细面条 / Fine noodles 100g']
+  },
+  {
+    id: 21, cat: 'lamb',
+    nameZh: '匈牙利烤羊腿', nameEn: 'Hungarian Roasted Lamb Leg',
+    time: 120, diff: 'hard', free: false,
+    img: 'img/recipe-21-lamb.jpg',
+    ingredients: ['羊腿 / Lamb leg 1.5kg', '大蒜 / Garlic 6 cloves', '迷迭香 / Rosemary 4 sprigs', '红椒粉 / Paprika 1 tbsp', '橄榄油 / Olive oil 4 tbsp']
+  },
+  {
+    id: 22, cat: 'veg',
+    nameZh: '樱桃冷汤', nameEn: 'Cold Cherry Soup (Meggyleves)',
+    time: 20, diff: 'easy', free: true,
+    img: 'img/recipe-22-veg.jpg',
+    ingredients: ['酸樱桃 / Sour cherries 500g', '红酒 / Red wine 100ml', '糖 / Sugar 3 tbsp', '酸奶油 / Sour cream 100ml', '肉桂 / Cinnamon 1 stick']
+  },
+  {
+    id: 23, cat: 'pork',
+    nameZh: '匈牙利烟熏香肠', nameEn: 'Hungarian Smoked Sausage (Kolbász)',
+    time: 30, diff: 'easy', free: true,
+    img: 'img/recipe-23-pork.jpg',
+    ingredients: ['猪肉馅 / Ground pork 1kg', '红椒粉 / Paprika 3 tbsp', '大蒜 / Garlic 4 cloves', '盐 / Salt 2 tsp', '肠衣 / Sausage casing 2m']
+  },
+  {
+    id: 24, cat: 'chicken',
+    nameZh: '匈牙利鹅肝煎', nameEn: 'Hungarian Goose Liver (Libamáj)',
+    time: 15, diff: 'hard', free: false,
+    img: 'img/recipe-24-chicken.jpg',
+    ingredients: ['鹅肝 / Goose liver 300g', '洋葱 / Onion 1 pc', '苹果 / Apple 1 pc', '红酒 / Red wine 50ml', '黄油 / Butter 20g']
+  }
+];
+
+// ── Helpers ───────────────────────────────────────────
+function getStoreName(store) {
+  return getLang() === 'en' ? store.nameEn : store.name;
+}
+function getStoreAddress(store) {
+  return getLang() === 'en' ? store.addressEn : store.address;
+}
+function getRecipeName(r) {
+  return getLang() === 'en' ? r.nameEn : r.nameZh;
+}
+function getMachineLastActive(m) {
+  return getLang() === 'en' ? m.lastActiveEn : m.lastActiveZh;
+}
+
+function getMachineStatusLabel(status) {
+  const map = {
+    zh: { cooking: '烹饪中', idle: '空闲', online: '在线', offline: '离线', error: '故障' },
+    en: { cooking: 'Cooking', idle: 'Idle', online: 'Online', offline: 'Offline', error: 'Error' }
+  };
+  return (map[getLang()] || map.zh)[status] || status;
+}
+function getMachineStatusClass(status) {
+  const map = { cooking: 's-cooking', idle: 's-idle', online: 's-online', offline: 's-offline', error: 's-error' };
+  return map[status] || 's-offline';
+}
+function getStoreById(id) {
+  return DEMO_STORES.find(s => s.id === id) || null;
+}
+function getDiffLabel(diff) {
+  const map = { easy: 'recipes.diff_easy', medium: 'recipes.diff_medium', hard: 'recipes.diff_hard' };
+  return t(map[diff] || 'recipes.diff_easy');
+}
+
+// ── Role-based Data Filtering ────────────────────────
+function getVisibleStores() {
+  const user = getCurrentDemoUser();
+  if (user.role === 'admin') {
+    return DEMO_STORES;
+  }
+  if (user.role === 'store_manager' && user.storeIds.length > 0) {
+    return DEMO_STORES.filter(s => user.storeIds.includes(s.id));
+  }
+  // new_user or others: no stores
+  return [];
+}
+
+function getVisibleMachines() {
+  const stores = getVisibleStores();
+  const storeIds = stores.map(s => s.id);
+  // Include machines from visible stores plus unbound machines (for admin/new_user to bind)
+  const user = getCurrentDemoUser();
+  if (user.role === 'admin') {
+    return DEMO_MACHINES;
+  }
+  // For store_manager, only show machines in their stores
+  if (user.role === 'store_manager') {
+    return DEMO_MACHINES.filter(m => storeIds.includes(m.storeId));
+  }
+  // For new_user, show no machines initially
+  return [];
+}
+
+function canCreateStore() {
+  const user = getCurrentDemoUser();
+  return user.role === 'admin' || user.role === 'new_user';
+}
+
+function canBindMachine() {
+  const user = getCurrentDemoUser();
+  return user.role === 'admin' || user.role === 'new_user' || user.role === 'store_manager';
+}
+
+function getUserName(user) {
+  const demoUser = DEMO_USERS.find(u => u.account === user.account);
+  if (demoUser) {
+    return getLang() === 'en' ? demoUser.nameEn : demoUser.name;
+  }
+  return user.name || '用户';
+}
+
+function getUserRoleLabel(user) {
+  const demoUser = DEMO_USERS.find(u => u.account === user.account);
+  if (demoUser) {
+    return getLang() === 'en' ? demoUser.roleLabelEn : demoUser.roleLabel;
+  }
+  return '';
+}
+
+</script>
 <script>
   requireAuth();
   initNavBar('nav-profile');

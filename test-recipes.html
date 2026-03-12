@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>菜谱测试</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    .recipe { border: 1px solid #ddd; padding: 10px; margin: 10px 0; border-radius: 5px; }
+  </style>
+</head>
+<body>
+  <h1>菜谱显示测试</h1>
+  <div id="recipe-list"></div>
+  
+  <script>
+    // 简化的菜谱数据
+    const DEMO_RECIPES = [
+      { id: 1, nameZh: '匈牙利牛肉炖', nameEn: 'Hungarian Beef Goulash', time: 45, diff: 'medium' },
+      { id: 2, nameZh: '黑椒牛柳', nameEn: 'Black Pepper Beef', time: 20, diff: 'easy' },
+      { id: 3, nameZh: '红酒炖牛腩', nameEn: 'Red Wine Braised Beef', time: 90, diff: 'hard' }
+    ];
+    
+    function renderRecipes() {
+      const container = document.getElementById('recipe-list');
+      const html = DEMO_RECIPES.map(r => `
+        <div class="recipe">
+          <h3>${r.nameZh} / ${r.nameEn}</h3>
+          <p>时间: ${r.time}分钟 | 难度: ${r.diff}</p>
+        </div>
+      `).join('');
+      container.innerHTML = html;
+      console.log('菜谱已渲染:', DEMO_RECIPES.length, '个');
+    }
+    
+    // 页面加载后渲染
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', renderRecipes);
+    } else {
+      renderRecipes();
+    }
+    
+    console.log('脚本已加载');
+  </script>
+</body>
+</html>
