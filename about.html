@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>" />
+  <title>ChefHub — 关于 Wokology</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="bg-gray-50" data-page-title="about.title">
+
+<div class="page-wrap fade-in">
+
+  <!-- Header -->
+  <div class="bg-white px-5 pt-12 pb-4 sticky top-0 z-10 shadow-sm">
+    <div class="flex items-center gap-3">
+      <a href="profile.html" class="p-1">
+        <span class="material-icons-round text-gray-500">arrow_back</span>
+      </a>
+      <h1 class="text-xl font-bold text-gray-800" data-i18n="about.title">关于 Wokology</h1>
+    </div>
+  </div>
+
+  <!-- Hero Section -->
+  <div class="hero-gradient px-5 pt-8 pb-12 text-white relative overflow-hidden">
+    <div class="absolute top-0 right-0 w-56 h-56 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+    <div class="flex flex-col items-center relative z-10">
+      <div class="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center text-4xl border border-white/30 mb-4">
+        🍳
+      </div>
+      <h2 class="text-2xl font-bold">Wokology</h2>
+      <p class="text-white/70 text-sm mt-1" data-i18n="about.tagline">智能炒菜机器人管理系统</p>
+    </div>
+  </div>
+
+  <!-- About Content -->
+  <div class="px-5 -mt-6 relative z-10">
+    <div class="bg-white rounded-2xl shadow-sm p-5">
+      <h3 class="text-base font-bold text-gray-800 mb-3" data-i18n="about.intro_title">关于我们</h3>
+      <p class="text-gray-600 text-sm leading-relaxed mb-4" data-i18n="about.intro_p1">
+        Wokology 是一家专注于智能烹饪设备的科技公司。我们致力于将传统烹饪技艺与现代科技相结合，为餐饮行业提供高效、稳定、智能的炒菜机器人解决方案。
+      </p>
+      <p class="text-gray-600 text-sm leading-relaxed" data-i18n="about.intro_p2">
+        ChefHub 是我们的智能设备管理平台，让您可以轻松管理多台炒菜机器人、浏览海量菜谱、监控烹饪状态，实现餐厅后厨的智能化升级。
+      </p>
+    </div>
+  </div>
+
+  <!-- Features -->
+  <div class="px-5 mt-5">
+    <h2 class="text-sm font-semibold text-gray-500 mb-3" data-i18n="about.features_title">核心功能</h2>
+    <div class="grid grid-cols-2 gap-3">
+      <div class="bg-white rounded-2xl shadow-sm p-4 text-center">
+        <div class="w-12 h-12 bg-orange-50 rounded-xl flex items-center justify-center mx-auto mb-2">
+          <span class="material-icons-round text-orange-500">precision_manufacturing</span>
+        </div>
+        <p class="text-gray-800 text-sm font-medium" data-i18n="about.feature1_title">智能机器管理</p>
+        <p class="text-gray-400 text-xs mt-1" data-i18n="about.feature1_desc">实时监控烹饪状态</p>
+      </div>
+      <div class="bg-white rounded-2xl shadow-sm p-4 text-center">
+        <div class="w-12 h-12 bg-green-50 rounded-xl flex items-center justify-center mx-auto mb-2">
+          <span class="material-icons-round text-green-500">menu_book</span>
+        </div>
+        <p class="text-gray-800 text-sm font-medium" data-i18n="about.feature2_title">海量菜谱库</p>
+        <p class="text-gray-400 text-xs mt-1" data-i18n="about.feature2_desc">专业厨师精心调配</p>
+      </div>
+      <div class="bg-white rounded-2xl shadow-sm p-4 text-center">
+        <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mx-auto mb-2">
+          <span class="material-icons-round text-blue-500">store</span>
+        </div>
+        <p class="text-gray-800 text-sm font-medium" data-i18n="about.feature3_title">多门店管理</p>
+        <p class="text-gray-400 text-xs mt-1" data-i18n="about.feature3_desc">轻松管理连锁店铺</p>
+      </div>
+      <div class="bg-white rounded-2xl shadow-sm p-4 text-center">
+        <div class="w-12 h-12 bg-purple-50 rounded-xl flex items-center justify-center mx-auto mb-2">
+          <span class="material-icons-round text-purple-500">cloud_sync</span>
+        </div>
+        <p class="text-gray-800 text-sm font-medium" data-i18n="about.feature4_title">云端同步</p>
+        <p class="text-gray-400 text-xs mt-1" data-i18n="about.feature4_desc">数据安全可靠</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Version Info -->
+  <div class="px-5 mt-5">
+    <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
+      <div class="flex justify-between items-center px-4 py-3.5 border-b border-gray-50">
+        <span class="text-gray-500 text-sm" data-i18n="about.version">版本号</span>
+        <span class="text-gray-800 text-sm font-medium">v1.0.0</span>
+      </div>
+      <div class="flex justify-between items-center px-4 py-3.5 border-b border-gray-50">
+        <span class="text-gray-500 text-sm" data-i18n="about.release_date">发布日期</span>
+        <span class="text-gray-800 text-sm font-medium">2024-01-15</span>
+      </div>
+      <div class="flex justify-between items-center px-4 py-3.5">
+        <span class="text-gray-500 text-sm" data-i18n="about.company">开发团队</span>
+        <span class="text-gray-800 text-sm font-medium">Wokology Tech Team</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Links -->
+  <div class="px-5 mt-5">
+    <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
+      <a href="#" class="flex items-center justify-between px-4 py-3.5 border-b border-gray-50">
+        <div class="flex items-center gap-3">
+          <span class="material-icons-round text-blue-500">description</span>
+          <span class="text-gray-800 text-sm font-medium" data-i18n="about.terms">服务条款</span>
+        </div>
+        <span class="material-icons-round text-gray-300">chevron_right</span>
+      </a>
+      <a href="#" class="flex items-center justify-between px-4 py-3.5 border-b border-gray-50">
+        <div class="flex items-center gap-3">
+          <span class="material-icons-round text-green-500">shield</span>
+          <span class="text-gray-800 text-sm font-medium" data-i18n="about.privacy">隐私政策</span>
+        </div>
+        <span class="material-icons-round text-gray-300">chevron_right</span>
+      </a>
+      <a href="https://wokology.com" target="_blank" rel="noopener" class="flex items-center justify-between px-4 py-3.5">
+        <div class="flex items-center gap-3">
+          <span class="material-icons-round text-orange-500">language</span>
+          <span class="text-gray-800 text-sm font-medium" data-i18n="about.website">官方网站</span>
+        </div>
+        <span class="material-icons-round text-gray-300">open_in_new</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Copyright -->
+  <div class="px-5 mt-5 mb-8 text-center">
+    <p class="text-gray-400 text-xs">© 2024 Wokology. All rights reserved.</p>
+    <p class="text-gray-300 text-xs mt-1">Made with ❤️ in Budapest, Hungary</p>
+  </div>
+
+</div>
+
+<div id="toast"></div>
+
+<script src="js/i18n.js"></script>
+<script src="js/app.js"></script>
+<script>
+  requireAuth();
+</script>
+</body>
+</html>

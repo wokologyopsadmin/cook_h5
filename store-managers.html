@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>" />
-  <title>ChefHub — 管理人员</title>
+  <title>Wokology — 管理人员</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" />
   <link rel="stylesheet" href="css/style.css" />
@@ -15,13 +15,21 @@
 
   <!-- Header -->
   <div class="bg-white px-5 pt-12 pb-4 sticky top-0 z-10 shadow-sm">
-    <div class="flex items-center gap-3 mb-3">
-      <a href="stores.html" class="p-1">
-        <span class="material-icons-round text-gray-500">arrow_back</span>
-      </a>
-      <h1 class="text-xl font-bold text-gray-800" data-i18n="managers.title">管理人员</h1>
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <a href="stores.html" class="p-1">
+          <span class="material-icons-round text-gray-500">arrow_back</span>
+        </a>
+        <div>
+          <h1 class="text-xl font-bold text-gray-800" data-i18n="managers.title">管理人员</h1>
+          <p id="store-name-display" class="text-orange-500 text-sm"></p>
+        </div>
+      </div>
+      <button onclick="openCreateModal()" class="bg-purple-500 text-white rounded-xl px-4 py-2 text-sm font-semibold flex items-center gap-1.5">
+        <span class="material-icons-round text-lg">person_add</span>
+        <span data-i18n="managers.add_btn">添加</span>
+      </button>
     </div>
-    <p id="store-name-display" class="text-orange-500 text-sm"></p>
   </div>
 
   <!-- Manager List -->
@@ -31,19 +39,12 @@
     <p class="text-gray-500" data-i18n="managers.no_managers">暂无管理人员</p>
   </div>
 
-  <!-- Add Button -->
-  <button onclick="openCreateModal()" class="fixed bottom-24 right-5 w-14 h-14 bg-orange-500 rounded-full shadow-lg shadow-orange-200 flex items-center justify-center">
-    <span class="material-icons-round text-white text-2xl">add</span>
-  </button>
-
-</div>
-
 <!-- Create/Edit Manager Modal -->
 <div id="manager-modal" class="modal-overlay" onclick="closeModal(event)">
   <div class="modal-sheet max-h-[85vh] overflow-y-auto">
     <div class="modal-handle"></div>
     <h3 id="modal-title" class="text-base font-bold text-gray-800 mb-4" data-i18n="managers.create_title">创建管理人员</h3>
-    
+
     <div class="mb-4">
       <label class="block text-sm font-semibold text-gray-700 mb-1.5" data-i18n="managers.account_label">账号 *</label>
       <input id="mgr-account" type="text" class="auth-input" data-i18n-ph="managers.account_ph" placeholder="登录账号（英文）" />
@@ -62,11 +63,11 @@
     </div>
     <div class="mb-4">
       <label class="block text-sm font-semibold text-gray-700 mb-1.5" data-i18n="managers.store_label">管理门店</label>
-      <select id="mgr-store" class="auth-input">
+      <select id="mgr-store" class="auth-input" title="选择门店">
         <option value="" data-i18n="managers.store_select">选择门店</option>
       </select>
     </div>
-    
+
     <button onclick="doSaveManager()" class="auth-btn" data-i18n="managers.save_btn">保存</button>
     <button onclick="closeModal()" class="w-full py-3 rounded-2xl bg-gray-100 text-gray-600 font-medium mt-3" data-i18n="common.cancel">取消</button>
   </div>
@@ -135,7 +136,7 @@
 
   function init() {
     currentStoreId = getStoreIdFromUrl();
-    
+
     // 更新页面标题
     if (currentStoreId) {
       const store = getStoreById(currentStoreId);
@@ -143,9 +144,9 @@
         document.getElementById('store-name-display').textContent = getStoreName(store);
       }
     } else {
-      document.getElementById('store-name-display').textContent = getLang() === 'zh' ? '所有门店' : 'All Stores';
+      document.getElementById('store-name-display').textContent = t('managers.all_stores');
     }
-    
+
     // 填充门店选择
     const storeSelect = document.getElementById('mgr-store');
     DEMO_STORES.forEach(s => {
@@ -154,7 +155,7 @@
       opt.textContent = getStoreName(s);
       storeSelect.appendChild(opt);
     });
-    
+
     renderManagers();
   }
 
@@ -162,12 +163,12 @@
     const allUsers = getAllUsers();
     // 只获取 store_manager 角色
     let managers = allUsers.filter(u => u.role === 'store_manager');
-    
+
     if (currentStoreId) {
       // 筛选该门店的管理人员
       managers = managers.filter(m => m.storeIds && m.storeIds.includes(currentStoreId));
     }
-    
+
     return managers;
   }
 
@@ -185,18 +186,16 @@
 
     el.innerHTML = list.map(m => {
       const statusClass = m.status === 'active' ? 's-online' : 's-offline';
-      const statusLabel = m.status === 'active' 
-        ? (getLang() === 'zh' ? '正常' : 'Active') 
-        : (getLang() === 'zh' ? '已停用' : 'Inactive');
-      const emailStatus = m.emailVerified 
-        ? `<span class="text-green-500 text-xs">${getLang() === 'zh' ? '已验证' : 'Verified'}</span>`
-        : `<span class="text-orange-500 text-xs">${getLang() === 'zh' ? '待验证' : 'Pending'}</span>`;
-      const storeNames = m.storeIds && m.storeIds.length 
+      const statusLabel = m.status === 'active' ? t('managers.status_active') : t('managers.status_inactive');
+      const emailStatus = m.emailVerified
+        ? `<span class="text-green-500 text-xs">${t('managers.email_verified')}</span>`
+        : `<span class="text-orange-500 text-xs">${t('managers.email_pending')}</span>`;
+      const storeNames = m.storeIds && m.storeIds.length
         ? m.storeIds.map(id => {
             const s = getStoreById(id);
             return s ? getStoreName(s) : '';
           }).filter(Boolean).join(', ')
-        : (getLang() === 'zh' ? '未分配门店' : 'No store assigned');
+        : t('managers.no_store');
 
       return `<div class="bg-white rounded-2xl p-4 shadow-sm">
         <div class="flex justify-between items-start mb-3">
@@ -213,25 +212,25 @@
         </div>
         <div class="space-y-2 text-sm mb-3">
           <div class="flex justify-between">
-            <span class="text-gray-500">${getLang() === 'zh' ? '邮箱' : 'Email'}</span>
+            <span class="text-gray-500">${t('managers.email_label')}</span>
             <div class="flex items-center gap-2">
-              <span class="text-gray-800">${m.email || (getLang() === 'zh' ? '未设置' : 'Not set')}</span>
+              <span class="text-gray-800">${m.email || t('managers.email_not_set')}</span>
               ${m.email ? emailStatus : ''}
             </div>
           </div>
           <div class="flex justify-between">
-            <span class="text-gray-500">${getLang() === 'zh' ? '管理门店' : 'Store'}</span>
+            <span class="text-gray-500">${t('managers.store_label')}</span>
             <span class="text-gray-800 text-right">${storeNames}</span>
           </div>
         </div>
         <div class="flex gap-2">
           <button onclick="openEditModal(${m.id})" class="flex-1 py-2 rounded-xl bg-gray-100 text-gray-700 text-sm font-medium">
             <span class="material-icons-round text-sm align-middle">edit</span>
-            <span>${getLang() === 'zh' ? '编辑' : 'Edit'}</span>
+            <span>${t('managers.edit_btn')}</span>
           </button>
           <button onclick="openResetModal(${m.id})" class="flex-1 py-2 rounded-xl bg-blue-50 text-blue-600 text-sm font-medium">
             <span class="material-icons-round text-sm align-middle">lock_reset</span>
-            <span>${getLang() === 'zh' ? '重置密码' : 'Reset'}</span>
+            <span>${t('managers.reset_pwd_btn')}</span>
           </button>
           <button onclick="doToggleStatus(${m.id})" class="py-2 px-3 rounded-xl ${m.status === 'active' ? 'bg-red-50 text-red-500' : 'bg-green-50 text-green-600'}">
             <span class="material-icons-round text-lg">${m.status === 'active' ? 'block' : 'check_circle'}</span>
@@ -243,7 +242,7 @@
 
   function openCreateModal() {
     editingManagerId = null;
-    document.getElementById('modal-title').textContent = getLang() === 'zh' ? '创建管理人员' : 'Create Manager';
+    document.getElementById('modal-title').textContent = t('managers.create_title');
     document.getElementById('mgr-account').value = '';
     document.getElementById('mgr-account').disabled = false;
     document.getElementById('mgr-name').value = '';
@@ -257,9 +256,9 @@
   function openEditModal(id) {
     const manager = getAllUsers().find(u => u.id === id);
     if (!manager) return;
-    
+
     editingManagerId = id;
-    document.getElementById('modal-title').textContent = getLang() === 'zh' ? '编辑管理人员' : 'Edit Manager';
+    document.getElementById('modal-title').textContent = t('managers.edit_title');
     document.getElementById('mgr-account').value = manager.account;
     document.getElementById('mgr-account').disabled = true;
     document.getElementById('mgr-name').value = manager.name;
@@ -283,19 +282,19 @@
     const storeId = document.getElementById('mgr-store').value;
 
     if (!account || !name) {
-      showToast(getLang() === 'zh' ? '请填写必填项' : 'Please fill required fields');
+      showToast(t('managers.fill_required'));
       return;
     }
 
     if (!editingManagerId && !password) {
-      showToast(getLang() === 'zh' ? '请设置初始密码' : 'Please set initial password');
+      showToast(t('managers.set_password'));
       return;
     }
 
     // 检查账号是否已存在
     const existing = getUserByAccount(account);
     if (!editingManagerId && existing) {
-      showToast(getLang() === 'zh' ? '账号已存在' : 'Account already exists');
+      showToast(t('managers.account_exists'));
       return;
     }
 
@@ -307,7 +306,7 @@
         email: email,
         storeIds: storeId ? [parseInt(storeId)] : []
       });
-      showToast(getLang() === 'zh' ? '已更新' : 'Updated');
+      showToast(t('managers.updated'));
     } else {
       // 创建
       createManager({
@@ -317,7 +316,7 @@
         email: email,
         storeIds: storeId ? [parseInt(storeId)] : []
       });
-      showToast(getLang() === 'zh' ? '创建成功' : 'Created successfully');
+      showToast(t('managers.created'));
     }
 
     closeModal();
@@ -327,7 +326,7 @@
   function openResetModal(id) {
     const manager = getAllUsers().find(u => u.id === id);
     if (!manager) return;
-    
+
     resettingManagerId = id;
     document.getElementById('reset-manager-name').textContent = manager.name + ' (' + manager.account + ')';
     document.getElementById('new-password').value = '';
@@ -343,13 +342,13 @@
   function doResetPassword() {
     const newPassword = document.getElementById('new-password').value.trim();
     if (!newPassword) {
-      showToast(getLang() === 'zh' ? '请输入新密码' : 'Please enter new password');
+      showToast(t('managers.enter_password'));
       return;
     }
 
     resetManagerPassword(resettingManagerId, newPassword);
     closeResetModal();
-    showToast(getLang() === 'zh' ? '密码已重置' : 'Password reset');
+    showToast(t('managers.password_reset'));
   }
 
   function doToggleStatus(id) {
@@ -358,8 +357,8 @@
 
     const newStatus = manager.status === 'active' ? 'inactive' : 'active';
     const confirmMsg = newStatus === 'inactive'
-      ? (getLang() === 'zh' ? '确定要停用该账号吗？停用后该用户将无法登录。' : 'Disable this account? The user will not be able to login.')
-      : (getLang() === 'zh' ? '确定要启用该账号吗？' : 'Enable this account?');
+      ? t('managers.disable_confirm')
+      : t('managers.enable_confirm');
 
     if (!confirm(confirmMsg)) return;
 
@@ -376,9 +375,9 @@
       }
     }
 
-    showToast(newStatus === 'active' 
-      ? (getLang() === 'zh' ? '账号已启用' : 'Account enabled') 
-      : (getLang() === 'zh' ? '账号已停用' : 'Account disabled'));
+    showToast(newStatus === 'active'
+      ? t('managers.account_enabled')
+      : t('managers.account_disabled'));
     renderManagers();
   }
 

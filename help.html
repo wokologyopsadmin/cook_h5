@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>" />
+  <title>ChefHub — 帮助与反馈</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="bg-gray-50" data-page-title="help.title">
+
+<div class="page-wrap fade-in">
+
+  <!-- Header -->
+  <div class="bg-white px-5 pt-12 pb-4 sticky top-0 z-10 shadow-sm">
+    <div class="flex items-center gap-3">
+      <a href="profile.html" class="p-1">
+        <span class="material-icons-round text-gray-500">arrow_back</span>
+      </a>
+      <h1 class="text-xl font-bold text-gray-800" data-i18n="help.title">帮助与反馈</h1>
+    </div>
+  </div>
+
+  <!-- FAQ Section -->
+  <div class="px-5 pt-4">
+    <h2 class="text-sm font-semibold text-gray-500 mb-3" data-i18n="help.faq_section">常见问题</h2>
+    <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
+
+      <div class="faq-item border-b border-gray-50">
+        <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between px-4 py-3.5">
+          <span class="text-gray-800 text-sm font-medium text-left" data-i18n="help.q1">如何绑定炒菜机器人？</span>
+          <span class="material-icons-round text-gray-400 transition-transform">expand_more</span>
+        </button>
+        <div class="faq-answer hidden px-4 pb-3.5">
+          <p class="text-gray-600 text-sm leading-relaxed" data-i18n="help.a1">在机器管理页面点击右上角"+ 添加机器"按钮，输入机器底部的序列号即可完成绑定。绑定后您可以为机器分配所属门店。</p>
+        </div>
+      </div>
+
+      <div class="faq-item border-b border-gray-50">
+        <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between px-4 py-3.5">
+          <span class="text-gray-800 text-sm font-medium text-left" data-i18n="help.q2">如何发送菜谱到机器？</span>
+          <span class="material-icons-round text-gray-400 transition-transform">expand_more</span>
+        </button>
+        <div class="faq-answer hidden px-4 pb-3.5">
+          <p class="text-gray-600 text-sm leading-relaxed" data-i18n="help.a2">在菜谱库中选择想要的菜谱，点击"发送到机器"按钮，选择目标机器后确认发送。机器收到菜谱后会自动开始烹饪准备。</p>
+        </div>
+      </div>
+
+      <div class="faq-item border-b border-gray-50">
+        <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between px-4 py-3.5">
+          <span class="text-gray-800 text-sm font-medium text-left" data-i18n="help.q3">如何创建门店？</span>
+          <span class="material-icons-round text-gray-400 transition-transform">expand_more</span>
+        </button>
+        <div class="faq-answer hidden px-4 pb-3.5">
+          <p class="text-gray-600 text-sm leading-relaxed" data-i18n="help.a3">在首页点击"创建门店"按钮，填写门店名称和地址信息，点击确认即可创建。创建门店后可以将机器分配到该门店。</p>
+        </div>
+      </div>
+
+      <div class="faq-item border-b border-gray-50">
+        <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between px-4 py-3.5">
+          <span class="text-gray-800 text-sm font-medium text-left" data-i18n="help.q4">机器显示离线怎么办？</span>
+          <span class="material-icons-round text-gray-400 transition-transform">expand_more</span>
+        </button>
+        <div class="faq-answer hidden px-4 pb-3.5">
+          <p class="text-gray-600 text-sm leading-relaxed" data-i18n="help.a4">请检查机器是否正常通电，网络连接是否正常。如果问题持续，请联系技术支持。</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between px-4 py-3.5">
+          <span class="text-gray-800 text-sm font-medium text-left" data-i18n="help.q5">如何修改密码？</span>
+          <span class="material-icons-round text-gray-400 transition-transform">expand_more</span>
+        </button>
+        <div class="faq-answer hidden px-4 pb-3.5">
+          <p class="text-gray-600 text-sm leading-relaxed" data-i18n="help.a5">进入"我的"页面，点击"设置"，选择"修改密码"，输入原密码和新密码后确认即可。</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Contact Section -->
+  <div class="px-5 mt-5">
+    <h2 class="text-sm font-semibold text-gray-500 mb-3" data-i18n="help.contact_section">联系我们</h2>
+    <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
+      <a href="mailto:support@wokology.com" class="flex items-center justify-between px-4 py-3.5 border-b border-gray-50">
+        <div class="flex items-center gap-3">
+          <span class="material-icons-round text-blue-500">email</span>
+          <div>
+            <p class="text-gray-800 text-sm font-medium" data-i18n="help.email_support">邮件支持</p>
+            <p class="text-gray-400 text-xs">support@wokology.com</p>
+          </div>
+        </div>
+        <span class="material-icons-round text-gray-300">chevron_right</span>
+      </a>
+      <a href="tel:+36123456789" class="flex items-center justify-between px-4 py-3.5 border-b border-gray-50">
+        <div class="flex items-center gap-3">
+          <span class="material-icons-round text-green-500">phone</span>
+          <div>
+            <p class="text-gray-800 text-sm font-medium" data-i18n="help.phone_support">电话支持</p>
+            <p class="text-gray-400 text-xs">+36 1 234 5678</p>
+          </div>
+        </div>
+        <span class="material-icons-round text-gray-300">chevron_right</span>
+      </a>
+      <div class="flex items-center justify-between px-4 py-3.5">
+        <div class="flex items-center gap-3">
+          <span class="material-icons-round text-purple-500">schedule</span>
+          <div>
+            <p class="text-gray-800 text-sm font-medium" data-i18n="help.working_hours">工作时间</p>
+            <p class="text-gray-400 text-xs" data-i18n="help.working_hours_value">周一至周五 9:00-18:00 (CET)</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Feedback Section -->
+  <div class="px-5 mt-5">
+    <h2 class="text-sm font-semibold text-gray-500 mb-3" data-i18n="help.feedback_section">提交反馈</h2>
+    <div class="bg-white rounded-2xl shadow-sm p-4">
+      <div class="mb-4">
+        <label class="block text-sm font-semibold text-gray-700 mb-1.5" data-i18n="help.feedback_type">反馈类型</label>
+        <div class="custom-select relative" id="feedback-type-wrapper">
+          <button type="button" class="custom-select-trigger auth-input" onclick="toggleCustomSelect('feedback-type-wrapper')">
+            <span id="feedback-type-label" data-i18n="help.type_bug">问题报告</span>
+            <span class="material-icons-round text-gray-400">expand_more</span>
+          </button>
+          <div class="custom-select-options">
+            <div class="px-4 py-3 hover:bg-gray-50 cursor-pointer bg-orange-50 text-orange-500" onclick="selectCustomOption(event, 'feedback-type-wrapper', 'bug', 'help.type_bug')">
+              <span data-i18n="help.type_bug">问题报告</span>
+            </div>
+            <div class="px-4 py-3 hover:bg-gray-50 cursor-pointer" onclick="selectCustomOption(event, 'feedback-type-wrapper', 'feature', 'help.type_feature')">
+              <span data-i18n="help.type_feature">功能建议</span>
+            </div>
+            <div class="px-4 py-3 hover:bg-gray-50 cursor-pointer" onclick="selectCustomOption(event, 'feedback-type-wrapper', 'other', 'help.type_other')">
+              <span data-i18n="help.type_other">其他</span>
+            </div>
+          </div>
+          <input type="hidden" id="feedback-type" value="bug">
+        </div>
+      </div>
+      <div class="mb-4">
+        <label class="block text-sm font-semibold text-gray-700 mb-1.5" data-i18n="help.feedback_desc">详细描述</label>
+        <textarea id="feedback-desc" rows="4" class="auth-input resize-none" data-i18n-ph="help.feedback_ph" placeholder="请详细描述您的问题或建议..."></textarea>
+      </div>
+      <button onclick="submitFeedback()" class="auth-btn" data-i18n="help.submit_btn">提交反馈</button>
+    </div>
+  </div>
+
+  <div class="h-8"></div>
+
+</div>
+
+<div id="toast"></div>
+
+<script src="js/i18n.js"></script>
+<script src="js/app.js"></script>
+<script>
+  requireAuth();
+
+  function toggleCustomSelect(wrapperId) {
+    const wrapper = document.getElementById(wrapperId);
+    const isOpen = wrapper.classList.contains('open');
+
+    // Close all other selects first
+    document.querySelectorAll('.custom-select.open').forEach(el => {
+      el.classList.remove('open');
+    });
+
+    if (!isOpen) {
+      wrapper.classList.add('open');
+    }
+  }
+
+  function selectCustomOption(e, wrapperId, value, i18nKey) {
+    const wrapper = document.getElementById(wrapperId);
+    const hiddenInput = wrapper.querySelector('input[type="hidden"]');
+    const labelSpan = wrapper.querySelector('.custom-select-trigger span:first-child');
+
+    hiddenInput.value = value;
+    labelSpan.textContent = t(i18nKey);
+
+    // Update active state
+    wrapper.querySelectorAll('.custom-select-option').forEach(opt => opt.classList.remove('active'));
+    e.currentTarget.classList.add('active');
+
+    wrapper.classList.remove('open');
+  }
+
+  // Close dropdown when clicking outside
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.custom-select')) {
+      document.querySelectorAll('.custom-select.open').forEach(el => {
+        el.classList.remove('open');
+      });
+    }
+  });
+
+  function toggleFaq(btn) {
+    const answer = btn.nextElementSibling;
+    const icon = btn.querySelector('.material-icons-round');
+    const isOpen = !answer.classList.contains('hidden');
+
+    // Close all other FAQs
+    document.querySelectorAll('.faq-answer').forEach(a => a.classList.add('hidden'));
+    document.querySelectorAll('.faq-item .material-icons-round').forEach(i => i.style.transform = 'rotate(0deg)');
+
+    if (!isOpen) {
+      answer.classList.remove('hidden');
+      icon.style.transform = 'rotate(180deg)';
+    }
+  }
+
+  function submitFeedback() {
+    const type = document.getElementById('feedback-type').value;
+    const desc = document.getElementById('feedback-desc').value.trim();
+
+    if (!desc) {
+      showToast(getLang() === 'zh' ? '请填写详细描述' : 'Please fill in the description');
+      return;
+    }
+
+    // Mock submission
+    showToast(getLang() === 'zh' ? '感谢您的反馈！我们会尽快处理。' : 'Thank you for your feedback! We will process it soon.');
+    document.getElementById('feedback-desc').value = '';
+  }
+</script>
+</body>
+</html>

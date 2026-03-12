@@ -112,18 +112,39 @@
       showToast(getLang() === 'zh' ? '请填写账号和密码' : 'Please enter account and password');
       return;
     }
-    // Find demo user for role info
-    const demoUser = DEMO_USERS.find(u => u.account === account);
+
+    // 查找用户（包括动态创建的管理人员）
+    const allUsers = getAllUsers();
+    const foundUser = allUsers.find(u => u.account === account);
+
+    // 验证密码（仅对已知用户验证）
+    if (foundUser && foundUser.password !== pwd) {
+      showToast(getLang() === 'zh' ? '密码错误' : 'Incorrect password');
+      return;
+    }
+
+    // 检查账号状态
+    if (foundUser && foundUser.status === 'inactive') {
+      showToast(getLang() === 'zh' ? '账号已被停用，请联系管理员' : 'Account is disabled, please contact admin');
+      return;
+    }
+
     localStorage.setItem('chefhub_logged_in', '1');
     const userData = {
-      id: demoUser ? demoUser.id : 0,
-      name: demoUser ? (getLang() === 'en' ? demoUser.nameEn : demoUser.name) : (account.includes('@') ? account.split('@')[0] : account),
+      id: foundUser ? foundUser.id : 0,
+      name: foundUser ? (getLang() === 'en' ? (foundUser.nameEn || foundUser.name) : foundUser.name) : (account.includes('@') ? account.split('@')[0] : account),
       account: account,
-      role: demoUser ? demoUser.role : 'user',
-      roleLabel: demoUser ? (getLang() === 'en' ? demoUser.roleLabelEn : demoUser.roleLabel) : ''
+      role: foundUser ? foundUser.role : 'user',
+      roleLabel: foundUser ? (getLang() === 'en' ? foundUser.roleLabelEn : foundUser.roleLabel) : ''
     };
     localStorage.setItem('chefhub_user', JSON.stringify(userData));
-    window.location.href = 'dashboard.html';
+
+    // 检查是否需要邮箱验证（store_manager 且未验证）
+    if (foundUser && foundUser.role === 'store_manager' && !foundUser.emailVerified) {
+      window.location.href = 'email-verify.html';
+    } else {
+      window.location.href = 'dashboard.html';
+    }
   }
   function onLangChange() {}
 </script>

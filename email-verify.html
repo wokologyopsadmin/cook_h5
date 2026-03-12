@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>" />
+  <title>ChefHub — 邮箱验证</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="bg-gray-50">
+
+<div class="min-h-screen flex flex-col items-center justify-center px-5 py-10">
+
+  <div class="w-full max-w-sm">
+    <!-- Logo -->
+    <div class="text-center mb-8">
+      <div class="w-20 h-20 bg-orange-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+        <span class="material-icons-round text-orange-500 text-4xl">mark_email_read</span>
+      </div>
+      <h1 class="text-2xl font-bold text-gray-800" data-i18n="verify.title">完善邮箱信息</h1>
+      <p class="text-gray-500 text-sm mt-2" data-i18n="verify.subtitle">请填写并验证您的邮箱地址</p>
+    </div>
+
+    <!-- Form Card -->
+    <div class="bg-white rounded-2xl shadow-sm p-5">
+      <div id="step-1">
+        <div class="mb-4">
+          <label class="block text-sm font-semibold text-gray-700 mb-1.5" data-i18n="verify.email_label">邮箱地址 *</label>
+          <input id="email-input" type="email" class="auth-input" data-i18n-ph="verify.email_ph" placeholder="请输入邮箱地址" />
+        </div>
+        <button onclick="sendVerificationCode()" class="auth-btn" data-i18n="verify.send_btn">发送验证码</button>
+      </div>
+
+      <div id="step-2" class="hidden">
+        <div class="text-center mb-4">
+          <p class="text-gray-600 text-sm" data-i18n="verify.code_sent">验证码已发送至</p>
+          <p id="email-display" class="text-orange-500 font-medium"></p>
+        </div>
+        <div class="mb-4">
+          <label class="block text-sm font-semibold text-gray-700 mb-1.5" data-i18n="verify.code_label">验证码 *</label>
+          <div class="flex gap-2">
+            <input id="code-input" type="text" maxlength="6" class="auth-input flex-1" data-i18n-ph="verify.code_ph" placeholder="6位验证码" />
+            <button id="resend-btn" onclick="resendCode()" class="px-3 py-2 rounded-xl bg-gray-100 text-gray-600 text-sm whitespace-nowrap" disabled>
+              <span id="countdown">60s</span>
+            </button>
+          </div>
+        </div>
+        <button onclick="verifyCode()" class="auth-btn" data-i18n="verify.verify_btn">验证</button>
+        <button onclick="goBackToStep1()" class="w-full py-3 rounded-2xl bg-gray-100 text-gray-600 font-medium mt-3 text-sm" data-i18n="verify.change_email">更换邮箱</button>
+      </div>
+
+      <div id="step-3" class="hidden text-center">
+        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <span class="material-icons-round text-green-500 text-3xl">check_circle</span>
+        </div>
+        <h3 class="text-lg font-bold text-gray-800 mb-2" data-i18n="verify.success_title">验证成功</h3>
+        <p class="text-gray-500 text-sm mb-4" data-i18n="verify.success_msg">您的邮箱已验证通过</p>
+        <button onclick="goToDashboard()" class="auth-btn" data-i18n="verify.continue_btn">进入系统</button>
+      </div>
+    </div>
+
+    <!-- Skip for now (only for non-critical situations) -->
+    <p id="skip-hint" class="text-center text-gray-400 text-xs mt-4" data-i18n="verify.required_hint">* 邮箱验证为必填项</p>
+  </div>
+
+</div>
+
+<div id="toast"></div>
+
+<script src="js/i18n.js"></script>
+<script src="js/app.js"></script>
+<script>
+  // 检查是否需要验证
+  function checkVerificationNeeded() {
+    const user = getUser();
+    const fullUser = getUserByAccount(user.account);
+    
+    // 如果已验证，直接跳转
+    if (fullUser && fullUser.emailVerified) {
+      window.location.href = 'dashboard.html';
+      return;
+    }
+    
+    // 如果已有邮箱但未验证，预填
+    if (fullUser && fullUser.email) {
+      document.getElementById('email-input').value = fullUser.email;
+    }
+  }
+
+  let currentEmail = '';
+  let countdownTimer = null;
+
+  function sendVerificationCode() {
+    const email = document.getElementById('email-input').value.trim();
+    if (!email) {
+      showToast(getLang() === 'zh' ? '请输入邮箱地址' : 'Please enter email');
+      return;
+    }
+    
+    // 简单邮箱格式验证
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      showToast(getLang() === 'zh' ? '邮箱格式不正确' : 'Invalid email format');
+      return;
+    }
+
+    currentEmail = email;
+    
+    // 模拟发送验证码（实际项目中需要调用后端 API）
+    showToast(getLang() === 'zh' ? '验证码已发送' : 'Verification code sent');
+    
+    // 进入步骤2
+    document.getElementById('step-1').classList.add('hidden');
+    document.getElementById('step-2').classList.remove('hidden');
+    document.getElementById('email-display').textContent = email;
+    
+    // 开始倒计时
+    startCountdown();
+  }
+
+  function startCountdown() {
+    let seconds = 60;
+    const btn = document.getElementById('resend-btn');
+    const countdown = document.getElementById('countdown');
+    
+    btn.disabled = true;
+    countdown.textContent = seconds + 's';
+    
+    countdownTimer = setInterval(() => {
+      seconds--;
+      countdown.textContent = seconds + 's';
+      if (seconds <= 0) {
+        clearInterval(countdownTimer);
+        btn.disabled = false;
+        countdown.textContent = getLang() === 'zh' ? '重发' : 'Resend';
+      }
+    }, 1000);
+  }
+
+  function resendCode() {
+    showToast(getLang() === 'zh' ? '验证码已重新发送' : 'Code resent');
+    startCountdown();
+  }
+
+  function verifyCode() {
+    const code = document.getElementById('code-input').value.trim();
+    if (!code || code.length !== 6) {
+      showToast(getLang() === 'zh' ? '请输入6位验证码' : 'Please enter 6-digit code');
+      return;
+    }
+
+    // 模拟验证（实际项目中需要调用后端 API）
+    // 这里假设验证码为 "123456" 或任意6位数字都通过
+    if (code.length === 6) {
+      // 更新用户邮箱验证状态
+      const user = getUser();
+      updateUserEmail(user.account, currentEmail);
+      
+      // 进入步骤3
+      document.getElementById('step-2').classList.add('hidden');
+      document.getElementById('step-3').classList.remove('hidden');
+    } else {
+      showToast(getLang() === 'zh' ? '验证码错误' : 'Invalid code');
+    }
+  }
+
+  function updateUserEmail(account, email) {
+    // 更新 localStorage 中的管理人员
+    const managers = getManagers();
+    const idx = managers.findIndex(m => m.account === account);
+    if (idx !== -1) {
+      managers[idx].email = email;
+      managers[idx].emailVerified = true;
+      saveManagers(managers);
+    } else {
+      // 更新 DEMO_USERS
+      const user = DEMO_USERS.find(u => u.account === account);
+      if (user) {
+        user.email = email;
+        user.emailVerified = true;
+      }
+    }
+  }
+
+  function goBackToStep1() {
+    if (countdownTimer) clearInterval(countdownTimer);
+    document.getElementById('step-2').classList.add('hidden');
+    document.getElementById('step-1').classList.remove('hidden');
+    document.getElementById('code-input').value = '';
+  }
+
+  function goToDashboard() {
+    window.location.href = 'dashboard.html';
+  }
+
+  // 初始化
+  checkVerificationNeeded();
+</script>
+</body>
+</html>

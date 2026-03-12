@@ -163,6 +163,80 @@ input:focus, textarea:focus, select:focus { outline: none; }
   transition: border-color 0.2s, background 0.2s;
 }
 .auth-input:focus { border-color: #f97316; background: white; }
+
+/* Select dropdown styling */
+select.auth-input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2394a3b8'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 24px;
+  padding-right: 44px;
+  cursor: pointer;
+}
+select.auth-input option {
+  background: white;
+  color: #1e293b;
+  padding: 12px 16px;
+  font-size: 15px;
+}
+
+/* Custom Select Dropdown */
+.custom-select {
+  position: relative;
+  width: 100%;
+}
+.custom-select-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.custom-select-trigger .material-icons-round {
+  transition: transform 0.2s;
+}
+.custom-select.open .custom-select-trigger .material-icons-round {
+  transform: rotate(180deg);
+}
+.custom-select-options {
+  position: absolute !important;
+  top: 100% !important;
+  left: 0 !important;
+  right: 0 !important;
+  background: white;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 14px;
+  margin-top: 4px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 100 !important;
+  max-height: 0 !important;
+  overflow: hidden !important;
+  opacity: 0;
+  transition: max-height 0.2s ease, opacity 0.2s ease;
+}
+.custom-select.open .custom-select-options {
+  max-height: 200px !important;
+  opacity: 1;
+}
+.custom-select-option {
+  padding: 12px 16px;
+  font-size: 15px;
+  color: #1e293b;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.custom-select-option:hover {
+  background: #f8fafc;
+}
+.custom-select-option.active {
+  background: #fff7ed;
+  color: #f97316;
+  font-weight: 500;
+}
 .auth-btn {
   width: 100%; background: #f97316; color: white;
   border-radius: 14px; padding: 15px; font-size: 16px;

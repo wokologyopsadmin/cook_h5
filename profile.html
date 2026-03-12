@@ -60,6 +60,23 @@
     </div>
   </div>
 
+  <!-- Language Settings -->
+  <div class="px-5 mt-5">
+    <div class="bg-white rounded-2xl shadow-sm p-4">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <span class="material-icons-round text-indigo-500">language</span>
+          <span class="text-gray-800 text-sm font-medium" data-i18n="profile.lang_section">语言设置</span>
+        </div>
+        <select id="lang-select" title="Select Language" onchange="setLanguage(this.value)" class="bg-gray-100 border-0 rounded-lg px-3 py-2 text-sm text-gray-700 focus:ring-2 focus:ring-orange-500 focus:outline-none cursor-pointer">
+          <option value="zh">中文</option>
+          <option value="en">English</option>
+          <option value="hu">Magyar</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
   <!-- Quick Links -->
   <div class="px-5 mt-5">
     <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
@@ -67,6 +84,13 @@
         <div class="flex items-center gap-3">
           <span class="material-icons-round text-orange-500">store</span>
           <span class="text-gray-800 text-sm font-medium" data-i18n="profile.my_stores">我的门店</span>
+        </div>
+        <span class="material-icons-round text-gray-300">chevron_right</span>
+      </a>
+      <a id="all-managers-link" href="store-managers.html" class="hidden items-center justify-between px-4 py-3.5 border-b border-gray-50">
+        <div class="flex items-center gap-3">
+          <span class="material-icons-round text-purple-500">manage_accounts</span>
+          <span class="text-gray-800 text-sm font-medium" data-i18n="profile.manage_staff">人员管理</span>
         </div>
         <span class="material-icons-round text-gray-300">chevron_right</span>
       </a>
@@ -97,14 +121,14 @@
         </div>
         <span class="material-icons-round text-gray-300">chevron_right</span>
       </a>
-      <a href="#" class="flex items-center justify-between px-4 py-3.5 border-b border-gray-50">
+      <a href="help.html" class="flex items-center justify-between px-4 py-3.5 border-b border-gray-50">
         <div class="flex items-center gap-3">
           <span class="material-icons-round text-teal-500">help_outline</span>
           <span class="text-gray-800 text-sm font-medium" data-i18n="profile.help">帮助与反馈</span>
         </div>
         <span class="material-icons-round text-gray-300">chevron_right</span>
       </a>
-      <a href="#" class="flex items-center justify-between px-4 py-3.5">
+      <a href="about.html" class="flex items-center justify-between px-4 py-3.5">
         <div class="flex items-center gap-3">
           <span class="material-icons-round text-indigo-500">info</span>
           <span class="text-gray-800 text-sm font-medium" data-i18n="profile.about">关于 ChefHub</span>
@@ -177,6 +201,14 @@
     document.getElementById('stat-stores').textContent = stores.length;
     document.getElementById('stat-machines').textContent = machines.length;
     document.getElementById('stat-recipes').textContent = DEMO_RECIPES.length;
+
+    // Show "人员管理" link for admin
+    const demoUser = getCurrentDemoUser();
+    const managersLink = document.getElementById('all-managers-link');
+    if (managersLink && demoUser.role === 'admin') {
+      managersLink.classList.remove('hidden');
+      managersLink.classList.add('flex');
+    }
   }
 
   // Init avatar from storage
@@ -188,6 +220,15 @@
 
   updateUI();
   initAvatar();
+
+  // Init language selector with current value
+  document.getElementById('lang-select').value = getLang();
+
+  // Re-apply i18n when language changes
+  function onLangChange() {
+    applyI18n();
+    updateUI();
+  }
 </script>
 </body>
 </html>

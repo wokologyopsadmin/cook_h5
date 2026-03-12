@@ -123,6 +123,7 @@
     el.innerHTML = list.map(s => {
       const machines = s.machineIds.map(id => DEMO_MACHINES.find(m => m.id === id)).filter(Boolean);
       const onlineCount = machines.filter(m => m.status !== 'offline').length;
+      const managers = getAllUsers().filter(u => u.role === 'store_manager' && u.storeIds && u.storeIds.includes(s.id));
 
       return `<div class="bg-white rounded-2xl p-4 shadow-sm">
         <div class="flex justify-between items-start mb-3">
@@ -146,12 +147,13 @@
             <p class="text-gray-400 text-xs" data-i18n="stores.today_dishes">今日已炒</p>
           </div>
           <div class="bg-gray-50 rounded-xl py-2">
-            <p class="text-green-500 font-bold">${onlineCount}/${s.machineIds.length}</p>
-            <p class="text-gray-400 text-xs" data-i18n="common.online">在线</p>
+            <p class="text-purple-500 font-bold">${managers.length}</p>
+            <p class="text-gray-400 text-xs">${getLang() === 'zh' ? '管理人员' : 'Managers'}</p>
           </div>
         </div>
         <div class="flex gap-2">
-          <button onclick="openMachinesModal(${s.id})" class="flex-1 py-2 rounded-xl bg-orange-500 text-white text-sm font-medium" data-i18n="stores.manage_btn">管理机器</button>
+          <button onclick="openMachinesModal(${s.id})" class="flex-1 py-2 rounded-xl bg-gray-100 text-gray-700 text-sm font-medium" data-i18n="stores.manage_btn">管理机器</button>
+          <a href="store-managers.html?storeId=${s.id}" class="flex-1 py-2 rounded-xl bg-purple-50 text-purple-600 text-sm font-medium text-center">${getLang() === 'zh' ? '管理人员' : 'Managers'}</a>
           ${canCreate ? `<button onclick="doDeleteStore(${s.id})" class="py-2 px-3 rounded-xl bg-gray-100 text-gray-500 text-sm"><span class="material-icons-round text-lg">delete_outline</span></button>` : ''}
         </div>
       </div>`;
