@@ -15,25 +15,27 @@
 <div class="page-wrap fade-in">
 
   <!-- Header / Search Bar -->
-  <div class="bg-white px-5 pt-12 pb-3 sticky top-0 z-10 shadow-sm">
-    <h1 class="text-xl font-bold text-gray-800 mb-3" data-i18n="recipes.title">菜谱库</h1>
-    <div class="flex items-center bg-gray-100 rounded-2xl px-4 py-2.5 gap-3 mb-3">
-      <span class="material-icons-round text-gray-400 text-xl">search</span>
-      <input id="search-input" type="text" class="flex-1 bg-transparent text-sm text-gray-700 placeholder-gray-400"
+  <div class="hero-gradient px-5 pt-12 pb-4 text-white relative overflow-hidden">
+    <div class="absolute top-0 right-0 w-48 h-48 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+    <div class="absolute bottom-0 left-0 w-28 h-28 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2"></div>
+    <h1 class="text-xl font-bold text-white mb-3 relative z-10" data-i18n="recipes.title">菜谱库</h1>
+    <div class="flex items-center bg-white/20 backdrop-blur-sm rounded-2xl px-4 py-2.5 gap-3 mb-3 relative z-10">
+      <span class="material-icons-round text-white/70 text-xl">search</span>
+      <input id="search-input" type="text" class="flex-1 bg-transparent text-sm text-white placeholder-white/60"
         data-i18n-ph="recipes.search_ph" placeholder="搜索菜谱名称..." oninput="onSearch(this.value)" />
       <button id="clear-btn" onclick="clearSearch()" class="hidden">
-        <span class="material-icons-round text-gray-400 text-xl">close</span>
+        <span class="material-icons-round text-white/70 text-xl">close</span>
       </button>
     </div>
     <!-- Category Tabs -->
-    <div class="scroll-x flex gap-2 pb-1">
+    <div class="scroll-x flex gap-2 pb-1 relative z-10">
       <button onclick="setCategory('all', this)" class="flex-shrink-0 tag bg-orange-500 text-white cat-active" data-i18n="recipes.cat_all">全部</button>
-      <button onclick="setCategory('beef', this)" class="flex-shrink-0 tag bg-gray-100 text-gray-600" data-i18n="recipes.cat_beef">🥩 牛肉</button>
-      <button onclick="setCategory('lamb', this)" class="flex-shrink-0 tag bg-gray-100 text-gray-600" data-i18n="recipes.cat_lamb">🍖 羊肉</button>
-      <button onclick="setCategory('pork', this)" class="flex-shrink-0 tag bg-gray-100 text-gray-600" data-i18n="recipes.cat_pork">🥓 猪肉</button>
-      <button onclick="setCategory('chicken', this)" class="flex-shrink-0 tag bg-gray-100 text-gray-600" data-i18n="recipes.cat_chicken">🍗 鸡肉</button>
-      <button onclick="setCategory('seafood', this)" class="flex-shrink-0 tag bg-gray-100 text-gray-600" data-i18n="recipes.cat_seafood">🦐 海鲜</button>
-      <button onclick="setCategory('veg', this)" class="flex-shrink-0 tag bg-gray-100 text-gray-600" data-i18n="recipes.cat_veg">🥦 素菜</button>
+      <button onclick="setCategory('beef', this)" class="flex-shrink-0 tag bg-white/20 text-white" data-i18n="recipes.cat_beef">🥩 牛肉</button>
+      <button onclick="setCategory('lamb', this)" class="flex-shrink-0 tag bg-white/20 text-white" data-i18n="recipes.cat_lamb">🍖 羊肉</button>
+      <button onclick="setCategory('pork', this)" class="flex-shrink-0 tag bg-white/20 text-white" data-i18n="recipes.cat_pork">🥓 猪肉</button>
+      <button onclick="setCategory('chicken', this)" class="flex-shrink-0 tag bg-white/20 text-white" data-i18n="recipes.cat_chicken">🍗 鸡肉</button>
+      <button onclick="setCategory('seafood', this)" class="flex-shrink-0 tag bg-white/20 text-white" data-i18n="recipes.cat_seafood">🦐 海鲜</button>
+      <button onclick="setCategory('veg', this)" class="flex-shrink-0 tag bg-white/20 text-white" data-i18n="recipes.cat_veg">🥦 素菜</button>
     </div>
   </div>
 
@@ -1954,11 +1956,11 @@ function getUserRoleLabel(user) {
   function setCategory(cat, btn) {
     currentCat = cat;
     document.querySelectorAll('[onclick^="setCategory"]').forEach(b => {
-      b.classList.remove('bg-orange-500', 'text-white', 'cat-active');
-      b.classList.add('bg-gray-100', 'text-gray-600');
+      b.classList.remove('bg-orange-500', 'cat-active');
+      b.classList.add('bg-white/20');
     });
-    btn.classList.add('bg-orange-500', 'text-white', 'cat-active');
-    btn.classList.remove('bg-gray-100', 'text-gray-600');
+    btn.classList.add('bg-orange-500', 'cat-active');
+    btn.classList.remove('bg-white/20');
     renderGrid();
   }
 

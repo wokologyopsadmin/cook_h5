@@ -3,7 +3,7 @@
 
 body {
   font-family: 'PingFang SC', 'Inter', 'Helvetica Neue', Arial, sans-serif;
-  background: #f5f5f5;
+  background: #F8F6F0;
   max-width: 430px;
   margin: 0 auto;
   min-height: 100vh;
@@ -41,7 +41,7 @@ body {
   position: fixed; bottom: 0;
   left: 50%; transform: translateX(-50%);
   width: 100%; max-width: 430px;
-  background: white; border-top: 1px solid #e8e8e8;
+  background: #F7F3E9; border-top: 1px solid #E0E0E0;
   z-index: 100;
   padding-bottom: env(safe-area-inset-bottom, 0);
 }
@@ -50,8 +50,8 @@ body {
 /* Nav active states */
 a.nav-btn .nav-icon,
 a.nav-btn .nav-label { color: #9ca3af; transition: color 0.2s; }
-a.nav-btn.active .nav-icon { color: #f97316; }
-a.nav-btn.active .nav-label { color: #f97316; font-weight: 600; }
+a.nav-btn.active .nav-icon { color: #F5A623; }
+a.nav-btn.active .nav-label { color: #F5A623; font-weight: 600; }
 
 /* ── Animations ────────────────────────────────────── */
 .fade-in { animation: fadeIn 0.25s ease; }
@@ -59,25 +59,8 @@ a.nav-btn.active .nav-label { color: #f97316; font-weight: 600; }
 .slide-up { animation: slideUp 0.3s ease; }
 @keyframes slideUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
 
-/* Staggered item animations */
-.animate-items > * {
-  animation: fadeInUp 0.35s ease backwards;
-}
-.animate-items > *:nth-child(1) { animation-delay: 0.05s; }
-.animate-items > *:nth-child(2) { animation-delay: 0.1s; }
-.animate-items > *:nth-child(3) { animation-delay: 0.15s; }
-.animate-items > *:nth-child(4) { animation-delay: 0.2s; }
-.animate-items > *:nth-child(5) { animation-delay: 0.25s; }
-.animate-items > *:nth-child(6) { animation-delay: 0.3s; }
-.animate-items > *:nth-child(7) { animation-delay: 0.35s; }
-.animate-items > *:nth-child(8) { animation-delay: 0.4s; }
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(16px); }
-  to { opacity: 1; transform: none; }
-}
-
 /* ── Colour Primitives ─────────────────────────────── */
-.hero-gradient { background: linear-gradient(135deg, #FF6B35 0%, #FF8C42 50%, #FFA552 100%); }
+.hero-gradient { background: linear-gradient(135deg, #2D5A3D 0%, #4A7C59 50%, #6B9E77 100%); }
 
 /* ── Tags ──────────────────────────────────────────── */
 .tag { display: inline-flex; align-items: center; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 500; }
@@ -106,7 +89,7 @@ a.nav-btn.active .nav-label { color: #f97316; font-weight: 600; }
 }
 .modal-overlay.open { display: flex; }
 .modal-sheet {
-  background: white; border-radius: 24px 24px 0 0;
+  background: #F7F3E9; border-radius: 24px 24px 0 0;
   width: 100%; max-width: 430px;
   max-height: 85vh; overflow-y: auto;
   padding: 8px 20px 44px;
@@ -141,18 +124,18 @@ input:focus, textarea:focus, select:focus { outline: none; }
   transition: all 0.2s; text-align: center; cursor: pointer;
 }
 .lang-btn.active {
-  background: #fff7ed; color: #f97316;
-  border-color: #f97316;
+  background: #FFF8EC; color: #F5A623;
+  border-color: #F5A623;
 }
 
 /* ── Auth Pages ────────────────────────────────────── */
 .auth-hero {
-  background: linear-gradient(160deg, #FF6B35 0%, #FF8C42 60%, #FFA552 100%);
+  background: linear-gradient(160deg, #2D5A3D 0%, #4A7C59 60%, #7AAF87 100%);
   padding: 60px 32px 40px;
   text-align: center; color: white;
 }
 .auth-card {
-  background: white; border-radius: 24px 24px 0 0;
+  background: #F8F6F0; border-radius: 24px 24px 0 0;
   padding: 28px 24px 40px; margin-top: -20px;
   min-height: calc(100vh - 180px);
 }
@@ -162,406 +145,55 @@ input:focus, textarea:focus, select:focus { outline: none; }
   padding: 14px 16px; font-size: 15px; color: #1e293b;
   transition: border-color 0.2s, background 0.2s;
 }
-.auth-input:focus { border-color: #f97316; background: white; }
-
-/* Select dropdown styling */
-select.auth-input {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2394a3b8'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-  background-size: 24px;
-  padding-right: 44px;
-  cursor: pointer;
-}
-select.auth-input option {
-  background: white;
-  color: #1e293b;
-  padding: 12px 16px;
-  font-size: 15px;
-}
-
-/* Custom Select Dropdown */
-.custom-select {
-  position: relative;
-  display: inline-block;
-}
-.custom-select-trigger {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  cursor: pointer;
-  -webkit-user-select: none;
-  user-select: none;
-  gap: 8px;
-  min-width: 80px;
-}
-.custom-select-trigger .material-icons-round {
-  transition: transform 0.2s;
-  font-size: 20px;
-}
-.custom-select.open .custom-select-trigger .material-icons-round {
-  transform: rotate(180deg);
-}
-.custom-select-options {
-  position: absolute;
-  top: calc(100% + 6px);
-  right: 0;
-  left: auto;
-  min-width: 120px;
-  background: white;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-  z-index: 1000;
-  max-height: 0;
-  overflow: hidden;
-  opacity: 0;
-  transition: max-height 0.2s ease, opacity 0.2s ease;
-  pointer-events: none;
-}
-.custom-select.open .custom-select-options {
-  max-height: 200px;
-  opacity: 1;
-  pointer-events: auto;
-}
-.custom-select-option {
-  padding: 10px 16px;
-  font-size: 14px;
-  color: #1e293b;
-  cursor: pointer;
-  transition: background 0.15s;
-  white-space: nowrap;
-}
-.custom-select-option:first-child {
-  border-radius: 12px 12px 0 0;
-}
-.custom-select-option:last-child {
-  border-radius: 0 0 12px 12px;
-}
-.custom-select-option:hover {
-  background: #f8fafc;
-}
-.custom-select-option.active {
-  background: #fff7ed;
-  color: #f97316;
-  font-weight: 500;
-}
-/* Language dropdown specific styles */
-.lang-dropdown-icon {
-  font-size: 18px;
-}
-
+.auth-input:focus { border-color: #F5A623; background: white; }
 .auth-btn {
-  width: 100%; background: #f97316; color: white;
+  width: 100%; background: #F5A623; color: white;
   border-radius: 14px; padding: 15px; font-size: 16px;
   font-weight: 700; text-align: center; cursor: pointer;
   border: none; transition: opacity 0.2s;
 }
 .auth-btn:active { opacity: 0.85; }
 
-/* ══════════════════════════════════════════════════════
-   Flutter UI Components
-   ══════════════════════════════════════════════════════ */
+/* ── European Aesthetic — Color System ────────────── */
+/* Palette: Cream Green #E8F3E6 · Warm Beige #F7F3E9 · Gray-Blue #D1D9E0 · Accent Orange #F5A623 */
 
-/* ── Flutter InputDecoration (输入框装饰) ─────────────── */
-.flutter-input {
-  position: relative;
-  margin-bottom: 20px;
-}
-.flutter-input input,
-.flutter-input textarea,
-.flutter-input select {
-  width: 100%;
-  padding: 16px 14px 8px;
-  font-size: 16px;
-  background: #f8fafc;
-  border: 1.5px solid #e2e8f0;
-  border-radius: 12px;
-  color: #1e293b;
-  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
-}
-.flutter-input label {
-  position: absolute;
-  left: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 16px;
-  color: #94a3b8;
-  pointer-events: none;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  background: transparent;
-  padding: 0 4px;
-}
-.flutter-input textarea ~ label {
-  top: 20px;
-  transform: none;
-}
-.flutter-input input:focus,
-.flutter-input textarea:focus,
-.flutter-input select:focus {
-  border-color: #f97316;
-  background: white;
-  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
-}
-.flutter-input input:focus ~ label,
-.flutter-input input:not(:placeholder-shown) ~ label,
-.flutter-input textarea:focus ~ label,
-.flutter-input textarea:not(:placeholder-shown) ~ label {
-  top: 0;
-  transform: translateY(-50%);
-  font-size: 12px;
-  color: #f97316;
-  background: white;
-}
-.flutter-input textarea:focus ~ label,
-.flutter-input textarea:not(:placeholder-shown) ~ label {
-  top: 0;
-}
-.flutter-input input::placeholder,
-.flutter-input textarea::placeholder {
-  color: transparent;
-}
-.flutter-input .input-helper {
-  font-size: 12px;
-  color: #64748b;
-  margin-top: 4px;
-  padding-left: 14px;
-}
-.flutter-input.error input,
-.flutter-input.error textarea {
-  border-color: #ef4444;
-  background: #fef2f2;
-}
-.flutter-input.error label {
-  color: #ef4444;
-}
-.flutter-input.error .input-error {
-  font-size: 12px;
-  color: #ef4444;
-  margin-top: 4px;
-  padding-left: 14px;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
+/* Tailwind orange → warm amber-orange #F5A623 */
+.bg-orange-50  { background-color: #FFF8EC !important; }
+.bg-orange-100 { background-color: #FEF0D0 !important; }
+.bg-orange-200 { background-color: #FDDBA0 !important; }
+.bg-orange-300 { background-color: #FAC96D !important; }
+.bg-orange-400 { background-color: #F7B84B !important; }
+.bg-orange-500 { background-color: #F5A623 !important; }
+.bg-orange-600 { background-color: #E09418 !important; }
 
-/* ── Flutter Card (卡片组件) ─────────────────────────── */
-.flutter-card {
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.05);
-  overflow: hidden;
-  transition: box-shadow 0.2s, transform 0.2s;
-}
-.flutter-card:hover {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1), 0 8px 24px rgba(0,0,0,0.08);
-}
-.flutter-card-press:active {
-  transform: scale(0.98);
-}
-.flutter-card-header {
-  padding: 16px;
-  border-bottom: 1px solid #f1f5f9;
-}
-.flutter-card-body {
-  padding: 16px;
-}
-.flutter-card-footer {
-  padding: 12px 16px;
-  background: #fafafa;
-  border-top: 1px solid #f1f5f9;
-}
+.text-orange-400 { color: #F7B84B !important; }
+.text-orange-500 { color: #F5A623 !important; }
+.text-orange-600 { color: #E09418 !important; }
+.text-orange-700 { color: #C07A10 !important; }
+.text-orange-800 { color: #9A6010 !important; }
 
-/* ── Flutter Buttons (按钮样式) ──────────────────────── */
-/* ElevatedButton */
-.btn-elevated {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 12px 24px;
-  font-size: 14px;
-  font-weight: 600;
-  color: white;
-  background: #f97316;
-  border: none;
-  border-radius: 20px;
-  box-shadow: 0 2px 4px rgba(249, 115, 22, 0.3), 0 4px 12px rgba(249, 115, 22, 0.2);
-  cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.btn-elevated:hover {
-  box-shadow: 0 4px 8px rgba(249, 115, 22, 0.35), 0 8px 20px rgba(249, 115, 22, 0.25);
-  transform: translateY(-1px);
-}
-.btn-elevated:active {
-  transform: translateY(0);
-  box-shadow: 0 1px 2px rgba(249, 115, 22, 0.2);
-}
-.btn-elevated:disabled {
-  background: #d1d5db;
-  box-shadow: none;
-  cursor: not-allowed;
-}
+.border-orange-300 { border-color: #FAC96D !important; }
+.border-orange-500 { border-color: #F5A623 !important; }
 
-/* OutlinedButton */
-.btn-outlined {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 12px 24px;
-  font-size: 14px;
-  font-weight: 600;
-  color: #f97316;
-  background: transparent;
-  border: 1.5px solid #f97316;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.btn-outlined:hover {
-  background: rgba(249, 115, 22, 0.08);
-}
-.btn-outlined:active {
-  background: rgba(249, 115, 22, 0.15);
-}
-.btn-outlined:disabled {
-  border-color: #d1d5db;
-  color: #9ca3af;
-  cursor: not-allowed;
-}
+.hover\:border-orange-300:hover { border-color: #FAC96D !important; }
+.hover\:bg-orange-50:hover    { background-color: #FFF8EC !important; }
+.hover\:bg-orange-600:hover   { background-color: #E09418 !important; }
+.hover\:text-orange-600:hover { color: #E09418 !important; }
 
-/* TextButton */
-.btn-text {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding: 10px 16px;
-  font-size: 14px;
-  font-weight: 500;
-  color: #f97316;
-  background: transparent;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-.btn-text:hover {
-  background: rgba(249, 115, 22, 0.1);
-}
-.btn-text:active {
-  background: rgba(249, 115, 22, 0.18);
-}
-.btn-text:disabled {
-  color: #9ca3af;
-  cursor: not-allowed;
-}
+.from-orange-50  { --tw-gradient-from: #FFF8EC; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(255,248,236,0)); }
+.to-orange-100   { --tw-gradient-to: #FEF0D0; }
+.shadow-orange-200 { --tw-shadow-color: #FDDBA0; box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow); }
+.focus\:ring-orange-500:focus { --tw-ring-color: #F5A623; }
+.accent-orange-500 { accent-color: #F5A623; }
 
-/* IconButton */
-.btn-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  transition: background 0.2s;
-  color: #64748b;
-}
-.btn-icon:hover {
-  background: rgba(0,0,0,0.08);
-}
-.btn-icon:active {
-  background: rgba(0,0,0,0.12);
-}
+/* Page background override (Tailwind bg-gray-50 on <body>) */
+body.bg-gray-50 { background-color: #F8F6F0 !important; }
 
-/* ── Flutter ListTile (列表组件) ─────────────────────── */
-.flutter-list-tile {
-  display: flex;
-  align-items: center;
-  padding: 12px 16px;
-  background: white;
-  cursor: pointer;
-  transition: background 0.15s;
-}
-.flutter-list-tile:hover {
-  background: #f8fafc;
-}
-.flutter-list-tile:active {
-  background: #f1f5f9;
-}
-.flutter-list-tile .list-leading {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  margin-right: 16px;
-  overflow: hidden;
-}
-.flutter-list-tile .list-leading img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.flutter-list-tile .list-content {
-  flex: 1;
-  min-width: 0;
-}
-.flutter-list-tile .list-title {
-  font-size: 15px;
-  font-weight: 500;
-  color: #1e293b;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.flutter-list-tile .list-subtitle {
-  font-size: 13px;
-  color: #64748b;
-  margin-top: 2px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.flutter-list-tile .list-trailing {
-  flex-shrink: 0;
-  margin-left: 12px;
-  color: #94a3b8;
-}
-.flutter-list-tile .list-trailing .badge {
-  background: #f97316;
-  color: white;
-  font-size: 11px;
-  font-weight: 600;
-  padding: 2px 8px;
-  border-radius: 10px;
-  min-width: 18px;
-  text-align: center;
-}
+/* Warm beige for main content cards / nav */
+.bg-white-card { background-color: #F7F3E9; }
 
-/* ListTile 分割线 */
-.flutter-list-divider {
-  height: 1px;
-  background: #f1f5f9;
-  margin-left: 72px; /* 40px leading + 16px gap + 16px padding */
-}
-.flutter-list-tile:first-child {
-  border-radius: 16px 16px 0 0;
-}
-.flutter-list-tile:last-child {
-  border-radius: 0 0 16px 16px;
-}
-.flutter-list-tile:only-child {
-  border-radius: 16px;
-}
+/* Search / input field tint */
+.bg-gray-100.rounded-2xl { background-color: #EAEdf1 !important; }
+
+/* Status badge — cooking: use warm orange */
+.s-cooking { background: #FEF0D0; color: #C07A10; }
