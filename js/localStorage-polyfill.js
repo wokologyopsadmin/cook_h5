@@ -46,7 +46,7 @@
 
   // 如果 localStorage 不可用，替换为内存存储
   if (!isLocalStorageAvailable()) {
-    console.warn('[ChefHub] localStorage not available (Firefox file:// mode), using memory storage');
+    console.warn('[WOKOLOGY] localStorage not available (Firefox file:// mode), using memory storage');
     
     // 尝试替换 localStorage（在某些浏览器中可能无法替换）
     try {

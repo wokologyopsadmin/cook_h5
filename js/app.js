@@ -1,4 +1,4 @@
-// ── ChefHub Shared App Logic ────────────────────────
+// ── WOKOLOGY Shared App Logic ────────────────────────
 
 // ── Auth ────────────────────────────────────────────
 function requireAuth() {
