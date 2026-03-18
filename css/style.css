@@ -3,7 +3,7 @@
 
 body {
   font-family: 'PingFang SC', 'Inter', 'Helvetica Neue', Arial, sans-serif;
-  background: #F8F6F0;
+  background: #FFF9E6;
   max-width: 430px;
   margin: 0 auto;
   min-height: 100vh;
@@ -41,7 +41,7 @@ body {
   position: fixed; bottom: 0;
   left: 50%; transform: translateX(-50%);
   width: 100%; max-width: 430px;
-  background: #F7F3E9; border-top: 1px solid #E0E0E0;
+  background: #FFF9E6; border-top: 1px solid #E0E0E0;
   z-index: 100;
   padding-bottom: env(safe-area-inset-bottom, 0);
 }
@@ -60,7 +60,7 @@ a.nav-btn.active .nav-label { color: #F5A623; font-weight: 600; }
 @keyframes slideUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
 
 /* ── Colour Primitives ─────────────────────────────── */
-.hero-gradient { background: linear-gradient(135deg, #2D5A3D 0%, #4A7C59 50%, #6B9E77 100%); }
+.hero-gradient { background: linear-gradient(135deg, #2B5A8E 0%, #3D6FA8 50%, #5B8BC4 100%); }
 
 /* ── Tags ──────────────────────────────────────────── */
 .tag { display: inline-flex; align-items: center; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 500; }
@@ -89,7 +89,7 @@ a.nav-btn.active .nav-label { color: #F5A623; font-weight: 600; }
 }
 .modal-overlay.open { display: flex; }
 .modal-sheet {
-  background: #F7F3E9; border-radius: 24px 24px 0 0;
+  background: #FFF9E6; border-radius: 24px 24px 0 0;
   width: 100%; max-width: 430px;
   max-height: 85vh; overflow-y: auto;
   padding: 8px 20px 44px;
@@ -130,12 +130,12 @@ input:focus, textarea:focus, select:focus { outline: none; }
 
 /* ── Auth Pages ────────────────────────────────────── */
 .auth-hero {
-  background: linear-gradient(160deg, #2D5A3D 0%, #4A7C59 60%, #7AAF87 100%);
+  background: linear-gradient(160deg, #2B5A8E 0%, #3D6FA8 60%, #5B8BC4 100%);
   padding: 60px 32px 40px;
   text-align: center; color: white;
 }
 .auth-card {
-  background: #F8F6F0; border-radius: 24px 24px 0 0;
+  background: #FFF9E6; border-radius: 24px 24px 0 0;
   padding: 28px 24px 40px; margin-top: -20px;
   min-height: calc(100vh - 180px);
 }
@@ -154,8 +154,9 @@ input:focus, textarea:focus, select:focus { outline: none; }
 }
 .auth-btn:active { opacity: 0.85; }
 
-/* ── European Aesthetic — Color System ────────────── */
-/* Palette: Cream Green #E8F3E6 · Warm Beige #F7F3E9 · Gray-Blue #D1D9E0 · Accent Orange #F5A623 */
+/* ── WOKOLOGY K100 Color System ────────────────────── */
+/* Palette: Deep Blue #2B5A8E · Light Blue #5B8BC4 · Warm Beige #F7F3E9 · Golden #F5A623 · Orange #FF6B35 */
+/* Based on WOKOLOGY K100 promotional design */
 
 /* Tailwind orange → warm amber-orange #F5A623 */
 .bg-orange-50  { background-color: #FFF8EC !important; }
@@ -187,13 +188,41 @@ input:focus, textarea:focus, select:focus { outline: none; }
 .accent-orange-500 { accent-color: #F5A623; }
 
 /* Page background override (Tailwind bg-gray-50 on <body>) */
-body.bg-gray-50 { background-color: #F8F6F0 !important; }
+body.bg-gray-50 { background-color: #FFF9E6 !important; }
 
 /* Warm beige for main content cards / nav */
-.bg-white-card { background-color: #F7F3E9; }
+.bg-white-card { background-color: #FFF9E6; }
 
 /* Search / input field tint */
 .bg-gray-100.rounded-2xl { background-color: #EAEdf1 !important; }
 
 /* Status badge — cooking: use warm orange */
 .s-cooking { background: #FEF0D0; color: #C07A10; }
+
+/* ── WOKOLOGY K100 Blue Theme ──────────────────────── */
+/* Primary Blue Colors */
+.bg-blue-primary { background-color: #2B5A8E !important; }
+.bg-blue-light { background-color: #5B8BC4 !important; }
+.bg-blue-50 { background-color: #EFF6FF !important; }
+.bg-blue-100 { background-color: #DBEAFE !important; }
+.bg-blue-500 { background-color: #3B82F6 !important; }
+.bg-blue-600 { background-color: #2563EB !important; }
+
+.text-blue-primary { color: #2B5A8E !important; }
+.text-blue-light { color: #5B8BC4 !important; }
+.text-blue-600 { color: #2563EB !important; }
+.text-blue-700 { color: #1D4ED8 !important; }
+.text-blue-800 { color: #1E40AF !important; }
+
+.border-blue-primary { border-color: #2B5A8E !important; }
+.border-blue-light { border-color: #5B8BC4 !important; }
+.border-blue-300 { border-color: #93C5FD !important; }
+
+/* Gradient utilities */
+.gradient-blue-primary { background: linear-gradient(135deg, #2B5A8E 0%, #3D6FA8 50%, #5B8BC4 100%); }
+.gradient-blue-soft { background: linear-gradient(160deg, #2B5A8E 0%, #3D6FA8 60%, #5B8BC4 100%); }
+
+/* Hover states */
+.hover\:bg-blue-primary:hover { background-color: #2B5A8E !important; }
+.hover\:bg-blue-light:hover { background-color: #5B8BC4 !important; }
+.hover\:border-blue-primary:hover { border-color: #2B5A8E !important; }
