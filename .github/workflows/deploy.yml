@@ -20,7 +20,7 @@ jobs:
           # timeout: 120s
           script: |
             cd /data/deploy/cook_h5  || exit 1
-            git pull origin main
+            git pull origin master
             supervisorctl restart demo
             sleep 30
             supervisorctl status
