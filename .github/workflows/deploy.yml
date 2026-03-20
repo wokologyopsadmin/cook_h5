@@ -1,0 +1,27 @@
+name: Deploy_to_Server
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: update code
+        id: ssh
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          # strict_host_key_checking: false
+          capture_stdout: true
+          # timeout: 120s
+          script: |
+            cd /data/deploy/cook_h5  || exit 1
+            git pull origin main
+            supervisorctl restart demo
+            sleep 30
+            supervisorctl status
