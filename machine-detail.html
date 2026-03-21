@@ -256,7 +256,7 @@ function init() {
   const machine = DEMO_MACHINES.find(m => m.id === machineId);
   if (!machine) {
     showToast('机器不存在');
-    setTimeout(() => window.location.href = 'machines.html', 1500);
+    setTimeout(() => window.location.href = 'machines', 1500);
     return;
   }
 
@@ -388,7 +388,7 @@ function toggleHistoryView() {
 }
 
 function goBack() {
-  window.location.href = 'machines.html';
+  window.location.href = 'machines';
 }
 
 function openMaterialModal() {

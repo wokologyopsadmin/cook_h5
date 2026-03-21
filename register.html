@@ -66,7 +66,7 @@
 
   <div class="text-center text-sm text-gray-500">
     <span data-i18n="register.have_account">已有账号?</span>
-    <a href="index.html" class="text-orange-500 font-semibold ml-1" data-i18n="register.login_link">立即登录</a>
+    <a href="index" class="text-orange-500 font-semibold ml-1" data-i18n="register.login_link">立即登录</a>
   </div>
 </div>
 
@@ -75,7 +75,7 @@
 <script src="js/i18n.js"></script>
 <script src="js/app.js"></script>
 <script>
-  if (localStorage.getItem('chefhub_logged_in')) window.location.href = 'dashboard.html';
+  if (localStorage.getItem('chefhub_logged_in')) window.location.href = 'dashboard';
 
   let countdown = 0;
   function sendCode() {
@@ -124,7 +124,7 @@
     }
     localStorage.setItem('chefhub_logged_in', '1');
     localStorage.setItem('chefhub_user', JSON.stringify({ name, email }));
-    window.location.href = 'dashboard.html';
+    window.location.href = 'dashboard';
   }
 
   function onLangChange() {}

@@ -16,7 +16,7 @@
 
   <!-- Header -->
   <div class="bg-white px-5 pt-12 pb-4 sticky top-0 z-10 shadow-sm flex items-center gap-3">
-    <a href="profile.html" class="btn-icon">
+    <a href="profile" class="btn-icon">
       <span class="material-icons-round">arrow_back</span>
     </a>
     <h1 class="text-xl font-bold text-gray-800" data-i18n="settings.title">设置</h1>
@@ -1742,7 +1742,7 @@ function switchDemoUser(account) {
 function doLogout() {
   if (confirm(t('profile.logout_confirm'))) {
     localStorage.removeItem('chefhub_logged_in');
-    window.location.href = 'index.html';
+    window.location.href = 'index';
   }
 }
 
@@ -2255,7 +2255,7 @@ function getUserRoleLabel(user) {
     showToast(t('gdpr.delete_success'));
 
     setTimeout(() => {
-      window.location.href = 'index.html';
+      window.location.href = 'index';
     }, 1500);
   }
 

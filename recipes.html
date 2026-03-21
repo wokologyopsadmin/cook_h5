@@ -62,25 +62,25 @@
 <!-- Bottom Nav -->
 <nav class="bottom-nav">
   <div class="flex">
-    <a href="dashboard.html" id="nav-home" class="nav-btn flex-1 flex flex-col items-center py-3 gap-0.5">
+    <a href="dashboard" id="nav-home" class="nav-btn flex-1 flex flex-col items-center py-3 gap-0.5">
       <span class="material-icons-round text-2xl nav-icon">home</span>
       <span class="text-xs nav-label" data-i18n="nav.home">首页</span>
     </a>
-    <a href="recipes.html" id="nav-recipes" class="nav-btn active flex-1 flex flex-col items-center py-3 gap-0.5">
+    <a href="recipes" id="nav-recipes" class="nav-btn active flex-1 flex flex-col items-center py-3 gap-0.5">
       <span class="material-icons-round text-2xl nav-icon">menu_book</span>
       <span class="text-xs nav-label" data-i18n="nav.recipes">菜谱</span>
     </a>
-    <a href="publish.html" class="flex-1 flex flex-col items-center py-3 gap-0.5 relative">
+    <a href="publish" class="flex-1 flex flex-col items-center py-3 gap-0.5 relative">
       <div class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center -mt-6 shadow-lg shadow-orange-200">
         <span class="material-icons-round text-white text-2xl">add</span>
       </div>
       <span class="text-xs text-gray-400 mt-0.5" data-i18n="nav.publish">发布</span>
     </a>
-    <a href="machines.html" id="nav-machines" class="nav-btn flex-1 flex flex-col items-center py-3 gap-0.5">
+    <a href="machines" id="nav-machines" class="nav-btn flex-1 flex flex-col items-center py-3 gap-0.5">
       <span class="material-icons-round text-2xl nav-icon">precision_manufacturing</span>
       <span class="text-xs nav-label" data-i18n="nav.machines">机器</span>
     </a>
-    <a href="profile.html" id="nav-profile" class="nav-btn flex-1 flex flex-col items-center py-3 gap-0.5">
+    <a href="profile" id="nav-profile" class="nav-btn flex-1 flex flex-col items-center py-3 gap-0.5">
       <span class="material-icons-round text-2xl nav-icon">person_outline</span>
       <span class="text-xs nav-label" data-i18n="nav.profile">我的</span>
     </a>
@@ -1569,7 +1569,7 @@ function switchDemoUser(account) {
 function doLogout() {
   if (confirm(t('profile.logout_confirm'))) {
     localStorage.removeItem('chefhub_logged_in');
-    window.location.href = 'index.html';
+    window.location.href = 'index';
   }
 }
 

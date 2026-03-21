@@ -80,7 +80,7 @@
 
   <div class="text-center text-sm text-gray-500 mb-6">
     <span data-i18n="login.no_account">还没有账号?</span>
-    <a href="register.html" class="text-orange-500 font-semibold ml-1" data-i18n="login.register_link">立即注册</a>
+    <a href="register" class="text-orange-500 font-semibold ml-1" data-i18n="login.register_link">立即注册</a>
   </div>
 
 </div>
@@ -1567,7 +1567,7 @@ function switchDemoUser(account) {
 function doLogout() {
   if (confirm(t('profile.logout_confirm'))) {
     localStorage.removeItem('chefhub_logged_in');
-    window.location.href = 'index.html';
+    window.location.href = 'index';
   }
 }
 
@@ -1899,7 +1899,7 @@ function getUserRoleLabel(user) {
 </script>
 <script>
   if (localStorage.getItem('chefhub_logged_in')) {
-    window.location.href = 'dashboard.html';
+    window.location.href = 'dashboard';
   }
   function togglePwd(btn) {
     const input = btn.previousElementSibling;
@@ -1950,9 +1950,9 @@ function getUserRoleLabel(user) {
 
     // 检查是否需要邮箱验证（store_manager 且未验证）
     if (foundUser && foundUser.role === 'store_manager' && !foundUser.emailVerified) {
-      window.location.href = 'email-verify.html';
+      window.location.href = 'email-verify';
     } else {
-      window.location.href = 'dashboard.html';
+      window.location.href = 'dashboard';
     }
   }
   function onLangChange() {}

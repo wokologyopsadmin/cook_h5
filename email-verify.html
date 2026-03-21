@@ -1550,7 +1550,7 @@ function switchDemoUser(account) {
 function doLogout() {
   if (confirm(t('profile.logout_confirm'))) {
     localStorage.removeItem('chefhub_logged_in');
-    window.location.href = 'index.html';
+    window.location.href = 'index';
   }
 }
 
@@ -1888,7 +1888,7 @@ function getUserRoleLabel(user) {
 
     // 如果已验证，直接跳转
     if (fullUser && fullUser.emailVerified) {
-      window.location.href = 'dashboard.html';
+      window.location.href = 'dashboard';
       return;
     }
 
@@ -2001,7 +2001,7 @@ function getUserRoleLabel(user) {
   }
 
   function goToDashboard() {
-    window.location.href = 'dashboard.html';
+    window.location.href = 'dashboard';
   }
 
   // 初始化

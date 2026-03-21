@@ -1570,7 +1570,7 @@ function switchDemoUser(account) {
 function doLogout() {
   if (confirm(t('profile.logout_confirm'))) {
     localStorage.removeItem('chefhub_logged_in');
-    window.location.href = 'index.html';
+    window.location.href = 'index';
   }
 }
 
@@ -1909,7 +1909,7 @@ function getUserRoleLabel(user) {
   const recipe = DEMO_RECIPES.find(r => r.id === recipeId);
 
   if (!recipe) {
-    window.location.href = 'recipes.html';
+    window.location.href = 'recipes';
   }
 
   // Demo cooking steps
@@ -2084,7 +2084,7 @@ function getUserRoleLabel(user) {
     if (document.referrer && document.referrer.includes('recipes.html')) {
       history.back();
     } else {
-      window.location.href = 'recipes.html';
+      window.location.href = 'recipes';
     }
   }
 
